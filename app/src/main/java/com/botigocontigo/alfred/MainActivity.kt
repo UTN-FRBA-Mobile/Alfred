@@ -2,7 +2,6 @@ package com.botigocontigo.alfred
 
 import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
-import android.R.array
 import android.os.Bundle
 import android.app.Activity
 import android.content.res.Configuration
@@ -13,11 +12,8 @@ import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
 
-
-
-
 class MainActivity : Activity() {
-    private var mPlanetTitles: Array<String>? = null
+    private var mMenuItemsTitles: Array<String>? = null
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerList: ListView? = null
     private var mDrawerToggle: ActionBarDrawerToggle? = null
@@ -26,15 +22,15 @@ class MainActivity : Activity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_interview) //FIXME Change to activity_main?? So we only have one activity and change the frames
+        setContentView(R.layout.activity_interview) //FIXME Change to activity_main?? So we only have one activity and change the fragments
 
-        mPlanetTitles = resources.getStringArray(R.array.planets_array)
+        mMenuItemsTitles = resources.getStringArray(R.array.menu_items_array)
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         mDrawerList = findViewById<View>(R.id.left_drawer) as ListView
 
         // Set the adapter for the list view
         mDrawerList!!.adapter = ArrayAdapter(this,
-                R.layout.drawer_list_item, mPlanetTitles!!)
+                R.layout.drawer_list_item, mMenuItemsTitles!!)
         // Set the list's click listener
         mDrawerList!!.onItemClickListener = DrawerItemClickListener()
 
@@ -71,7 +67,8 @@ class MainActivity : Activity() {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // If the nav drawer is open, hide action items related to the content view
         val drawerOpen = mDrawerLayout!!.isDrawerOpen(mDrawerList!!)
-        menu.findItem(R.id.action_websearch).isVisible = !drawerOpen
+        //Example how to hide a item called "action_websearch"
+        //menu.findItem(R.id.action_websearch).isVisible = !drawerOpen
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -111,9 +108,9 @@ class MainActivity : Activity() {
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
-        val fragment = PlanetFragment()
+        val fragment = AppFragment()
         val args = Bundle()
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position)
+        args.putInt(AppFragment.ARG_FRAGMENT_NUMBER, position)
         fragment.setArguments(args)
 
         // Insert the fragment by replacing any existing fragment
@@ -124,7 +121,7 @@ class MainActivity : Activity() {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList!!.setItemChecked(position, true)
-        setTitle(mPlanetTitles!![position])
+        setTitle(mMenuItemsTitles!![position])
         mDrawerLayout!!.closeDrawer(mDrawerList!!)
     }
 }

@@ -6,25 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".InterviewActivity">
 
-    <android.support.v4.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- The main content view -->
+
+        <!-- The main content -->
         <!-- TODO Following this tutorial https://blog.sendbird.com/android-chat-tutorial-building-a-messaging-ui -->
         <android.support.constraint.ConstraintLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <!-- Toolbar -->
+            <include layout="@layout/toolbar" />
 
+            <!-- App Fragment Content -->
+            <!-- FIXME Extract to another layout to inject with a fragment or leave this and extract menu to activity_main layout (Recommended) -->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/reyclerview_message_list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
             </android.support.v7.widget.RecyclerView>
 
 
@@ -32,62 +38,64 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:background="#dfdfdf"
                 android:layout_marginBottom="0dp"
+                android:background="#dfdfdf"
                 app:layout_constraintBottom_toTopOf="@+id/layout_chatbox"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
-            <!-- TODO Change to use multiple dinamic buttons -->
+            <!-- TODO Change to use multiple dynamic buttons -->
             <LinearLayout
                 android:id="@+id/layout_chatbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:minHeight="48dp"
                 android:background="#ffffff"
+                android:minHeight="48dp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <EditText
                     android:id="@+id/edittext_chatbox"
-                    android:hint="Enter message"
-                    android:background="@android:color/transparent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:maxLines="6"/>
+                    android:background="@android:color/transparent"
+                    android:hint="Enter message"
+                    android:maxLines="6" />
 
                 <Button
                     android:id="@+id/button_chatbox_send"
-                    android:text="SEND"
-                    android:textSize="14dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
                     android:layout_width="64dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="bottom"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
-                    android:layout_gravity="bottom" />
+                    android:text="SEND"
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
 
 
-
-    <!-- The navigation drawer also called MENU -->
-        <ListView android:id="@+id/left_drawer"
+        <!-- The navigation drawer also called MENU -->
+        <ListView
+            android:id="@+id/left_drawer"
             android:layout_width="240dp"
-            android:layout_height="match_parent"
+            android:layout_height="560dp"
             android:layout_gravity="start"
+            android:background="#111"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:background="#111"/>
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="8dp" />
     </android.support.v4.widget.DrawerLayout>
 
 </android.support.constraint.ConstraintLayout>

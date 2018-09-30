@@ -12,6 +12,7 @@ import android.widget.ImageView
 import java.nio.file.Files.size
 
 
+// FIXME take out all of sendgrind (or comment) and mock it
 class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message>) : RecyclerView.Adapter() {
 
     val itemCount: Int
