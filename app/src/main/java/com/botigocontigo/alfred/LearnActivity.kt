@@ -10,6 +10,8 @@ import com.botigocontigo.alfred.learn.ArticleAdapter
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.content_learn.*
 
+
+
 class LearnActivity : AppCompatActivity() {
     private lateinit var adapter: ArticleAdapter
 
