@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3573d6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            app:srcCompat="@mipmap/botigocontigo" />
+
+        <Button
+            android:id="@+id/btnLearn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Learn Activity" />
+
+        <Button
+            android:id="@+id/btnAreas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Areas Activity" />
+
+        <Button
+            android:id="@+id/btnRisk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Risk Activity" />
+
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Chat Activity" />
+
+        <Button
+            android:id="@+id/btnFoda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Foda Activity" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@ class FodaActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.foda_layout)
+        setContentView(R.layout.activity_foda)
 
         val textViewStrengths = findViewById<TextView>(R.id.fodaTextViewStrengths)
         val fodaViewStrengths = findViewById<ListView>(R.id.fodaListViewStrengths)

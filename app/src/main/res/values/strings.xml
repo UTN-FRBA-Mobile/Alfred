@@ -3,4 +3,6 @@
     <string name="title_activity_learn">LearnActivity</string>
     <string name="externo">Externo</string>
     <string name="interno">Interno</string>
+    <string name="title_activity_areas">Areas</string>
+>>>>>>> master
 </resources>
