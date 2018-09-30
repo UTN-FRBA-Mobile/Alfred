@@ -21,7 +21,8 @@
             android:label="@string/title_activity_learn"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AreasActivity"></activity>
+            android:name=".AreasActivity"
+            android:label="@string/title_activity_areas"/>
     </application>
 
 </manifest>
