@@ -38,6 +38,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
+            <!-- TODO Change to use multiple dinamic buttons -->
             <LinearLayout
                 android:id="@+id/layout_chatbox"
                 android:layout_width="0dp"

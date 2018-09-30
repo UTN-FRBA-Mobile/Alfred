@@ -1,31 +1,20 @@
 package com.botigocontigo.alfred
 
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
-import android.widget.ListView
-import android.widget.ArrayAdapter
-import android.R.array
-import ar.edu.utn.frba.dadm.clases2018c2.clases_2018c2.R.layout.activity_main
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.View
 
-// TODO Following this Tutorial: https://developer.android.com/training/implementing-navigation/nav-drawer?hl=es-419
-class InterviewActivity: AppCompatActivity() {
-    private var mPlanetTitles: Array<String>? = null
-    private var mDrawerLayout: DrawerLayout? = null
-    private var mDrawerList: ListView? = null
-
+// TODO Following this tutorial https://blog.sendbird.com/android-chat-tutorial-building-a-messaging-ui
+//class MessageListActivity : AppCompatActivity() {
+class InterviewActivity : AppCompatActivity() {
+    private var mMessageRecycler: RecyclerView? = null
+    private var mMessageAdapter: MessageListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_interview)
+        setContentView(R.layout.activity_message_list)
 
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array)
-        mDrawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout
-        mDrawerList = findViewById(R.id.left_drawer) as ListView
-
-        // Set the adapter for the list view
-        mDrawerList.adapter = ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles)
-        // Set the list's click listener
-        // mDrawerList.onItemClickListener = DrawerItemClickListener()
+        mMessageRecycler = findViewById<View>(R.id.reyclerview_message_list) as RecyclerView
+        mMessageAdapter = MessageListAdapter(this, messageList)
+        mMessageRecycler!!.setLayoutManager(LinearLayoutManager(this))
     }
 }

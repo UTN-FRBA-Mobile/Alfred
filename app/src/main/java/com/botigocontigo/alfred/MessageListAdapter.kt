@@ -8,16 +8,8 @@ import android.text.format.DateUtils.formatDateTime
 import jdk.nashorn.internal.runtime.ECMAErrors.getMessage
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import java.nio.file.Files.size
-
-
-
-
-/*
-class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message>) : RecyclerView.Adapter(){
-
-}
-*/
 
 
 class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message>) : RecyclerView.Adapter() {
@@ -27,7 +19,7 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
 
     // Determines the appropriate ViewType according to the sender of the message.
     fun getItemViewType(position: Int): Int {
-        val message = mMessageList[position] as UserMessage
+        val message = mMessageList[position] as Message
 
         return if (message.getSender().getUserId().equals(SendBird.getCurrentUser().getUserId())) {  //TODO change
             // If the current user is the sender of the message
@@ -57,7 +49,7 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
 
     // Passes the message object to a ViewHolder so that the contents can be bound to UI.
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = mMessageList[position] as UserMessage
+        val message = mMessageList[position] as Message
 
         when (holder.getItemViewType()) {
             VIEW_TYPE_MESSAGE_SENT -> (holder as SentMessageHolder).bind(message)
@@ -65,7 +57,7 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
         }
     }
 
-    // FIXME after deletes SentMessageHolder is similar to ReceivedMessageHolder. Can I use the same class?
+    // FIXME after deletes, SentMessageHolder is similar to ReceivedMessageHolder. Can I use the same class?
     private inner class SentMessageHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var messageText: TextView
         internal var timeText: TextView //TODO delete
@@ -76,7 +68,7 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
             timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView //TODO delete
         }
 
-        internal fun bind(message: UserMessage) {
+        internal fun bind(message: Message) {
             messageText.setText(message.getMessage())
 
             // Format the stored timestamp into a readable String using method.
@@ -98,7 +90,7 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
             profileImage = itemView.findViewById<View>(R.id.image_message_profile) as ImageView //TODO delete
         }
 
-        internal fun bind(message: UserMessage) {
+        internal fun bind(message: Message) {
             messageText.setText(message.getMessage())
 
             // Format the stored timestamp into a readable String using method.
