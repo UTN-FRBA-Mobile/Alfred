@@ -19,7 +19,9 @@
         <activity
             android:name=".LearnActivity"
             android:label="@string/title_activity_learn"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FodaActivity"
+            android:label="FodaActivity" />
     </application>
 
 </manifest>
