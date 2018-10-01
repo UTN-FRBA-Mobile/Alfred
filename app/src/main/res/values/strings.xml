@@ -2,4 +2,20 @@
     <string name="app_name">alfred</string>
     <string name="title_activity_learn">LearnActivity</string>
     <string name="title_activity_areas">Areas</string>
+    <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
+    <string-array name="repeat_task">
+        <item>Semanalmente</item>
+        <item>Mensualmente</item>
+        <item>Bimestral</item>
+        <item>Trimestral</item>
+        <item>Semestral</item>
+        <item>Anualmente</item>
+    </string-array>
+
+    <string-array name="remember_task">
+        <item name="dias">Dias</item>
+        <item name="semanas">Semanas</item>
+        <item name="meses">Meses</item>
+        <item name="anos">Años</item>
+    </string-array>
 </resources>
