@@ -16,6 +16,7 @@
             android:id="@+id/imgPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:paddingBottom="15dp"
             app:srcCompat="@mipmap/article_image_2" />
 
@@ -34,9 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:text="Article body"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

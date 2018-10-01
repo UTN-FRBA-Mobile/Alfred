@@ -35,21 +35,23 @@ class LearnActivity : AppCompatActivity() {
     fun loadArticles() {
         var title: String
         var body: String
+        var imageResourceId: Int
         var article: Article
+        body = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         // article 1
-        title = "titulo 1"
-        body = "lorem ipsum 1"
-        article = Article(title, body)
+        title = "Titulo 1"
+        imageResourceId = R.mipmap.article_image_2
+        article = Article(title, body, imageResourceId)
         adapter.addArticle(article)
         // article 2
-        title = "titulo 2"
-        body = "lorem ipsum 2"
-        article = Article(title, body)
+        title = "Titulo 2"
+        imageResourceId = R.mipmap.article_image_1
+        article = Article(title, body, imageResourceId)
         adapter.addArticle(article)
         // article 3
-        title = "titulo 3"
-        body = "lorem ipsum 3"
-        article = Article(title, body)
+        title = "Titulo 3"
+        imageResourceId = R.mipmap.article_image_2
+        article = Article(title, body, imageResourceId)
         adapter.addArticle(article)
     }
 
