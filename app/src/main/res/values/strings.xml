@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">alfred</string>
+    <string name="app_name">Alfred</string>
     <string name="title_activity_learn">LearnActivity</string>
     <string name="externo">Externo</string>
     <string name="interno">Interno</string>
@@ -7,6 +7,7 @@
     <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
     <string name="Ingresar">Ingresar</string>
     <string name="Registrarse">Registrarse</string>
+    <string name="registrarse_titulo">Registrarse</string>
 
 
     <string-array name="repeat_task">

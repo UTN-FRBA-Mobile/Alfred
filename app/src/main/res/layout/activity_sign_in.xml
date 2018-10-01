@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".SignIn">
+
 
     <LinearLayout
         android:id="@+id/ll_main_layout"
@@ -19,32 +19,54 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="40dp"
-            android:text="Alfred Login"
+            android:text="@string/registrarse_titulo"
             android:textColor="#ffffff"
-            android:textSize="40dp" />
-        <ImageView
-            android:id="@+id/imgLogo"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:paddingBottom="15dp"
-            app:srcCompat="@mipmap/botigocontigo" />
+            android:textSize="40sp" />
+
         <EditText
-            android:id="@+id/user_name"
-            android:hint="User"
+            android:id="@+id/user_nombre"
+            android:hint="Nombre"
             android:textColor="#6bfff7"
             android:textColorHint="#52afaa"
             android:textAlignment="center"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
-            android:id="@+id/user_password"
-            android:hint="Password"
+            android:id="@+id/user_apellido"
+            android:hint="Apellido"
             android:textColor="#6bfff7"
             android:textColorHint="#52afaa"
             android:textAlignment="center"
-            android:textSize="22dp"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/user_email"
+            android:hint="Email"
+            android:textColor="#6bfff7"
+            android:textColorHint="#52afaa"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/user_contraseña"
+            android:hint="Contraseña"
+            android:textColor="#6bfff7"
+            android:textColorHint="#52afaa"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/user_contraseña_repetida"
+            android:hint="Repetir Contraseña"
+            android:textColor="#6bfff7"
+            android:textColorHint="#52afaa"
+            android:textAlignment="center"
+            android:textSize="22sp"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -55,28 +77,27 @@
             android:padding="25dp"
             android:orientation="vertical">
             <Button
-                android:id="@+id/btn_login_ingresar"
-                android:text="@string/Ingresar"
+                android:id="@+id/btn_sing_in_registrarse"
+                android:text="@string/Registrarse"
                 android:textAllCaps="false"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="#07912e"
                 android:background="@color/colorAccent"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />
             <Button
-                android:id="@+id/btn_login_registrarse"
-                android:text="@string/Registrarse"
+                android:id="@+id/btn_sing_in_ingresar"
+                android:text="@string/Ingresar"
                 android:textAllCaps="false"
-                android:backgroundTint="#07912e"
+                android:backgroundTint="@color/colorPrimary"
                 android:background="@color/colorAccent"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />
         </LinearLayout>
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>
