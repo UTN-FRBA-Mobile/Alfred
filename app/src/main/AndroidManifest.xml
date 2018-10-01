@@ -25,7 +25,11 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".AreasActivity"
-            android:label="@string/title_activity_areas"/>
+            android:label="@string/title_activity_areas" />
+        <activity
+            android:name=".TaskActivity"
+            android:label="@string/title_activity_tasks"/>
+
     </application>
 
 </manifest>
