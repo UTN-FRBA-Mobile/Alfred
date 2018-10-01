@@ -25,8 +25,8 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_interview) //FIXME Change to activity_main?? So we only have one activity and change the fragments
 
         mMenuItemsTitles = resources.getStringArray(R.array.menu_items_array)
-        mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         mDrawerList = findViewById<View>(R.id.left_drawer) as ListView
+        mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
 
         // Set the adapter for the list view
         mDrawerList!!.adapter = ArrayAdapter(this,
@@ -36,21 +36,22 @@ class MainActivity : Activity() {
 
         mDrawerTitle = title
         mTitle = mDrawerTitle
-        mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        mDrawerLayout = findViewById<View>(R.id.drawer_layout) as? DrawerLayout
         mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(view: View) {
                 super.onDrawerClosed(view)
-                actionBar!!.title = mTitle
+                //FIXME todo uncomment or replace to use ToolBar
+                //actionBar!!.title = mTitle
                 invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                actionBar!!.title = mDrawerTitle
+                //actionBar!!.title = mDrawerTitle
                 invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
             }
         }
@@ -59,8 +60,8 @@ class MainActivity : Activity() {
         mDrawerLayout!!.setDrawerListener(mDrawerToggle)
         //Use only if the upper statement fails because the deprecated method
         //mDrawerLayout!!.addDrawerListener(mDrawerToggle as ActionBarDrawerToggle)
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setHomeButtonEnabled(true);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -80,7 +81,7 @@ class MainActivity : Activity() {
 
     override fun setTitle(title: CharSequence) {
         mTitle = title
-        actionBar!!.title = mTitle
+        //actionBar!!.title = mTitle
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
