@@ -1,17 +1,17 @@
 package com.botigocontigo.alfred
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import android.text.format.DateUtils.formatDateTime
-import jdk.nashorn.internal.runtime.ECMAErrors.getMessage
+//import jdk.nashorn.internal.runtime.ECMAErrors.getMessage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import java.nio.file.Files.size
 
-
+/*
 // FIXME take out all of sendgrind (or comment) and mock it
 class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message>) : RecyclerView.Adapter() {
 
@@ -109,3 +109,4 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
         private val VIEW_TYPE_MESSAGE_RECEIVED = 2
     }
 }
+*/

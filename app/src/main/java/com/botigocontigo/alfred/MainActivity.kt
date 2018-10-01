@@ -108,6 +108,8 @@ class MainActivity : Activity() {
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
+        // TODO Create AppFragments
+        /*
         val fragment = AppFragment()
         val args = Bundle()
         args.putInt(AppFragment.ARG_FRAGMENT_NUMBER, position)
@@ -123,5 +125,6 @@ class MainActivity : Activity() {
         mDrawerList!!.setItemChecked(position, true)
         setTitle(mMenuItemsTitles!![position])
         mDrawerLayout!!.closeDrawer(mDrawerList!!)
+        */
     }
 }

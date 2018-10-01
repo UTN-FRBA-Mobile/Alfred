@@ -6,6 +6,7 @@ import android.view.View
 
 // TODO Following this tutorial https://blog.sendbird.com/android-chat-tutorial-building-a-messaging-ui
 //class MessageListActivity : AppCompatActivity() {
+/*
 class InterviewActivity : AppCompatActivity() {
     private var mMessageRecycler: RecyclerView? = null
     private var mMessageAdapter: MessageListAdapter? = null
@@ -18,3 +19,4 @@ class InterviewActivity : AppCompatActivity() {
         mMessageRecycler!!.setLayoutManager(LinearLayoutManager(this))
     }
 }
+*/
