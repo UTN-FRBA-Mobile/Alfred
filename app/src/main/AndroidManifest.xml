@@ -10,26 +10,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SplashActivity">
+
+        </activity>
+        <activity
+            android:name=".LearnActivity"
+            android:label="@string/title_activity_learn"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FodaActivity"
+            android:label="FodaActivity" />
+        android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".AreasActivity"
+            android:label="@string/title_activity_areas" />
+        <activity
+            android:name=".TaskActivity"
+            android:label="@string/title_activity_tasks" />
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LearnActivity"
-            android:label="@string/title_activity_learn"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FodaActivity"
-            android:label="FodaActivity" />
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".AreasActivity"
-            android:label="@string/title_activity_areas" />
-        <activity
-            android:name=".TaskActivity"
-            android:label="@string/title_activity_tasks"/>
-
     </application>
 
 </manifest>

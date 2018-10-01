@@ -5,6 +5,10 @@
     <string name="interno">Interno</string>
     <string name="title_activity_areas">Areas</string>
     <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
+    <string name="Ingresar">Ingresar</string>
+    <string name="Registrarse">Registrarse</string>
+
+
     <string-array name="repeat_task">
         <item>Semanalmente</item>
         <item>Mensualmente</item>
