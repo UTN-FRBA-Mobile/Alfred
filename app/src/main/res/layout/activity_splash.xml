@@ -44,6 +44,12 @@
             android:text="Go to Chat Activity" />
 
         <Button
+            android:id="@+id/btnFoda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Foda Activity" />
+      
+        <Button
             android:id="@+id/btnTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

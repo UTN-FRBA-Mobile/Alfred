@@ -25,6 +25,9 @@ class SplashActivity : AppCompatActivity() {
         btnChat.setOnClickListener {
             goToActivity(ChatActivity::class.java)
         }
+        btnFoda.setOnClickListener {
+            goToActivity(FodaActivity::class.java)
+        }
         btnTask.setOnClickListener {
             goToActivity(TaskActivity::class.java)
         }
