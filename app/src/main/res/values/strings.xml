@@ -1,4 +1,36 @@
 <resources>
-    <string name="app_name">alfred</string>
+    <string name="app_name">Alfred Asistente</string>
+    <string name="drawer_open">Abrir Menu</string>
+    <string name="drawer_close">Cerrar Menu</string>
+
+    <string-array name="menu_items_array">
+        <item>Realizar Entrevista</item>
+        <item>Sugerencias</item>
+        <item>Tareas</item>
+        <item>Aprendizaje</item>
+        <item>Areas de mi Negocio</item>
+        <item>Mi F.O.D.A.</item>
+    </string-array>
+
     <string name="title_activity_learn">LearnActivity</string>
+    <string name="externo">Externo</string>
+    <string name="interno">Interno</string>
+    <string name="title_activity_areas">Areas</string>
+    <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
+
+    <string-array name="repeat_task">
+        <item>Semanalmente</item>
+        <item>Mensualmente</item>
+        <item>Bimestral</item>
+        <item>Trimestral</item>
+        <item>Semestral</item>
+        <item>Anualmente</item>
+    </string-array>
+
+    <string-array name="remember_task">
+        <item name="dias">Dias</item>
+        <item name="semanas">Semanas</item>
+        <item name="meses">Meses</item>
+        <item name="anos">Años</item>
+    </string-array>
 </resources>
