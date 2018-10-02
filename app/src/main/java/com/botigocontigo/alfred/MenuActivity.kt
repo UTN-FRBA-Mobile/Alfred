@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
 
-class MainActivity : Activity() {
+class MenuActivity : Activity() {
     private var mMenuItemsTitles: Array<String>? = null
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerList: ListView? = null

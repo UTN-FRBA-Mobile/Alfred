@@ -13,6 +13,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun bindButtons() {
+        btnMenu.setOnClickListener {
+            goToActivity(MenuActivity::class.java)
+        }
         btnLearn.setOnClickListener {
             goToActivity(LearnActivity::class.java)
         }
