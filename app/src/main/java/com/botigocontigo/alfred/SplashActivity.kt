@@ -13,6 +13,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun bindButtons() {
+        btnMenu.setOnClickListener {
+            goToActivity(MenuActivity::class.java)
+        }
         btnLearn.setOnClickListener {
             goToActivity(LearnActivity::class.java)
         }
@@ -31,6 +34,11 @@ class SplashActivity : AppCompatActivity() {
         btnTask.setOnClickListener {
             goToActivity(TaskActivity::class.java)
         }
+        btnLogin.setOnClickListener {
+            goToActivity(Login::class.java)
+        }
+
+
     }
 
     private fun goToActivity(klass: Class<*>) {

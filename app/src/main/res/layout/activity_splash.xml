@@ -20,6 +20,12 @@
             app:srcCompat="@mipmap/botigocontigo" />
 
         <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Menu Activity" />
+
+        <Button
             android:id="@+id/btnLearn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,6 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Go to Task Activity" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Login" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
