@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.botigocontigo.alfred">
+    package="ar.edu.utn.frba.dadm.clases2018c2.clases_2018c2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -9,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,28 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatActivity">
-        </activity>
-        <!--
-        <activity android:name=".InterviewActivity">
-        </activity>
-        -->
-        <activity android:name=".MenuActivity">
-        </activity>
-        <activity
-            android:name=".LearnActivity"
-            android:label="@string/title_activity_learn"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FodaActivity"
-            android:label="FodaActivity" />
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".AreasActivity"
-            android:label="@string/title_activity_areas" />
-        <activity
-            android:name=".TaskActivity"
-            android:label="@string/title_activity_tasks"/>
-
     </application>
 
 </manifest>

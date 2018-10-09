@@ -1,65 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3573d6">
+    tools:context=".SplashActivity"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="wrap_content"
+        android:hint="Decinos cómo te llamas">
 
-        <ImageView
-            android:id="@+id/imgLogo"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/username"
+            android:singleLine="true"
+            android:inputType="text|textNoSuggestions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            app:srcCompat="@mipmap/botigocontigo" />
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Menu Activity" />
+    <Button
+        android:id="@+id/continuar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Continuar"/>
 
-        <Button
-            android:id="@+id/btnLearn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Learn Activity" />
-
-        <Button
-            android:id="@+id/btnAreas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Areas Activity" />
-
-        <Button
-            android:id="@+id/btnRisk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Risk Activity" />
-
-        <Button
-            android:id="@+id/btnChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Chat Activity" />
-
-        <Button
-            android:id="@+id/btnFoda"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Foda Activity" />
-      
-        <Button
-            android:id="@+id/btnTask"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Task Activity" />
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
