@@ -4,6 +4,7 @@ import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
 import android.app.Activity
+import android.app.Fragment
 import android.content.res.Configuration
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
@@ -109,23 +110,22 @@ class MenuActivity : Activity() {
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
-        // TODO Create AppFragments
-        /*
-        val fragment = AppFragment()
+
+        val <Fragment> fragment = AppFragments.FRAGMENTS[position]
         val args = Bundle()
-        args.putInt(AppFragment.ARG_FRAGMENT_NUMBER, position)
-        fragment.setArguments(args)
+        args.putInt("fragment_number", position)
+        fragment.arguments = args
 
         // Insert the fragment by replacing any existing fragment
         val fragmentManager = fragmentManager
         fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_frame, fragment as Fragment)
                         .commit()
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList!!.setItemChecked(position, true)
         setTitle(mMenuItemsTitles!![position])
         mDrawerLayout!!.closeDrawer(mDrawerList!!)
-        */
+
     }
 }
