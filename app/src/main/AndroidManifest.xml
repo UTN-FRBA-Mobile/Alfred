@@ -35,7 +35,7 @@
             android:name=".AreasActivity"
             android:label="@string/title_activity_areas" />
         <activity
-            android:name=".TaskActivity"
+            android:name=".TasksListActivity"
             android:label="@string/title_activity_tasks"/>
 
     </application>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context="com.botigocontigo.alfred.TaskActivity">
+    tools:context="com.botigocontigo.alfred.TasksListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

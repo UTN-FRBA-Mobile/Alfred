@@ -17,6 +17,13 @@
     <string name="interno">Interno</string>
     <string name="title_activity_areas">Areas</string>
     <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
+    <string name="tasks_description">Descripcion de la tarea</string>
+    <string name="tasks_repeat">Repetir</string>
+    <string name="tasks_reminder">Avisar cada</string>
+    <string name="tasks_quantity">Cant.</string>
+    <string name="tasks_cancel">CANCELAR</string>
+    <string name="tasks_create">CREAR TAREA!</string>
+    <string name="tasks_accept">ACEPTAR</string>
 
     <string-array name="repeat_task">
         <item>Semanalmente</item>

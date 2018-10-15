@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import com.botigocontigo.alfred.tasks.*
 import kotlinx.android.synthetic.main.dialog_new_task.view.*
 
-class TaskActivity : AppCompatActivity(), OnItemSelectedListener {
+class TasksListActivity : AppCompatActivity(), OnItemSelectedListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -39,26 +39,26 @@ class TaskActivity : AppCompatActivity(), OnItemSelectedListener {
         btnAddTask = findViewById(R.id.btnAddTask)
         btnAddTask!!.setOnClickListener {
             val mDialogView: View = LayoutInflater.from(this).inflate(R.layout.dialog_new_task, null)
-            val mBuilder: AlertDialog.Builder = AlertDialog.Builder(this@TaskActivity)
+            val mBuilder: AlertDialog.Builder = AlertDialog.Builder(this@TasksListActivity)
                     .setTitle("Creacion de Tarea")
                     .setView(mDialogView)
 
             val mAlertDialog = mBuilder.show()
 
             val mSpinner: Spinner = mDialogView.findViewById(R.id.dialog_spinner_plans)
-            val adapterPlansDialog: ArrayAdapter<String> = ArrayAdapter(this@TaskActivity,
+            val adapterPlansDialog: ArrayAdapter<String> = ArrayAdapter(this@TasksListActivity,
                     android.R.layout.simple_spinner_item, plans)
             adapterPlansDialog.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mSpinner.adapter = adapterPlansDialog
 
             val spRepeatTask: Spinner = mDialogView.findViewById(R.id.dl_spinner_repeat)
-            val adapterRepeatDialog: ArrayAdapter<String> = ArrayAdapter(this@TaskActivity,
+            val adapterRepeatDialog: ArrayAdapter<String> = ArrayAdapter(this@TasksListActivity,
                     android.R.layout.simple_spinner_item, resources.getStringArray(R.array.repeat_task))
             adapterRepeatDialog.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spRepeatTask.adapter = adapterRepeatDialog
 
             val spRememberTask: Spinner = mDialogView.findViewById(R.id.dl_spinner_remember)
-            val adapterRememeberDialog: ArrayAdapter<String> = ArrayAdapter(this@TaskActivity,
+            val adapterRememeberDialog: ArrayAdapter<String> = ArrayAdapter(this@TasksListActivity,
                     android.R.layout.simple_spinner_item, resources.getStringArray(R.array.remember_task))
             adapterRememeberDialog.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spRememberTask.adapter = adapterRememeberDialog
