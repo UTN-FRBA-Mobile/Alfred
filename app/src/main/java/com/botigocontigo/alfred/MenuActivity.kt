@@ -130,6 +130,7 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         // Insert the fragment by replacing any existing fragment
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
+                .addToBackStack("a")
                 .commit()
 //        val fragmentManager = fragmentManager
 //        fragmentManager.beginTransaction()
