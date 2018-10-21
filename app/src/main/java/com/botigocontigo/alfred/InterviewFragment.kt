@@ -7,7 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-// TODO Following this tutorial https://blog.sendbird.com/android-chat-tutorial-building-a-messaging-ui
+// TODO Following this tutorial https://blog.sendbird.com/android-chat-tutorial-building-a-messaging-ui (now as a reference)
+// TODO Following tutorial https://www.androidtutorialpoint.com/basics/android-chat-bubble-layout-9-patch-image-using-listview/
 //class MessageListActivity : AppCompatActivity() {
 
 class InterviewFragment : Fragment() {
