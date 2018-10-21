@@ -13,13 +13,13 @@ import android.view.View
 
 class InterviewFragment : Fragment() {
     private var mMessageRecycler: RecyclerView? = null
-    private var mMessageAdapter: MessageListAdapter? = null
+//    private var mMessageAdapter: MessageListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_message_list)
+//        setContentView(R.layout.activity_message_list)
 
-        mMessageRecycler = findViewById<View>(R.id.reyclerview_message_list) as RecyclerView
-        mMessageAdapter = MessageListAdapter(this, messageList)
-        mMessageRecycler!!.setLayoutManager(LinearLayoutManager(this))
+//        mMessageRecycler = findViewById<View>(R.id.reyclerview_message_list) as RecyclerView
+//        mMessageAdapter = MessageListAdapter(this, messageList)
+//        mMessageRecycler!!.setLayoutManager(LinearLayoutManager(this))
     }
 }

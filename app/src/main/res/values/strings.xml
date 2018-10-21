@@ -17,6 +17,10 @@
     <string name="interno">Interno</string>
     <string name="title_activity_areas">Areas</string>
     <string name="title_activity_tasks">Tareas, Objetivos y Planes</string>
+    <string name="Ingresar">Ingresar</string>
+    <string name="Registrarse">Registrarse</string>
+    <string name="registrarse_titulo">Registrarse</string>
+
     <string name="tasks_description">Descripcion de la tarea</string>
     <string name="tasks_repeat">Repetir</string>
     <string name="tasks_reminder">Avisar cada</string>
@@ -40,4 +44,7 @@
         <item name="meses">Meses</item>
         <item name="anos">Años</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

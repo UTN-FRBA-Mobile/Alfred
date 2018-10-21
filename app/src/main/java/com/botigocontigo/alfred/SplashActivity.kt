@@ -32,8 +32,13 @@ class SplashActivity : AppCompatActivity() {
             goToActivity(FodaActivity::class.java)
         }
         btnTask.setOnClickListener {
-            goToActivity(TasksListActivity::class.java)
+//            goToActivity(TasksListActivity::class.java)
         }
+        btnLogin.setOnClickListener {
+            goToActivity(Login::class.java)
+        }
+
+
     }
 
     private fun goToActivity(klass: Class<*>) {
