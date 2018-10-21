@@ -19,6 +19,7 @@ private const val TAG = "ChatActivity"
 class ChatActivity : AppCompatActivity() {
     private lateinit var adapter: MessageAdapter
 
+    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -90,5 +91,7 @@ class ChatActivity : AppCompatActivity() {
         inputManager.hideSoftInputFromWindow(
                 currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
         )
-    }*/
+        */
+    }
+    */
 }

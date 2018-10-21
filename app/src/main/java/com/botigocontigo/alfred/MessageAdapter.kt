@@ -15,6 +15,7 @@ private const val VIEW_TYPE_RECEIVED_MESSAGE = 2
 class MessageAdapter (val context: Context) : RecyclerView.Adapter<MessageViewHolder>() {
     private val messages: ArrayList<Message> = ArrayList()
 
+
     fun addMessage(message: Message){
         messages.add(message)
         notifyDataSetChanged()
@@ -27,12 +28,16 @@ class MessageAdapter (val context: Context) : RecyclerView.Adapter<MessageViewHo
     override fun getItemViewType(position: Int): Int {
         val message = messages.get(position)
 
+        return VIEW_TYPE_RECEIVED_MESSAGE //TODO FIXME Delete and use following instead
+        /*
         return if(App.user == message.user) {
             VIEW_TYPE_SENT_MESSAGE
         }
         else {
             VIEW_TYPE_RECEIVED_MESSAGE
         }
+        */
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
