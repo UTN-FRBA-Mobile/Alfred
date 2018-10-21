@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorTaskView"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/fodaTextView"
+            android:layout_width="178dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="#d6d4d4"
+            android:textAlignment="center"
+            android:textColorLink="@android:color/darker_gray"
+            android:textSize="18sp"
+            tools:ignore="Suspicious0dp" />
+
+
+        <TextView
+            android:id="@+id/typeOfVarViews"
+            android:layout_width="179dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="180dp"
+            android:layout_weight="1"
+            android:background="#d6d4d4"
+            android:text="@string/externo"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            tools:ignore="Suspicious0dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="315dp"
+            android:layout_marginTop="10dp">
+
+            <ListView
+                android:id="@+id/fodaListView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#d6d4d4"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
