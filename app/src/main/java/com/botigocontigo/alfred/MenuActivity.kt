@@ -4,21 +4,33 @@ import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
 import android.app.Activity
+//import android.app.Fragment
 import android.content.res.Configuration
+import android.net.Uri
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
+import com.botigocontigo.alfred.tasks.TasksFragment
 
-class MenuActivity : Activity() {
+class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener {
+
+    override fun onFragmentInteraction(uri: Uri) {
+
+    }
+
     private var mMenuItemsTitles: Array<String>? = null
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerList: ListView? = null
     private var mDrawerToggle: ActionBarDrawerToggle? = null
     private var mDrawerTitle: CharSequence? = null
     private var mTitle: CharSequence? = null
+
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,23 +121,25 @@ class MenuActivity : Activity() {
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
-        // TODO Create AppFragments
-        /*
-        val fragment = AppFragment()
+
+        val <Fragment> fragment = AppFragments.FRAGMENTS[position]
         val args = Bundle()
-        args.putInt(AppFragment.ARG_FRAGMENT_NUMBER, position)
-        fragment.setArguments(args)
+        args.putInt("fragment_number", position)
+        fragment.arguments = args
 
         // Insert the fragment by replacing any existing fragment
-        val fragmentManager = fragmentManager
-        fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit()
+//        val fragmentManager = fragmentManager
+//        fragmentManager.beginTransaction()
+//                        .replace(R.id.content_frame, fragment as Fragment)
+//                        .commit()
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList!!.setItemChecked(position, true)
         setTitle(mMenuItemsTitles!![position])
         mDrawerLayout!!.closeDrawer(mDrawerList!!)
-        */
+
     }
 }
