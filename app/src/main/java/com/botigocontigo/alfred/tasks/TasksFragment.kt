@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.Spinner
+import android.widget.*
 
 import com.botigocontigo.alfred.R
 import kotlinx.android.synthetic.main.dialog_form_task.view.*
@@ -21,6 +19,10 @@ class TasksFragment : Fragment() {
 
     private var mParam1: String? = null
     private var mParam2: String? = null
+
+    private var recycler: RecyclerView? = null
+    private var adapterRv: TaskAdapter? = null
+    private var viewFragment: View? = null
 
     private val plans: ArrayList<String> = arrayListOf(
             "Plan de Administracion",
@@ -44,17 +46,14 @@ class TasksFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v: View = inflater.inflate(R.layout.fragment_tasks, container, false)
+        viewFragment = inflater.inflate(R.layout.fragment_tasks, container, false)
 
-//        loadEventOnClickNewTask(v) // Cargo el evento del boton de crear tarea
+        loadSpinnerPlans(viewFragment!!)         // Cargo los elementos que deben ir dentro del spinner
+        loadTasksOnRecyclerView(viewFragment!!)  // Cargo la lista de tareas en el RecyclerView
+        loadEventOnClickNewTask(viewFragment!!)
+        loadEventsOnClickFlipper(viewFragment!!)
 
-        loadSpinnerPlans(v) // Cargo los elementos que deben ir dentro del spinner
-
-        loadTasksOnRecyclerView(v) // Cargo la lista de tareas en el RecyclerView
-
-        loadEventOnClickNewTask(v)
-
-        return v
+        return viewFragment
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -103,21 +102,29 @@ class TasksFragment : Fragment() {
         }
     }
 
-//    private fun loadEventOnClickNewTask(view: View) {
-//        view.findViewById<ImageButton>(R.id.btnNewTask)!!.setOnClickListener {
-//            activity?.supportFragmentManager
-//                    ?.beginTransaction()
-//                    ?.replace(R.id.frg_tasks, TaskFormFragment.newInstance(plans), "Lalala")
-//                    ?.commit()
-//        }
-//    }
-
     private fun loadTasksOnRecyclerView(view: View) {
-        view.findViewById<RecyclerView>(R.id.recyclerTasks).apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = TaskAdapter(tasks)
-        }
+        recycler = view.findViewById<RecyclerView>(R.id.recyclerTasks)
+        adapterRv = TaskAdapter(tasks, view)
+        recycler!!.setHasFixedSize(true)
+        recycler!!.layoutManager = LinearLayoutManager(context)
+        recycler!!.adapter = adapterRv
+    }
+
+    private fun loadEventsOnClickFlipper(view: View) {
+        val btnCleanSelection = view.findViewById<ImageView>(R.id.btn_undo_task)
+        val btnCleanAllSelection = view.findViewById<ImageView>(R.id.btn_undo_all_task)
+
+        btnCleanSelection.bringToFront()
+        btnCleanAllSelection.bringToFront()
+        btnCleanSelection.setOnClickListener { deselectTasks() }
+        btnCleanAllSelection.setOnClickListener { deselectTasks() }
+    }
+
+    private fun deselectTasks() {
+        Toast.makeText(context,"Hola",1000).show()
+//        adapterRv = TaskAdapter(tasks, viewFragment!!)
+//        recycler!!.invalidate()
+
     }
 
     private fun loadEventOnClickNewTask(view: View) {
@@ -155,5 +162,4 @@ class TasksFragment : Fragment() {
             }
         }
     }
-
 }
