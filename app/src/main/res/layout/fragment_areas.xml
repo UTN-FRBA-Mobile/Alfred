@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    tools:context=".AreasFragment">
+    tools:context=".areas.AreasFragment">
 
 
     <android.support.constraint.Guideline
@@ -199,7 +199,7 @@
         android:layout_marginEnd="6dp"
         android:dropDownWidth="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddModel"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewModel"
         app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toEndOf="@+id/imgLogo"
         app:layout_constraintTop_toTopOf="@+id/guidelineH5"
@@ -407,7 +407,7 @@
         app:srcCompat="@mipmap/botigocontigo" />
 
     <ImageButton
-        android:id="@+id/btnAddModel"
+        android:id="@+id/btnNewModel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

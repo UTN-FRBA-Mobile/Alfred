@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred
 
 import android.support.v4.app.Fragment
+import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.tasks.TasksFragment
 
 class AppFragments : Fragment(){
