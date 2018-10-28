@@ -14,6 +14,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerRisk"
             android:layout_width="match_parent"
             android:layout_height="516dp"
             android:scrollbars="vertical"
@@ -27,18 +28,17 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/riskSuggestionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/botigocontigo" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/riskNuevaTareaButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nueva Actividad" />
+                android:layout_weight="1" />
         </LinearLayout>
 
     </LinearLayout>
