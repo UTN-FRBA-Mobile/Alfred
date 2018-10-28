@@ -1,24 +1,29 @@
 package com.botigocontigo.alfred.google
 
-import com.github.kittinunf.fuel.Fuel
+import android.content.Context
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
-class GoogleSearchService {
+class GoogleSearchService(context: Context) {
+    val context: Context = context
 
     fun search(query: String, resultsHandler: GoogleSearchResultsHandler) {
         val url = generateUrl(query)
-        Fuel.get(url).responseString { request, response, result ->
-            result.fold({
-                data ->
-                val results = parseResults(data)
-                resultsHandler.success(results)
-            }, {
-                error ->
-                resultsHandler.error()
-            })
-        }
+        val queue = Volley.newRequestQueue(context)
+        val stringRequest = StringRequest(Request.Method.GET, url,
+                Response.Listener<String> { response: String ->
+                    val results = parseResults(response)
+                    resultsHandler.success(results)
+                },
+                Response.ErrorListener {
+                    resultsHandler.error()
+                })
+        queue.add(stringRequest)
     }
 
     private fun generateUrl(query: String): String {
@@ -31,8 +36,7 @@ class GoogleSearchService {
     private fun parseResults(data: String): List<GoogleSearchResult> {
         val parser = JSONParser()
         val json = parser.parse(data) as JSONObject
-        val queries = json.get("queries") as JSONObject
-        val items = queries.get("items") as JSONArray
+        val items = json.get("items") as JSONArray
         val results = mutableListOf<GoogleSearchResult>()
         items.forEach { item ->
             val result = GoogleSearchResult(item as JSONObject)
