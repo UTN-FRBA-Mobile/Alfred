@@ -1,8 +1,8 @@
 package com.botigocontigo.alfred.google
 
 import com.github.kittinunf.fuel.Fuel
-import org.json.JSONArray
-import org.json.JSONObject
+import org.json.simple.JSONArray
+import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
 class GoogleSearchService {
@@ -22,7 +22,7 @@ class GoogleSearchService {
     }
 
     private fun generateUrl(query: String): String {
-        val key = "AIzaSyDMau9XGIXw1WZFh5U6OCfq73DQTItMHkk"
+        val key = "AIzaSyAUCMfku2xPsAr16GxrFMp90ao25bD7bOo"
         val cx = "011625570648950846187:sasexwj1n9g"
         val q = query.replace(' ', '+')
         return "https://www.googleapis.com/customsearch/v1/siterestrict?key=$key&cx=$cx&q=$q"
@@ -34,9 +34,8 @@ class GoogleSearchService {
         val queries = json.get("queries") as JSONObject
         val items = queries.get("items") as JSONArray
         val results = mutableListOf<GoogleSearchResult>()
-        for(i in 0 until items.length()) {
-            val item = items.get(i) as JSONObject
-            val result = GoogleSearchResult(item)
+        items.forEach { item ->
+            val result = GoogleSearchResult(item as JSONObject)
             results.add(result)
         }
         return results

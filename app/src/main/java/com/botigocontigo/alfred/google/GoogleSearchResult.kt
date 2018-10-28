@@ -10,6 +10,10 @@ class GoogleSearchResult (json: JSONObject) {
         return json.get("title") as String
     }
 
+    fun getDescription(): String {
+        return json.get("snippet") as String
+    }
+
     fun getTargetUrl(): String {
         return json.get("link") as String
     }
