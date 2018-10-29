@@ -37,11 +37,11 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
 
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
             view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_message_sent, parent, false)
+                    .inflate(R.layout.chat_bubble_sent, parent, false)
             return SentMessageHolder(view)
         } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_message_received, parent, false)
+                    .inflate(R.layout.chat_bubble_received, parent, false)
             return ReceivedMessageHolder(view)
         }
 
