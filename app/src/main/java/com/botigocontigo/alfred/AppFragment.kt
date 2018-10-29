@@ -15,7 +15,7 @@ class AppFragments : Fragment() {
 //                4 -> TODO_FRAGMENT_AREAS
 //                5 -> TODO_FRAGMENT_FODA
 //                6 -> TODO_FRAGMENT_RISKS
-                else -> TasksFragment()
+                else -> InterviewFragment()
             }
         }
 
