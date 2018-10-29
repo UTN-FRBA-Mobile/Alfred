@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.botigocontigo.alfred">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +14,13 @@
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity">
         </activity>
         <!--
-        <activity android:name=".InterviewActivity">
+        <activity android:name=".InterviewFragment">
         </activity>
         -->
         <activity android:name=".MenuActivity">
@@ -28,23 +29,26 @@
             android:name=".LearnActivity"
             android:label="@string/title_activity_learn"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FodaActivity"
-            android:label="FodaActivity" />
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".AreasActivity"
             android:label="@string/title_activity_areas" />
-        <activity
-            android:name=".TaskActivity"
-            android:label="@string/title_activity_tasks" />
         <activity android:name=".Login">
-
         </activity>
         <activity android:name=".SignIn">
         </activity>
         <activity android:name=".Sugerencias">
 
         </activity>
+
+        <receiver android:name=".LearnWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/learn_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

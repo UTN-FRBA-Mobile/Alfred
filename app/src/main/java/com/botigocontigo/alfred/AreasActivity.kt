@@ -17,7 +17,7 @@ class AreasActivity : AppCompatActivity(), OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_areas)
+        setContentView(R.layout.fragment_areas)
 
         spinner = this.findViewById(R.id.spinner_modelos)
         val adapterSpinner: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, modelos_negocio)

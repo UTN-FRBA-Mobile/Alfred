@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import android.content.Intent
+import com.botigocontigo.alfred.foda.FodaFragment
 
 class SplashActivity : AppCompatActivity() {
 
@@ -30,10 +31,10 @@ class SplashActivity : AppCompatActivity() {
             goToActivity(ChatActivity::class.java)
         }
         btnFoda.setOnClickListener {
-            goToActivity(FodaActivity::class.java)
+            //goToActivity(FodaFragment::class.java)
         }
         btnTask.setOnClickListener {
-            goToActivity(TaskActivity::class.java)
+//            goToActivity(TasksListActivity::class.java)
         }
         btnLogin.setOnClickListener {
             goToActivity(Login::class.java)
