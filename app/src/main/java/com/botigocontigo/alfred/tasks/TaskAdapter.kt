@@ -10,9 +10,10 @@ import android.widget.ViewFlipper
 import com.botigocontigo.alfred.R
 
 
-class TaskAdapter(private val dataset: ArrayList<Task>, private val fg: View) : RecyclerView.Adapter<TaskAdapter.ViewHolderTasks>() {
+class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : RecyclerView.Adapter<TaskAdapter.ViewHolderTasks>() {
 
     var selectedItems: MutableList<Task> = arrayListOf()
+    var recycler: RecyclerView? = null
 
     class ViewHolderTasks(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.task_name)
@@ -28,6 +29,7 @@ class TaskAdapter(private val dataset: ArrayList<Task>, private val fg: View) : 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTasks {
+        recycler = parent as RecyclerView
         val view = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
         return ViewHolderTasks(view).listen { position, type ->
 //            val item = myDataset.get(position)
@@ -56,11 +58,49 @@ class TaskAdapter(private val dataset: ArrayList<Task>, private val fg: View) : 
     }
 
     override fun onBindViewHolder(holder: ViewHolderTasks, position: Int) {
+        val repeatValue = dataset[position].timeValue
+        val repeatUnit = dataset[position].timeUnit
         holder.name.text = dataset[position].name
-        holder.interval.text = dataset[position].timeValue.toString()
+        holder.interval.text = "Cada $repeatValue $repeatUnit"
         holder.assigned.text = dataset[position].responsable
     }
 
     override fun getItemCount(): Int = dataset.size
 
+    /**
+     * Funcion que sirve deseleccionar las tareas marcadas
+     */
+    fun deselectTask() {
+        val iterator = selectedItems.iterator()
+        while (iterator.hasNext()){
+            val item = iterator.next()
+            for ((index, data) in dataset.withIndex()){
+                if (item.id == data.id) {
+                    val itemView = recycler?.layoutManager?.findViewByPosition(index)
+                    itemView?.setBackgroundColor(ContextCompat
+                            .getColor(recycler!!.context, R.color.colorBackgroundTask))
+                    break
+                }
+            }
+        }
+        selectedItems = arrayListOf()
+    }
+
+    /**
+     * Eliminar una tarea
+     */
+    fun deleteTasks() {
+        for (selec in selectedItems) {
+            for ((index, item) in dataset.withIndex()) {
+                if (selec.id == item.id) {
+                    val itemView = recycler?.layoutManager?.findViewByPosition(index)
+                    itemView?.setBackgroundColor(ContextCompat
+                            .getColor(recycler!!.context, R.color.colorBackgroundTask))
+                    dataset.remove(item)
+                    break
+                }
+            }
+        }
+        selectedItems = arrayListOf()
+    }
 }
