@@ -21,7 +21,7 @@ class RiskActivity : AppCompatActivity(){
         val nuevaTareaButton = findViewById<Button>(R.id.riskNuevaTareaButton)
         val sugerenciasButton = findViewById<ImageButton>(R.id.riskSuggestionButton)
         val riesgos = arrayOf(
-                Risk("Descripcion riego", 50, 60, "Capacidad de deteccion")
+                Risk("Descripcion riego", 50, "Medio", "Capacidad de deteccion")
         )
 
         viewManager = LinearLayoutManager(this)
