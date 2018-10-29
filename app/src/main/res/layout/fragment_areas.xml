@@ -8,12 +8,6 @@
     tools:context=".areas.AreasFragment">
 
 
-    <LinearLayout
-        android:id="@+id/layout_detail_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
-
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV1"
         android:layout_width="wrap_content"
@@ -166,7 +160,7 @@
         android:layout_marginBottom="2dp"
         android:background="@color/colorBackgroundTask"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH2"
-        app:layout_constraintEnd_toStartOf="@+id/btnCanales"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineV2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineH1" />
 

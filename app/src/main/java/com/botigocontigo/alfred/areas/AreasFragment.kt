@@ -18,9 +18,7 @@ import android.widget.Toast
 
 import com.botigocontigo.alfred.R
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
-
-
-
+import kotlinx.android.synthetic.main.fragment_areas.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +26,9 @@ import kotlinx.android.synthetic.main.dialog_form_model.view.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class AreasFragment : Fragment() {
+class AreasFragment : Fragment(), View.OnClickListener{
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -53,10 +53,12 @@ class AreasFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_areas, container, false)
 
+        loadButtons(v)
+
         loadSpinnerModelos(v) // Cargo los elementos que deben ir dentro del spinner
 
         loadEventOnClickNewModel(v)
-        loadEventOnClickAreaDetail(v)
+        //loadEventOnClickAreaDetail(v)
 
         return v
     }
@@ -116,6 +118,56 @@ class AreasFragment : Fragment() {
                 }
     }
 
+    override fun onClick(v: View?) {
+        switchArea(v!!.id)
+        //Cambio al Fragment de Detalle de area
+        fragmentManager!!
+                .beginTransaction()
+                .replace(R.id.content_frame, DetailAreaFragment())
+                .addToBackStack(null)
+                .commit()
+    }
+
+    private fun toast(msg:String){
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+    }
+
+    private fun switchArea(opc : Int){
+        when(opc){
+            R.id.btnClientes -> toast("Segmento Clientes")
+            R.id.btnRelaciones -> toast("Relaciones")
+            R.id.btnCanales -> toast("Canales")
+            R.id.btn_PropuestaValor -> toast("Propuesta de Valor")
+            R.id.btnActividades -> toast("Actividades")
+            R.id.btnRecursos -> toast("Recursos")
+            R.id.btnSociosClave -> toast("Socios Clave")
+            R.id.btnFuentesIngreso -> toast("Fuentes de Ingreso")
+            R.id.btnCostos -> toast("Costos")
+        }
+    }
+
+    private fun loadButtons(view: View){
+        val btnClientes = view.findViewById<Button>(R.id.btnClientes)
+        val btnRelaciones = view.findViewById<Button>(R.id.btnRelaciones)
+        val btnCanales = view.findViewById<Button>(R.id.btnCanales)
+        val btnPropuestaValor = view.findViewById<Button>(R.id.btn_PropuestaValor)
+        val btnActividades = view.findViewById<Button>(R.id.btnActividades)
+        val btnRecursos = view.findViewById<Button>(R.id.btnRecursos)
+        val btnSociosClave = view.findViewById<Button>(R.id.btnSociosClave)
+        val btnFuentesIngreso = view.findViewById<Button>(R.id.btnFuentesIngreso)
+        val btnCostos = view.findViewById<Button>(R.id.btnCostos)
+
+        btnClientes.setOnClickListener(this)
+        btnRelaciones.setOnClickListener(this)
+        btnCanales.setOnClickListener(this)
+        btnPropuestaValor.setOnClickListener(this)
+        btnActividades.setOnClickListener(this)
+        btnRecursos.setOnClickListener(this)
+        btnSociosClave.setOnClickListener(this)
+        btnFuentesIngreso.setOnClickListener(this)
+        btnCostos.setOnClickListener(this)
+    }
+
     private fun loadSpinnerModelos(view: View) {
         val spinner = view.findViewById<Spinner>(R.id.spinner_modelos)
         spinner!!.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, modelos_negocio).apply {
@@ -143,6 +195,8 @@ class AreasFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun loadEventOnClickAreaDetail(view: View) {
 
