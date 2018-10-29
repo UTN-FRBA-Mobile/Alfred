@@ -15,9 +15,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
+import com.botigocontigo.alfred.foda.FodaFragment
 import com.botigocontigo.alfred.tasks.TasksFragment
 
-class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener {
+class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,FodaFragment.OnFragmentInteractionListener {
 
     override fun onFragmentInteraction(uri: Uri) {
 

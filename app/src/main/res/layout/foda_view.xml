@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/fontDropDownPlans"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fontDropDownPlans"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/fodaTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_weight="0.5"
+                android:background="#a5b8d6"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textAlignment="center"
+                android:textColorLink="@android:color/darker_gray"
+                android:textSize="20sp"
+                tools:ignore="Suspicious0dp" />
+
+
+            <TextView
+                android:id="@+id/typeOfVarViews"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="0.5"
+                android:background="#a5b8d6"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/externo"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:ignore="Suspicious0dp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/fodaListView"
+            style="@android:style/Widget.Material.Light.ListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorBackgroundTask"
+            android:padding="10dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
