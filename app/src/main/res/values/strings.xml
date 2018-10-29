@@ -21,6 +21,13 @@
     <string name="Registrarse">Registrarse</string>
     <string name="registrarse_titulo">Registrarse</string>
 
+    <string name="tasks_description">Descripcion de la tarea</string>
+    <string name="tasks_repeat">Repetir</string>
+    <string name="tasks_reminder">Avisar cada</string>
+    <string name="tasks_quantity">Cant.</string>
+    <string name="tasks_cancel">CANCELAR</string>
+    <string name="tasks_create">CREAR TAREA!</string>
+    <string name="tasks_accept">ACEPTAR</string>
 
     <string-array name="repeat_task">
         <item>Semanalmente</item>
@@ -37,4 +44,7 @@
         <item name="meses">Meses</item>
         <item name="anos">Años</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
