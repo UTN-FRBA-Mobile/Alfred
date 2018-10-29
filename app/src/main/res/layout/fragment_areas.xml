@@ -8,6 +8,12 @@
     tools:context=".areas.AreasFragment">
 
 
+    <LinearLayout
+        android:id="@+id/layout_detail_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV1"
         android:layout_width="wrap_content"

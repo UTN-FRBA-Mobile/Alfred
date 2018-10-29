@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.botigocontigo.alfred.R
-import java.io.PrintStream
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +41,7 @@ class DetailAreaFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        Toast.makeText(activity, container.toString() , Toast.LENGTH_LONG).show()
+        //Toast.makeText(activity, container.toString() , Toast.LENGTH_LONG).show()
 
         return inflater.inflate(R.layout.fragment_detail_area, container, false)
     }

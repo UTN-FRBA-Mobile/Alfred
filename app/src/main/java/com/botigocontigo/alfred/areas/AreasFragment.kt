@@ -146,17 +146,15 @@ class AreasFragment : Fragment() {
             Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
 
             //Cambio de fragment
-            replaceFragment(DetailAreaFragment())
+            val detailFragment = DetailAreaFragment()
+            val manager = childFragmentManager
+            manager.beginTransaction().
+                    replace(R.id.layout_detail_fragment, detailFragment, detailFragment.tag)
+                    .commit()
+
 
         }
 
-    }
-
-    fun replaceFragment(someFragment: Fragment) {
-        getChildFragmentManager()
-                .beginTransaction()
-                .add(R.id.content_frame, someFragment, "tag")
-                .commit()
     }
 
 

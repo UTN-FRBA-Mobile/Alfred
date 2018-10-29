@@ -8,12 +8,26 @@
     android:padding="10dp">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/detail_area_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="29dp">
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="133dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fasfdsdfdsfsd"
+            tools:layout_editor_absoluteX="181dp"
+            tools:layout_editor_absoluteY="547dp" />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
 
