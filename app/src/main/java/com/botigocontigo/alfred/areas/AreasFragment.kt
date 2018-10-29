@@ -34,7 +34,10 @@ class AreasFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    private val modelos_negocio: Array<String> = arrayOf("Version 1", "Version 2", "Version 3")
+    private val modelos_negocio: Array<String> =
+            arrayOf("Modelo de Afiliacion", "Modelo Freemium",
+                    "Modelo de Subastas", "Modelo de Venta Directa",
+                    "Modelo de Franquicia", "Modelo de Cola Larga")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +146,7 @@ class AreasFragment : Fragment() {
 
     private fun loadEventOnClickAreaDetail(view: View) {
 
+        /**SEGMENTO CLIENTES**/
         view.findViewById<Button>(R.id.btnClientes)!!.setOnClickListener {
             Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
 
@@ -157,7 +161,46 @@ class AreasFragment : Fragment() {
                     .replace(R.id.content_frame, DetailAreaFragment())
                     .addToBackStack(null)
                     .commit()
+        }
 
+        /**RELACIONES**/
+        view.findViewById<Button>(R.id.btnRelaciones)!!.setOnClickListener {
+            Toast.makeText(activity, "Relaciones" , Toast.LENGTH_LONG).show()
+        }
+
+        /**CANALES**/
+        view.findViewById<Button>(R.id.btnCanales)!!.setOnClickListener {
+            Toast.makeText(activity, "Canales" , Toast.LENGTH_LONG).show()
+        }
+
+        /**PROPUESTA DE VALOR**/
+        view.findViewById<Button>(R.id.btn_PropuestaValor)!!.setOnClickListener {
+            Toast.makeText(activity, "Propuesta de Valor" , Toast.LENGTH_LONG).show()
+        }
+
+        /**ACTIVIDADES**/
+        view.findViewById<Button>(R.id.btnActividades)!!.setOnClickListener {
+            Toast.makeText(activity, "Actividades" , Toast.LENGTH_LONG).show()
+        }
+
+        /**RECURSOS**/
+        view.findViewById<Button>(R.id.btnRecursos)!!.setOnClickListener {
+            Toast.makeText(activity, "Recursos" , Toast.LENGTH_LONG).show()
+        }
+
+        /**SOCIOS CLAVE**/
+        view.findViewById<Button>(R.id.btnSociosClave)!!.setOnClickListener {
+            Toast.makeText(activity, "Socios Clave" , Toast.LENGTH_LONG).show()
+        }
+
+        /**FUENTES DE INGRESO**/
+        view.findViewById<Button>(R.id.btnFuentesIngreso)!!.setOnClickListener {
+            Toast.makeText(activity, "Fuentes de Ingreso" , Toast.LENGTH_LONG).show()
+        }
+
+        /**COSTOS**/
+        view.findViewById<Button>(R.id.btnCostos)!!.setOnClickListener {
+            Toast.makeText(activity, "Costos" , Toast.LENGTH_LONG).show()
         }
 
     }
