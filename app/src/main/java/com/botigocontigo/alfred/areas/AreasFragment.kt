@@ -11,9 +11,16 @@ import android.widget.Spinner
 import android.widget.ImageButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.widget.Button
+import android.widget.Toast
+
 
 import com.botigocontigo.alfred.R
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
+
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +50,9 @@ class AreasFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_areas, container, false)
 
         loadSpinnerModelos(v) // Cargo los elementos que deben ir dentro del spinner
+
         loadEventOnClickNewModel(v)
+        loadEventOnClickAreaDetail(v)
 
         return v
     }
@@ -130,4 +139,25 @@ class AreasFragment : Fragment() {
             }
         }
     }
+
+    private fun loadEventOnClickAreaDetail(view: View) {
+
+        view.findViewById<Button>(R.id.btnClientes)!!.setOnClickListener {
+            Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
+
+            //Cambio de fragment
+            replaceFragment(DetailAreaFragment())
+
+        }
+
+    }
+
+    fun replaceFragment(someFragment: Fragment) {
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.content_frame, someFragment, "tag")
+                .commit()
+    }
+
+
 }
