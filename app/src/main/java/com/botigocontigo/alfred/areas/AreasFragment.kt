@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.ImageButton
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.widget.Button
 import android.widget.Toast
@@ -146,12 +147,16 @@ class AreasFragment : Fragment() {
             Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
 
             //Cambio de fragment
-            val detailFragment = DetailAreaFragment()
-            val manager = childFragmentManager
-            manager.beginTransaction().
-                    replace(R.id.layout_detail_fragment, detailFragment, detailFragment.tag)
+//            val detailFragment = DetailAreaFragment()
+//            val manager = childFragmentManager
+//            manager.beginTransaction().
+//                    replace(R.id.layout_detail_fragment, detailFragment, detailFragment.tag)
+//                    .commit()
+            fragmentManager!!
+                    .beginTransaction()
+                    .replace(R.id.content_frame, DetailAreaFragment())
+                    .addToBackStack(null)
                     .commit()
-
 
         }
 
