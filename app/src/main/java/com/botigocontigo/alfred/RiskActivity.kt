@@ -25,7 +25,7 @@ class RiskActivity : AppCompatActivity(){
         )
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = RiskAdapter(riesgos)
+        viewAdapter = RiskAdapter(riesgos, this)
 
         recyclerView = findViewById<RecyclerView>(R.id.recyclerRisk).apply {
             setHasFixedSize(true)
