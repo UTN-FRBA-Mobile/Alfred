@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.060000002">
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/descripcion_riesgo"
             android:layout_width="match_parent"
             android:layout_height="73dp"
             android:text="TextView" />
@@ -30,21 +30,21 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/probabilidad_ocurrencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/impacto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/c_deteccion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
