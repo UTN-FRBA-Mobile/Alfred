@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.botigocontigo.alfred.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
+private const val ARG_areaName = "areaName"
 
 /**
  * A simple [Fragment] subclass.
@@ -26,24 +25,29 @@ private const val ARG_PARAM2 = "param2"
  */
 class DetailAreaFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var areaName: String? = null
+
     private var listener: OnFragmentInteractionListener? = null
+
+    private fun toast(msg:String){
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            areaName = it.getString(ARG_areaName)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        //Toast.makeText(activity, container.toString() , Toast.LENGTH_LONG).show()
+        val v = inflater.inflate(R.layout.fragment_detail_area, container, false)
 
-        return inflater.inflate(R.layout.fragment_detail_area, container, false)
+        //Pongo el titulo del area en el layout
+        v.findViewById<TextView>(R.id.txtNombre).text = areaName
+        return v
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -82,21 +86,11 @@ class DetailAreaFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailAreaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(areaName: String) =
                 DetailAreaFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putString(ARG_areaName, areaName)
                     }
                 }
     }

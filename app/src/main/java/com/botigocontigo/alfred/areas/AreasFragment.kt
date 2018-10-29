@@ -120,29 +120,32 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     override fun onClick(v: View?) {
         switchArea(v!!.id)
-        //Cambio al Fragment de Detalle de area
-        fragmentManager!!
-                .beginTransaction()
-                .replace(R.id.content_frame, DetailAreaFragment())
-                .addToBackStack(null)
-                .commit()
     }
 
     private fun toast(msg:String){
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
+    private fun switchFragment(areaName: String){
+        //Cambio al Fragment de Detalle de area
+        fragmentManager!!
+                .beginTransaction()
+                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName))
+                .addToBackStack(null)
+                .commit()
+    }
+
     private fun switchArea(opc : Int){
         when(opc){
-            R.id.btnClientes -> toast("Segmento Clientes")
-            R.id.btnRelaciones -> toast("Relaciones")
-            R.id.btnCanales -> toast("Canales")
-            R.id.btn_PropuestaValor -> toast("Propuesta de Valor")
-            R.id.btnActividades -> toast("Actividades")
-            R.id.btnRecursos -> toast("Recursos")
-            R.id.btnSociosClave -> toast("Socios Clave")
-            R.id.btnFuentesIngreso -> toast("Fuentes de Ingreso")
-            R.id.btnCostos -> toast("Costos")
+            R.id.btnClientes -> switchFragment("Segmento Clientes")
+            R.id.btnRelaciones -> switchFragment("Relaciones")
+            R.id.btnCanales -> switchFragment("Canales")
+            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor")
+            R.id.btnActividades -> switchFragment("Actividades")
+            R.id.btnRecursos -> switchFragment("Recursos")
+            R.id.btnSociosClave -> switchFragment("Socios Clave")
+            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso")
+            R.id.btnCostos -> switchFragment("Costos")
         }
     }
 
