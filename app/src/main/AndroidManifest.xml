@@ -42,6 +42,16 @@
         <activity android:name=".Sugerencias">
 
         </activity>
+
+        <receiver android:name=".LearnWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/learn_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
