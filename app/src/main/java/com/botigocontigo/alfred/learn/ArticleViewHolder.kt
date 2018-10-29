@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.article.view.*
-import com.botigocontigo.alfred.R
+import com.squareup.picasso.Picasso
 
 
 class ArticleViewHolder  (view: View) : RecyclerView.ViewHolder(view) {
@@ -16,6 +16,7 @@ class ArticleViewHolder  (view: View) : RecyclerView.ViewHolder(view) {
     open fun bind(article: Article) {
         titleText.text = article.getTitle()
         bodyText.text = article.getBody()
-        previewImage.setImageResource(article.getImageResourceId())
+        val url = article.getImageUrl()
+        Picasso.get().load(url).into(previewImage)
     }
 }
