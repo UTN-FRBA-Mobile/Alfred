@@ -12,7 +12,7 @@ class MessageAdapter (val context: Context) : RecyclerView.Adapter<MessageViewHo
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        return MessageViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_received, parent, false))
+        return MessageViewHolder(LayoutInflater.from(context).inflate(R.layout.chat_bubble_received, parent, false))
     }
 
     override fun getItemCount(): Int {
