@@ -21,6 +21,8 @@ import org.w3c.dom.Text
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val textView = TextView(this.fodaContext)
+        textView.height=120
+        textView.setPadding(0,20,0,20)
         textView.setText(this.array[position])
         return textView
     }
