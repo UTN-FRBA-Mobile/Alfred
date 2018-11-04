@@ -9,12 +9,12 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.net.Uri
 
-class LearnWidgetActivity : AppWidgetProvider() {
+class LearnWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (i in appWidgetIds.indices) {
             val currentWidgetId = appWidgetIds[i]
-            val url = "http://www.tutorialspoint.com"
+            val url = "http://mysite.com"
 
             // val intent = Intent(Intent.ACTION_VIEW)
             val intent = Intent(context, LearnActivity::class.java)
@@ -26,7 +26,6 @@ class LearnWidgetActivity : AppWidgetProvider() {
 
             views.setOnClickPendingIntent(R.id.widgetImageView, pending)
             appWidgetManager.updateAppWidget(currentWidgetId, views)
-            Toast.makeText(context, "widget added", Toast.LENGTH_SHORT).show()
         }
     }
 }
