@@ -26,6 +26,7 @@ class GoogleSearchService(context: Context) {
         queue.add(stringRequest)
     }
 
+    //Note: We can use multiple APIs to obtain better results than only 10 sites
     private fun generateUrl(query: String): String {
         val key = "AIzaSyAUCMfku2xPsAr16GxrFMp90ao25bD7bOo"
         val cx = "011625570648950846187:sasexwj1n9g"
