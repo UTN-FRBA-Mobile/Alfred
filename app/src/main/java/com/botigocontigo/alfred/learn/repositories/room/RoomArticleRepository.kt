@@ -5,15 +5,20 @@ import android.content.Context
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 class RoomArticleRepository(val context: Context) : ArticleRepository {
+    private val executor: Executor = Executors.newFixedThreadPool(2)
 
     override fun search(query: String, handler: ArticleRepositoryResultHandler) {
-        val dao = articleDao()
-        val results = dao.getAllByText(query)
-        for(result in results) {
-            val article = buildArticle(result)
-            handler.handleArticle(article)
+        executor.execute {
+            val dao = articleDao()
+            val results = dao.getAllByText(query)
+            for (result in results) {
+                val article = buildArticle(result)
+                handler.handleArticle(article)
+            }
         }
     }
 
@@ -34,7 +39,9 @@ class RoomArticleRepository(val context: Context) : ArticleRepository {
     }
 
     private fun articleDao() : RoomArticleDao {
-        val database = Room.databaseBuilder(context, LearnDatabase::class.java, "alfred-learn").build()
+        val database = Room.databaseBuilder(context, LearnDatabase::class.java, "alfred-learn")
+                .allowMainThreadQueries()
+                .build()
         return database.articleDao()
     }
 

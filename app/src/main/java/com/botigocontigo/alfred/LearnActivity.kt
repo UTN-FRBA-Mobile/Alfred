@@ -7,11 +7,10 @@ import android.support.v7.widget.LinearLayoutManager
 import com.botigocontigo.alfred.learn.ArticleAdapter
 import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
 import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
+import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.content_learn.*
-
-
 
 class LearnActivity : AppCompatActivity() {
     private lateinit var adapter: ArticleAdapter
@@ -31,6 +30,7 @@ class LearnActivity : AppCompatActivity() {
         }
 
         // val articleRepository = GoogleArticleRepository(this)
+        // val articleRepository = RoomArticleRepository(this)
         val articleRepository = IntelligentArticleRepository(this)
         articleRepository.search("consejos para emprender", adapter)
     }

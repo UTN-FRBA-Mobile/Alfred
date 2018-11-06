@@ -7,8 +7,8 @@ import android.arch.persistence.room.ColumnInfo
 @Entity(tableName = "article")
 class RoomArticle {
 
-    @PrimaryKey
-    private var uid: Int = 0
+    @PrimaryKey(autoGenerate = true)
+    private var uid: Int? = null
 
     @ColumnInfo(name = "title")
     private var title: String? = null
@@ -19,7 +19,7 @@ class RoomArticle {
     @ColumnInfo(name = "image_url")
     private var imageUrl: String? = null
 
-    fun getUid(): Int {
+    fun getUid(): Int? {
         return uid
     }
 
