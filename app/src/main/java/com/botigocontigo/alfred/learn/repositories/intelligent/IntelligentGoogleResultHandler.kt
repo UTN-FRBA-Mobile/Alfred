@@ -5,7 +5,7 @@ import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
 import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 
-class IntelligentGoogleResultHandler(val context: Context, private val originalHandler: ArticleRepositoryResultHandler) : ArticleRepositoryResultHandler() {
+class IntelligentGoogleResultHandler(val context: Context, private val originalHandler: ArticleRepositoryResultHandler) : ArticleRepositoryResultHandler {
     private val roomRepository: RoomArticleRepository = RoomArticleRepository(context)
 
     override fun handleArticle(article: Article) {
