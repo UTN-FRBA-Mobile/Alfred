@@ -3,6 +3,7 @@ package com.botigocontigo.alfred
 import android.support.v4.app.Fragment
 import com.botigocontigo.alfred.foda.FodaFragment
 import com.botigocontigo.alfred.areas.AreasFragment
+import com.botigocontigo.alfred.risk.RiskFragment
 import com.botigocontigo.alfred.tasks.TasksFragment
 
 class AppFragments : Fragment(){
@@ -16,7 +17,7 @@ class AppFragments : Fragment(){
 //                3 -> TODO_FRAGMENT_LEARN
                 4 -> AreasFragment()
                 5 -> FodaFragment()
-//                6 -> TODO_FRAGMENT_RISKS
+                6 -> RiskFragment()
                 else -> InterviewFragment()
             }
         }

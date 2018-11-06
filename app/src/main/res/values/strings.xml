@@ -11,6 +11,7 @@
         <item>Aprendizaje</item>
         <item>Areas de mi Negocio</item>
         <item>Mi F.O.D.A.</item>
+        <item>Riesgos</item>
     </string-array>
 
     <string name="title_activity_learn">LearnActivity</string>

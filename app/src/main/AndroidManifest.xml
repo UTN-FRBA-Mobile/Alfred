@@ -39,7 +39,7 @@
         <activity android:name=".Sugerencias">
 
         </activity>
-        <activity android:name=".RiskActivity"></activity>
+        <activity android:name=".risk.RiskActivity"></activity>
 
         <receiver android:name=".LearnWidgetProvider">
             <intent-filter>

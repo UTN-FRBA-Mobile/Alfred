@@ -1,4 +1,4 @@
-package com.botigocontigo.alfred
+package com.botigocontigo.alfred.risk
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,8 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.ImageButton
-import com.botigocontigo.alfred.risk.RiskAdapter
-import com.botigocontigo.alfred.risk.Risk
+import com.botigocontigo.alfred.R
 
 class RiskActivity : AppCompatActivity(){
 
