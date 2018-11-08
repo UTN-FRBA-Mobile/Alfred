@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -23,6 +25,8 @@ android {
 }
 
 dependencies {
+    def room_version = "1.1.1"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha1'
@@ -40,4 +44,9 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:exifinterface:28.0.0'
     implementation files('libs/json-simple-1.1.1.jar')
+
+    // room orm by google
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    testImplementation "android.arch.persistence.room:testing:$room_version"
 }

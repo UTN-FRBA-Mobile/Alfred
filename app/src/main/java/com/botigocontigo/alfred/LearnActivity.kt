@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.ArticleAdapter
-import com.botigocontigo.alfred.learn.GoogleArticleProvider
+import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
+import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
+import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.content_learn.*
-
-
 
 class LearnActivity : AppCompatActivity() {
     private lateinit var adapter: ArticleAdapter
@@ -30,8 +29,10 @@ class LearnActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
 
-        val articleProvider = GoogleArticleProvider(this, adapter)
-        articleProvider.search("consejos para emprender")
+        // val articleRepository = GoogleArticleRepository(this)
+        // val articleRepository = RoomArticleRepository(this)
+        val articleRepository = IntelligentArticleRepository(this)
+        articleRepository.search("consejos para emprender", adapter)
     }
 
 }
