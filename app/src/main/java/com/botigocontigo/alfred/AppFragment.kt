@@ -6,7 +6,7 @@ import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.learn.LearnFragment
 import com.botigocontigo.alfred.tasks.TasksFragment
 
-class AppFragments : Fragment(){
+class AppFragments {
     object FRAGMENTS {
         operator fun get(position: Int): Fragment {
             return when(position) {
