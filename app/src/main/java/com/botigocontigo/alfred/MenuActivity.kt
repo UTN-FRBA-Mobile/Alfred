@@ -73,6 +73,12 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         //mDrawerLayout!!.addDrawerListener(mDrawerToggle as ActionBarDrawerToggle)
         //actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setHomeButtonEnabled(true);
+
+        val relativeUrl = intent.data?.path
+        if(relativeUrl != null) {
+            val position = AppFragments.POSITION[relativeUrl]
+            selectItem(position)
+        }
     }
 
     /* Called whenever we call invalidateOptionsMenu() */

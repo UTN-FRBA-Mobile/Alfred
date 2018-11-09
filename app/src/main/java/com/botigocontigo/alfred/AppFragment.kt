@@ -7,6 +7,7 @@ import com.botigocontigo.alfred.learn.LearnFragment
 import com.botigocontigo.alfred.tasks.TasksFragment
 
 class AppFragments {
+
     object FRAGMENTS {
         operator fun get(position: Int): Fragment {
             return when(position) {
@@ -21,7 +22,15 @@ class AppFragments {
                 else -> InterviewFragment()
             }
         }
+    }
 
+    object POSITION {
+        operator fun get(relativeUrl: String): Int {
+            return when(relativeUrl) {
+                "/learn" -> 3
+                else -> 0 // go to interview, by default
+            }
+        }
     }
 
 }
