@@ -1,7 +1,6 @@
 package com.botigocontigo.alfred.learn
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -9,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
-import kotlinx.android.synthetic.main.activity_learn.*
-import kotlinx.android.synthetic.main.content_learn.*
 import kotlinx.android.synthetic.main.content_learn.view.*
 
 class LearnFragment : Fragment() {
