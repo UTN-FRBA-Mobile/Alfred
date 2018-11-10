@@ -33,10 +33,11 @@ if (Meteor.isServer) {
       console.log(data.value);
       console.log(data.value.adentro);
       return {
-        prueba: "valor string",
-        valor: 3,
-        objeto: {
-          adentro: true
+        prueba: "El Endpoint de la API fue llamado exitosamente, abajo puede verificar sus datos",
+        datos_originales_que_llegaron: data,
+        value: data.value,
+        adentro: {
+          adentro: data.value.adentro
         }
       };
     },
