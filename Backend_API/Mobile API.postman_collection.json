@@ -1,0 +1,53 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Mobile API",
+		"_postman_id": "a3a3624f-8fdf-c1e0-c903-31c1a462e33e",
+		"description": "Set de Pruebas simples para Probar el API mas rapidamente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Test",
+			"request": {
+				"url": {
+					"raw": "http://localhost:3000/methods/favourites.test/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"methods",
+						"favourites.test",
+						""
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"value\":{\"adentro\": \"IT WORKS\"}}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
