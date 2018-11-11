@@ -7,7 +7,7 @@ data class Task(
         var timeUnit: String,
         var reminderValue: Int,
         var reminderUnit: String,
-        var responsable: String?
+        var responsible: String?
 )
 
 data class Plan(
@@ -15,4 +15,6 @@ data class Plan(
         var name: String,
         var tasks: ArrayList<Task>
 )
+
+
 

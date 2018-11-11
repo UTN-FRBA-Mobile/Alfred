@@ -32,7 +32,6 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
         recycler = parent as RecyclerView
         val view = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
         return ViewHolderTasks(view).listen { position, type ->
-//            val item = myDataset.get(position)
             val item = dataset[position]
             val vf: ViewFlipper = fg.findViewById(R.id.vf_task_options)
             // Verifico si el elemento ya se selecciono anteriormente
@@ -61,8 +60,8 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
         val repeatValue = dataset[position].timeValue
         val repeatUnit = dataset[position].timeUnit
         holder.name.text = dataset[position].name
-        holder.interval.text = "Cada $repeatValue $repeatUnit"
-        holder.assigned.text = dataset[position].responsable
+        holder.interval.text = "Durante $repeatValue $repeatUnit"
+        holder.assigned.text = dataset[position].responsible
     }
 
     override fun getItemCount(): Int = dataset.size
@@ -85,6 +84,8 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
         }
         selectedItems = arrayListOf()
     }
+
+
 
     /**
      * Eliminar una tarea

@@ -3,9 +3,9 @@ package com.botigocontigo.alfred
 import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
-import android.app.Activity
 import android.content.res.Configuration
 import android.net.Uri
+import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -14,13 +14,8 @@ import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
 import com.botigocontigo.alfred.foda.FodaFragment
-import com.botigocontigo.alfred.tasks.TasksFragment
 
 class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,FodaFragment.OnFragmentInteractionListener {
-
-    override fun onFragmentInteraction(uri: Uri) {
-
-    }
 
     private var mMenuItemsTitles: Array<String>? = null
     private var mDrawerLayout: DrawerLayout? = null
@@ -28,8 +23,11 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     private var mDrawerToggle: ActionBarDrawerToggle? = null
     private var mDrawerTitle: CharSequence? = null
     private var mTitle: CharSequence? = null
+    private var mFragmentSelected: Fragment? = null
 
+    override fun onFragmentInteraction(uri: Uri) {
 
+    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,8 +105,6 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
         return if (mDrawerToggle!!.onOptionsItemSelected(item)) {
             true
         } else {
@@ -120,15 +116,16 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
-        val <Fragment> fragment = AppFragments.FRAGMENTS[position]
+//        val <Fragment> fragment = AppFragments.FRAGMENTS[position]
+        mFragmentSelected = AppFragments.FRAGMENTS[position]
         val args = Bundle()
         args.putInt("fragment_number", position)
-        fragment.arguments = args
+        mFragmentSelected?.arguments = args
 
         // Insert the fragment by replacing any existing fragment
         supportFragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null) // no se que va en el parametro
+                .replace(R.id.content_frame, mFragmentSelected!!)
+                .addToBackStack(null)
                 .commit()
 
         // Highlight the selected item, update the title, and close the drawer
@@ -137,4 +134,20 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         mDrawerLayout!!.closeDrawer(mDrawerList!!)
 
     }
+
+    override fun onBackPressed() {
+
+        val f = when (mFragmentSelected) {
+            is TasksFragment -> mFragmentSelected as TasksFragment
+            else -> null
+        }
+
+        if (f is TasksFragment && f.selectedTaskCount()!! > 0) {
+            f.unCheckTasks()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
 }
