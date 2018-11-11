@@ -2,6 +2,7 @@
     <string name="app_name">Alfred Asistente</string>
     <string name="drawer_open">Abrir Menu</string>
     <string name="drawer_close">Cerrar Menu</string>
+    <string name="dialog_cancel">CANCELAR</string>
 
     <string-array name="menu_items_array">
         <item>Realizar Entrevista</item>
@@ -42,6 +43,52 @@
     </string-array>
 
 
+    <!-- AREAS -->
+
+    <!-- Segmento de Clientes -->
+    <string name="segmento_clientes_nombre">Segmento de Clientes</string>
+    <string name="segmento_clientes_descripcion_corta">Descripcion Corta</string>
+    <string name="segmento_clientes_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Relaciones con Clientes -->
+    <string name="relaciones_clientes_nombre">Relaciones con Clientes</string>
+    <string name="relaciones_clientes_descripcion_corta">Descripcion Corta</string>
+    <string name="relaciones_clientes_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Canales -->
+    <string name="canales_nombre">Canales</string>
+    <string name="canales_descripcion_corta">Descripcion Corta</string>
+    <string name="canales_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Propuesta de Valor -->
+    <string name="propuesta_valor_nombre">Propuesta de Valor</string>
+    <string name="propuesta_valor_descripcion_corta">Descripcion Corta</string>
+    <string name="propuesta_valor_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Actividades Clave -->
+    <string name="actividades_clave_nombre">Actividades Clave</string>
+    <string name="actividades_clave_descripcion_corta">Descripcion Corta</string>
+    <string name="actividades_clave_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Recursos Clave -->
+    <string name="recursos_clave_nombre">Recursos Clave</string>
+    <string name="recursos_clave_descripcion_corta">Descripcion Corta</string>
+    <string name="recursos_clave_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Socios Clave -->
+    <string name="socios_clave_nombre">Socios Clave</string>
+    <string name="socios_clave_descripcion_corta">Descripcion Corta</string>
+    <string name="socios_clave_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Fuentes de Ingreso -->
+    <string name="fuentes_ingreso_nombre">Fuentes de Ingreso</string>
+    <string name="fuentes_ingreso_descripcion_corta">Descripcion Corta</string>
+    <string name="fuentes_ingreso_descripcion_larga">Descripcion Completa</string>
+
+    <!-- Costos -->
+    <string name="costos_nombre">Costos</string>
+    <string name="costos_descripcion_corta">Descripcion Corta</string>
+    <string name="costos_descripcion_larga">Descripcion Completa</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

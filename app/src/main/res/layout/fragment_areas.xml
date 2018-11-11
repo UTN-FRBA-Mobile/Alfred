@@ -4,66 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AreasActivity">
+    android:background="#FFF"
+    tools:context=".areas.AreasFragment">
+
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="290dp" />
+        app:layout_constraintGuide_percent="0.70" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="145dp" />
+        app:layout_constraintGuide_percent="0.35" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="108dp" />
+        app:layout_constraintGuide_percent="0.18" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="216dp" />
+        app:layout_constraintGuide_percent="0.36" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="324dp" />
+        app:layout_constraintGuide_percent="0.54" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="432dp" />
+        app:layout_constraintGuide_percent="0.72" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="540dp" />
+        app:layout_constraintGuide_percent="0.90" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineHC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="270dp" />
+        app:layout_constraintGuide_percent="0.45" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnClientes"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -78,7 +80,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/btn_PropuestaValor"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -92,7 +94,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineH2" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/btnCanales"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -107,7 +109,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineH1" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/btnActividades"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -121,7 +123,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineH3" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/btnRecursos"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -136,7 +138,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineH3" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/btnCostos"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -149,7 +151,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineHC" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btnRelaciones"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -158,13 +160,13 @@
         android:layout_marginBottom="2dp"
         android:background="@color/colorBackgroundTask"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH2"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineV2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineH1" />
 
     <Button
-        android:id="@+id/button7"
-        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:id="@+id/btnFuentesIngreso"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
@@ -176,7 +178,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button12"
+        android:id="@+id/btnSociosClave"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -194,21 +196,19 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="6dp"
-        android:layout_marginBottom="8dp"
         android:dropDownWidth="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddModel"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewModel"
         app:layout_constraintHorizontal_bias="0.464"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgLogo"
         app:layout_constraintTop_toTopOf="@+id/guidelineH5"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="23dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Segmento de Clientes"
         android:textStyle="bold"
@@ -229,7 +229,7 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Propuesta de Valor"
         android:textAlignment="viewStart"
@@ -260,8 +260,8 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="75dp"
-        android:layout_height="38dp"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Fuentes de Ingreso"
         android:textAlignment="viewStart"
@@ -271,8 +271,8 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="88dp"
-        android:layout_height="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Relaciones"
         android:textAlignment="viewStart"
@@ -282,8 +282,8 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="97dp"
-        android:layout_height="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Actividades"
         android:textAlignment="viewStart"
@@ -293,8 +293,8 @@
 
     <TextView
         android:id="@+id/textView12"
-        android:layout_width="77dp"
-        android:layout_height="27dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:text="Recursos"
         android:textAlignment="viewStart"
@@ -395,7 +395,7 @@
         app:srcCompat="@mipmap/outline_group_black_18dp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -407,9 +407,9 @@
         app:srcCompat="@mipmap/botigocontigo" />
 
     <ImageButton
-        android:id="@+id/btnAddModel"
-        android:layout_width="38dp"
-        android:layout_height="39dp"
+        android:id="@+id/btnNewModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/oval"

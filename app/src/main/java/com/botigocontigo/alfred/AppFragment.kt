@@ -1,9 +1,12 @@
 package com.botigocontigo.alfred
 
 import android.support.v4.app.Fragment
+import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.foda.FodaFragment
+import com.botigocontigo.alfred.learn.LearnFragment
 
-class AppFragments : Fragment() {
+class AppFragments {
+
     object FRAGMENTS {
         operator fun get(position: Int): Fragment {
             return when(position) {
@@ -11,11 +14,20 @@ class AppFragments : Fragment() {
                 0 -> InterviewFragment()
 //                1 -> TODO_FRAGMENT_SUGGESTIONS
                 2 -> TasksFragment()
-//                3 -> TODO_FRAGMENT_LEARN
-//                4 -> TODO_FRAGMENT_AREAS
+                3 -> LearnFragment()
+                4 -> AreasFragment()
                 5 -> FodaFragment()
 //                6 -> TODO_FRAGMENT_RISKS
                 else -> InterviewFragment()
+            }
+        }
+    }
+
+    object POSITION {
+        operator fun get(relativeUrl: String): Int {
+            return when(relativeUrl) {
+                "/learn" -> 3
+                else -> 0 // go to interview, by default
             }
         }
     }

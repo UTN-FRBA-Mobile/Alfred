@@ -120,15 +120,16 @@ class TasksFragment : Fragment() {
             bringToFront()
             // Edita una tarea elegida, abriendo un popup
             setOnClickListener {
+                val task: Task? = adapterRecyclerTasks?.selectedItems?.first()
                 TaskDialogMaker(
                         context!!,
                         positionPlan,
                         plans.map { p -> p.name },
-                        null,
-                        null,
+                        task?.name,
+                        task?.interval,
                         resources.getStringArray(R.array.task_unit_interval).toCollection(ArrayList()),
-                        1,
-                        null,
+                        task?.iterations,
+                        task?.responsible,
                         { alertDialog: AlertDialog, _ -> alertDialog.dismiss() },
                         { alertDialog: AlertDialog, view: View ->
                             if (createNewTask(view)) alertDialog.dismiss()
@@ -193,7 +194,7 @@ class TasksFragment : Fragment() {
                     positionPlan,
                     plans.map { p -> p.name },
                     null,
-                    null,
+                    0,
                     resources.getStringArray(R.array.task_unit_interval).toCollection(ArrayList()),
                     1,
                     null,
@@ -213,7 +214,6 @@ class TasksFragment : Fragment() {
         // validar si estan los datos necesarios
         val plan: String = dialog.spinner_dialog_plans.selectedItem as String
         val name: String = dialog.et_dialog_nameTask.text.toString()
-        val intervalUnit: String = dialog.spinner_dialog_interval.selectedItem as String
         val iterations: String = dialog.et_dialog_interval.text.toString()
         var msg: String? = null
 
@@ -229,8 +229,7 @@ class TasksFragment : Fragment() {
         }
 
         plans.filter { p -> p.name == plan }[0].tasks.add(
-                Task(lastIdTask!! + 1, name, iterations.toInt(),
-                        intervalUnit, 0, "", "admin"))
+                Task(lastIdTask!! + 1, name, iterations.toInt(), 0, "admin"))
 
         adapterRecyclerTasks!!.notifyDataSetChanged()
 

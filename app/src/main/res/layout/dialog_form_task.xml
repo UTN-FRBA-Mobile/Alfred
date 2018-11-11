@@ -4,28 +4,36 @@
     android:orientation="vertical"
     style="@style/dialogTaskStyle">
 
-    <Spinner
-        android:id="@+id/spinner_dialog_plans"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="@drawable/spinner_blue"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_dialog_nameTask"
-        android:inputType="textMultiLine|textLongMessage"
-        android:lines="5"
-        android:minLines="3"
-        android:textColor="#000"
-        android:gravity="top|start"
-        android:maxLines="7"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:textColorHint="#FFF"
-        android:hint="@string/tasks_description"/>
+        <Spinner
+            android:id="@+id/spinner_dialog_plans"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_blue"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_dialog_nameTask"
+            android:inputType="textMultiLine|textLongMessage"
+            android:lines="5"
+            android:minLines="3"
+            android:textColor="#000"
+            android:gravity="top|start"
+            android:maxLines="7"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:textColorHint="#FFF"
+            android:hint="@string/tasks_description"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -76,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:textSize="14sp"/>
+            android:textSize="18sp"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -88,15 +96,13 @@
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="@string/tasks_cancel"/>
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/tasks_create"/>
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 

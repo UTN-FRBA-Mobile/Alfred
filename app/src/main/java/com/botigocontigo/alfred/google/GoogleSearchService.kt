@@ -9,8 +9,7 @@ import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
-class GoogleSearchService(context: Context) {
-    val context: Context = context
+class GoogleSearchService(val context: Context) {
 
     fun search(query: String, resultsHandler: GoogleSearchResultsHandler) {
         val url = generateUrl(query)
@@ -21,11 +20,12 @@ class GoogleSearchService(context: Context) {
                     resultsHandler.success(results)
                 },
                 Response.ErrorListener {
-                    resultsHandler.error()
+                    resultsHandler.error(query)
                 })
         queue.add(stringRequest)
     }
 
+    //Note: We can use multiple APIs to obtain better results than only 10 sites
     private fun generateUrl(query: String): String {
         val key = "AIzaSyAUCMfku2xPsAr16GxrFMp90ao25bD7bOo"
         val cx = "011625570648950846187:sasexwj1n9g"

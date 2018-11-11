@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred.tasks
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -56,8 +57,7 @@ class TaskDialogMaker (
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
                 override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
-                    val selected = parent?.getItemAtPosition(position).toString()
-                    dialog.tv_dialog_interval.text = getPeriod(selected)
+                    dialog.tv_dialog_interval.text = getPeriod(position)
                 }
             }
         }
@@ -66,6 +66,14 @@ class TaskDialogMaker (
         if (initCount !== null) etIntervalCount.setText(initCount.toString())
 
         alertDialog = AlertDialog.Builder(ctx).setView(dialog).show()
+
+        alertDialog.window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        alertDialog.setTitle(when(operation){
+            "CREAR" -> "Nueva Tarea"
+            "EDITAR" -> "Modificar Tarea"
+            else -> "Nein"
+        })
 
         dialog.btn_cancel.apply {
             text = "CANCELAR"
@@ -82,12 +90,12 @@ class TaskDialogMaker (
         }
     }
 
-    private fun getPeriod(interval: String) : String {
+    private fun getPeriod(interval: Int) : String {
         return when (interval){
-            "Diariamente" -> "dias"
-            "Semanalmente" -> "semanas"
-            "Mensualmente" -> "meses"
-            "Anualmente" -> "años"
+            0 -> "Dias"
+            1 -> "Semanas"
+            2 -> "Meses"
+            3 -> "Años"
             else -> "desconocido"
         }
     }

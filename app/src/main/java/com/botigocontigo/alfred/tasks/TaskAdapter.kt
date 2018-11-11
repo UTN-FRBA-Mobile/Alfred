@@ -14,6 +14,7 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
 
     var selectedItems: MutableList<Task> = arrayListOf()
     var recycler: RecyclerView? = null
+    //var item : Task? = null
 
     class ViewHolderTasks(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.task_name)
@@ -33,7 +34,6 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
         return ViewHolderTasks(view).listen { position, type ->
             val item = dataset[position]
-            val vf: ViewFlipper = fg.findViewById(R.id.vf_task_options)
             // Verifico si el elemento ya se selecciono anteriormente
             // Si existe, lo quito de la lista y su color de fondo vuelve a la normalidad
             if (selectedItems.filter { task -> task.id == item.id }.size == 1) {
@@ -44,6 +44,7 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
                 view.setBackgroundColor(ContextCompat.getColor(parent.context, R.color.selectedTask))
             }
 
+            val vf: ViewFlipper = fg.findViewById(R.id.vf_task_options)
             vf.setFlipInterval(0)
             vf.inAnimation = null
             vf.outAnimation = null
@@ -57,11 +58,10 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
     }
 
     override fun onBindViewHolder(holder: ViewHolderTasks, position: Int) {
-        val repeatValue = dataset[position].timeValue
-        val repeatUnit = dataset[position].timeUnit
-        holder.name.text = dataset[position].name
-        holder.interval.text = "Durante $repeatValue $repeatUnit"
-        holder.assigned.text = dataset[position].responsible
+        val t = dataset[position]
+        holder.name.text = t.name
+        holder.interval.text = "Durante ${t.iterations} ${getPeriod(t.interval)}"
+        holder.assigned.text = t.responsible
     }
 
     override fun getItemCount(): Int = dataset.size
@@ -103,5 +103,15 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
             }
         }
         selectedItems = arrayListOf()
+    }
+
+    private fun getPeriod(interval: Int) : String {
+        return when (interval){
+            0 -> "Dias"
+            1 -> "Semanas"
+            2 -> "Meses"
+            3 -> "Años"
+            else -> "desconocido"
+        }
     }
 }
