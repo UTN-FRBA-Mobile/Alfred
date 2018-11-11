@@ -11,16 +11,63 @@
 			"name": "API Test",
 			"request": {
 				"url": {
-					"raw": "http://localhost:3000/methods/favourites.test/",
+					"raw": "http://178.128.229.73:3300/methods/favourites.test/",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"178",
+						"128",
+						"229",
+						"73"
 					],
-					"port": "3000",
+					"port": "3300",
 					"path": [
 						"methods",
 						"favourites.test",
 						""
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"value\":{\"adentro\": \"IT WORKS\"}}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"url": {
+					"raw": "http://178.128.229.73:3300/methods/api.RegisterUser",
+					"protocol": "http",
+					"host": [
+						"178",
+						"128",
+						"229",
+						"73"
+					],
+					"port": "3300",
+					"path": [
+						"methods",
+						"api.RegisterUser"
 					],
 					"query": [
 						{
