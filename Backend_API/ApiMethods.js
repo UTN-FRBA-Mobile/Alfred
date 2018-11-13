@@ -123,6 +123,7 @@ if (Meteor.isServer) {
     */
     'api.login'(data) {
       console.log("=== Calling api.login ===");
+      //TODO password must be Bcripted in App? Or at least use SHA256
       Meteor.loginWithPassword(data.email, data.password, (err) => {
         if (err) {
           validationsHelper.displayServerError(err);
