@@ -140,6 +140,16 @@ if (Meteor.isServer) {
         }
       });
     },
+    /*
+    * REQUIRES: 
+    * userId
+    * selectedAnswers (array)
+    * questionNumber (Integer)
+    * hasEndedInterview (Boolean)
+    * RETURNS:
+    * success (Boolean)
+    * error or userId
+    */
     'api.saveTraits'(data) {
       console.log("=== Calling api.saveTraits ===");
       const userID = data.userId;
@@ -168,8 +178,16 @@ if (Meteor.isServer) {
         }
 
         console.log('traits saved');
+        return {
+          success: true,
+          userId: userID
+        }
       } catch (exception) {
         console.log(exception);
+        return {
+          success: false,
+          error: exception
+        }
       }
     },
   });
