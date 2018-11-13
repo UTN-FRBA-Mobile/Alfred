@@ -9,6 +9,9 @@ if (Meteor.isServer) {
     * email
     * password
     * name
+    * RETURNS
+    * success (Boolean)
+    * error or userId
     */
     'api.RegisterUser'(data) {
       console.log("Called api.RegisterUser");
@@ -68,14 +71,25 @@ if (Meteor.isServer) {
           }
         });
         
-        return newUserId;
+        return {
+          success: true,
+          newUserId: newUserId
+        };
       } catch (exception) {
         validationsHelper.parseMongoError(exception);
-        return exception;
+        return {
+          success: false,
+          error: exception
+        };
       }
     },
+
+    /*
+    * REQUIRES: 
+    * userId
+    */
     'api.query'(data) {
-      console.log("=== Calling search.query ===");
+      console.log("=== Calling api.query ===");
       const mvpLast = Mvps.findOne({userId: data.userId})
       console.log("MVP Found");
       console.log(JSON.stringify(mvpLast));
