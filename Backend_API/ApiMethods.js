@@ -113,6 +113,32 @@ if (Meteor.isServer) {
       console.log(`Final Query: ${finalQuery}`);
       return finalQuery;
     },
+    /*
+    * REQUIRES: 
+    * email
+    * password
+    * RETURNS:
+    * success (Boolean)
+    * error or userData
+    */
+    'api.login'(data) {
+      console.log("=== Calling api.login ===");
+      Meteor.loginWithPassword(data.email, data.password, (err) => {
+        if (err) {
+          validationsHelper.displayServerError(err);
+          return {
+            success: false,
+            error: TAPi18n.__('error.login')
+          };
+        } else {
+          const existingUser = Meteor.users.findOne({'emails.address': data.email});
+          return {
+            success: true,
+            userData: existingUser
+          };
+        }
+      });
+    },
 
   });
 }
