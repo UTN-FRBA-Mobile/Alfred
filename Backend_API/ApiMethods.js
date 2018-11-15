@@ -217,5 +217,18 @@ if (Meteor.isServer) {
         };
       }
     },
+    //TODO sucess and error
+    'api.getFavourites'(data) {
+      console.log("Started api.getFavourites");
+      try {
+        const allFavourites = Favourites.get(data.userId);
+        return allFavourites;
+      } catch (exception) {
+        console.error("=== ERROR on api.getFavourites ===");
+        console.error(exception);
+        console.trace();
+        throw exception;
+      }
+    },
   });
 }
