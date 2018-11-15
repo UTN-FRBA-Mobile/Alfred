@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
+import { Favourites } from '../../../../lib/schemas/favourites';
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -188,6 +189,32 @@ if (Meteor.isServer) {
           success: false,
           error: exception
         }
+      }
+    },
+    /*
+    * REQUIRES: 
+    * userId
+    * favourite (JSON with title, description and link)
+    * RETURNS:
+    * success (Boolean)
+    * error or favorites (array)
+    */
+    'api.insertFavourite'(data) {
+      console.log("=== Calling api.insertFavourite ===");
+      try {
+        const allFavorites = Favourites.insertFavourite(data.favourite, data.userId);
+        return {
+          success: true,
+          favorites: allFavorites
+        };
+      } catch (exception) {
+        console.error("=== ERROR on api.insertFavourite ===");
+        console.error(exception);
+        console.trace();
+        return {
+          success: false,
+          error: exception
+        };
       }
     },
   });
