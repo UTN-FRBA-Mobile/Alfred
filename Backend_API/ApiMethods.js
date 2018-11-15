@@ -230,5 +230,16 @@ if (Meteor.isServer) {
         throw exception;
       }
     },
+    //TODO sucess and error
+    'api.insertPlanList'(data) {
+      console.log("=== Calling api.insertPlanList ===");
+      try {
+        const newPlanId = UserTasks.insertPlanList(data.plans, data.userId);
+        return newPlanId;
+      } catch (exception) {
+        console.log(exception);
+        throw exception;
+      }
+    },
   });
 }
