@@ -241,5 +241,16 @@ if (Meteor.isServer) {
         throw exception;
       }
     },
+    //TODO sucess and error
+    'api.getPlanList'(data) {
+      console.log("=== Calling api.getPlanList ===");
+      try {
+        const plansTasksFound = UserTasks.find({userId: data.userId})
+        return plansTasksFound;
+      } catch (exception) {
+        console.log(exception);
+        throw exception;
+      }
+    },
   });
 }
