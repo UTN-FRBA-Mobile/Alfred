@@ -1,4 +1,16 @@
 package com.botigocontigo.alfred
 
-class User(var nickname: String, var profileUrl: String) {
+import com.botigocontigo.alfred.backend.Permissions
+
+class User() {
+
+    fun getNickname(): String {
+        // por ahora, nombre hardcodeado
+        return "Max Power"
+    }
+
+    fun getPermissions(): Permissions {
+        // por ahora, permisos hardcodeados
+        return Permissions("pjvgEdPAyRabtAdhk")
+    }
 }
