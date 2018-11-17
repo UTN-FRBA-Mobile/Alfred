@@ -36,14 +36,14 @@
 
         </activity>
 
-        <receiver android:name=".LearnWidgetProvider">
+        <receiver android:name=".ShortcutsWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/learn_widget_info" />
+                android:resource="@xml/shortcuts_widget_info" />
         </receiver>
     </application>
 

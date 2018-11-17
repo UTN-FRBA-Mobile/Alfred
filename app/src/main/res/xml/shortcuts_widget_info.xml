@@ -1,5 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/widget_learn"
+    android:initialLayout="@layout/widget_shortcuts"
     android:minHeight="40dp"
     android:minWidth="160dp"
     android:previewImage="@mipmap/ic_launcher"

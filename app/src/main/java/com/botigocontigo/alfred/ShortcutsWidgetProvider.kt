@@ -5,7 +5,7 @@ import android.widget.RemoteViews
 import android.appwidget.AppWidgetManager
 import android.content.Context
 
-class LearnWidgetProvider : AppWidgetProvider() {
+class ShortcutsWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (i in appWidgetIds.indices) {
@@ -13,7 +13,7 @@ class LearnWidgetProvider : AppWidgetProvider() {
 
             val remoteViewsHandler = RemoteViewsHandler(context)
 
-            val view = RemoteViews(context.getPackageName(), R.layout.widget_learn)
+            val view = RemoteViews(context.getPackageName(), R.layout.widget_shortcuts)
 
             val pendingIntentLearn = remoteViewsHandler.pendingIntentFor("learn")
             view.setOnClickPendingIntent(R.id.widgetLearnImageView, pendingIntentLearn)
