@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
 import com.botigocontigo.alfred.google.Credentials
 import com.botigocontigo.alfred.google.GoogleApi
 import com.botigocontigo.alfred.google.GoogleSearchService
@@ -32,27 +33,7 @@ class LearnFragment : Fragment() {
         adapter = ArticleAdapter(context)
         articleList.adapter = adapter
 
-        val networkAdapter = VolleyAdapter(context)
-        val key = "AIzaSyAUCMfku2xPsAr16GxrFMp90ao25bD7bOo"
-        val cx = "011625570648950846187:sasexwj1n9g"
-        val credentials = Credentials(key, cx)
-        val googleApi = GoogleApi(networkAdapter, credentials)
-        val googleSearchService = GoogleSearchService(googleApi)
-
-        val googleArticleRepository = GoogleArticleRepository(googleSearchService)
-
-        val database = Room.databaseBuilder(context, LearnDatabase::class.java, "alfred-learn")
-                .allowMainThreadQueries()
-                .build()
-        val articleDao = database.articleDao()
-
-        val roomArticleRepository = RoomArticleRepository(articleDao)
-
-        val repositories = ArrayList<ArticleRepository>()
-        repositories.add(googleArticleRepository)
-        repositories.add(roomArticleRepository)
-        val articleRepository = IntelligentArticleRepository(repositories)
-
+        val articleRepository = Services(context).intelligentArticleRepository()
         articleRepository.search("consejos para emprender", adapter)
 
         return viewFragment
