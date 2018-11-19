@@ -1,4 +1,4 @@
-package com.botigocontigo.alfred.backend
+package com.botigocontigo.alfred.utils
 
 import android.content.Context
 import com.android.volley.Request
@@ -7,6 +7,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
+import com.botigocontigo.alfred.utils.NetworkingAdapter
 
 class VolleyAdapter(val context: Context) : NetworkingAdapter {
     var queues: HashMap<String, RequestQueue> = HashMap()

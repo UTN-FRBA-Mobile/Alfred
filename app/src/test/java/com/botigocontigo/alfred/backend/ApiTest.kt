@@ -1,6 +1,8 @@
 package com.botigocontigo.alfred.backend
 
+import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
+import com.botigocontigo.alfred.utils.NetworkingAdapter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -24,7 +26,7 @@ class ApiTest {
     @Test
     fun learnQueryTest() {
         `when`(permissions.getUserId()).thenReturn(FAKE_USER_ID)
-        val api = Api(adapter, permissions)
+        val api = BotigocontigoApi(adapter, permissions)
         api.learnQuery().call(callbacks)
         val expectedQueue = "botigocontigo-api"
         val expectedMethod = "post"

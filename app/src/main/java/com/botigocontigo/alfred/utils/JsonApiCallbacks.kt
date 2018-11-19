@@ -1,4 +1,4 @@
-package com.botigocontigo.alfred.backend
+package com.botigocontigo.alfred.utils
 
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 import org.json.simple.JSONObject

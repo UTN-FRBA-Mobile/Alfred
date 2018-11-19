@@ -1,7 +1,4 @@
-package com.botigocontigo.alfred.backend
-
-import com.botigocontigo.alfred.utils.AsyncTask
-import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
+package com.botigocontigo.alfred.utils
 
 open class ApiRequest(private val api: Api,
                       private val methodName: String,
@@ -17,10 +14,6 @@ open class ApiRequest(private val api: Api,
     fun put(key: String, value: String) : ApiRequest {
         params[key] = value
         return this
-    }
-
-    fun applyPermissions(permissions: Permissions) {
-        put("userId", permissions.getUserId())
     }
 
     private fun getPathWithParams() : String {
