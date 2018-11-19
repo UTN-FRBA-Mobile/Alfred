@@ -1,18 +1,15 @@
 package com.botigocontigo.alfred.learn.repositories.intelligent
 
-import android.content.Context
-import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
-import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
-import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
-import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
+import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 
-class IntelligentArticleRepository(val context: Context) : ArticleRepository {
-    private val googleRepository: GoogleArticleRepository = GoogleArticleRepository(context)
+class IntelligentArticleRepository(private val articleRepositories: List<ArticleRepository>) : ArticleRepository {
 
-    override fun search(query: String, handler: ArticleRepositoryResultHandler) {
-        val googleHandler = IntelligentGoogleResultHandler(context, handler)
-        googleRepository.search(query, googleHandler)
+    override fun search(query: String, handler: ArticlesHandler) {
+        val firstRepository = articleRepositories.first()
+        val otherRepositories = articleRepositories.drop(1)
+        val intelligentArticlesHandler = IntelligentArticlesHandler(otherRepositories, handler)
+        firstRepository.search(query, intelligentArticlesHandler)
     }
 
 }

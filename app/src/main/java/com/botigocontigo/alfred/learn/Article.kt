@@ -1,6 +1,6 @@
 package com.botigocontigo.alfred.learn
 
-class Article (title: String, body: String, imageUrl: String?) {
+open class Article (title: String, body: String, imageUrl: String?) {
     private var title: String = title
     private var body: String = body
     private var imageUrl: String? = imageUrl

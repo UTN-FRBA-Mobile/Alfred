@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner
 private const val FAKE_USER_ID = "fakeUserId"
 
 @RunWith(MockitoJUnitRunner::class)
-class ApiTest {
+class BotigocontigoApiTest {
 
     @Mock
     private lateinit var adapter: NetworkingAdapter

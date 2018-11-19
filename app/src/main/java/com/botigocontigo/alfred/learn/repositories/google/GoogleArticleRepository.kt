@@ -1,15 +1,14 @@
 package com.botigocontigo.alfred.learn.repositories.google
 
-import android.content.Context
 import com.botigocontigo.alfred.google.GoogleSearchService
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
-import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
+import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 
-class GoogleArticleRepository(context: Context) : ArticleRepository {
-    private val googleSearchService: GoogleSearchService = GoogleSearchService(context)
+class GoogleArticleRepository(private val googleSearchService: GoogleSearchService) : ArticleRepository {
 
-    override fun search(query: String, handler: ArticleRepositoryResultHandler) {
-        val resultsHandler = GoogleArticleResultsHandler(handler)
-        googleSearchService.search(query, resultsHandler)
+    override fun search(query: String, articlesHandler: ArticlesHandler) {
+        val callbacksAdapter = GoogleSearchArticlesDispatcher(query, articlesHandler)
+        googleSearchService.search(query, callbacksAdapter)
     }
+
 }

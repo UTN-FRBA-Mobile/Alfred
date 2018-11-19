@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
-import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
+import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import java.lang.RuntimeException
 
-class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHolder>(), ArticleRepositoryResultHandler {
+class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHolder>(), ArticlesHandler {
 
     private val articles: ArrayList<Article> = ArrayList()
 
@@ -25,7 +25,7 @@ class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHo
         holder?.bind(article)
     }
 
-    // ArticleRepositoryResultHandler methods
+    // ArticlesHandler methods
 
     override fun handleArticle(article: Article) {
         articles.add(article)

@@ -4,14 +4,14 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
-import com.botigocontigo.alfred.learn.repositories.ArticleRepositoryResultHandler
+import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class RoomArticleRepository(val context: Context) : ArticleRepository {
     private val executor: Executor = Executors.newFixedThreadPool(2)
 
-    override fun search(query: String, handler: ArticleRepositoryResultHandler) {
+    override fun search(query: String, handler: ArticlesHandler) {
         executor.execute {
             val dao = articleDao()
             val results = dao.getAllByText(query)

@@ -7,7 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.google.Credentials
+import com.botigocontigo.alfred.google.GoogleApi
+import com.botigocontigo.alfred.google.GoogleSearchService
+import com.botigocontigo.alfred.learn.repositories.ArticleRepository
+import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
 import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
+import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
+import com.botigocontigo.alfred.utils.VolleyAdapter
 import kotlinx.android.synthetic.main.content_learn.view.*
 
 class LearnFragment : Fragment() {
@@ -23,9 +30,18 @@ class LearnFragment : Fragment() {
         adapter = ArticleAdapter(context)
         articleList.adapter = adapter
 
-        // val articleRepository = GoogleArticleRepository(this)
-        // val articleRepository = RoomArticleRepository(this)
-        val articleRepository = IntelligentArticleRepository(context)
+        val networkAdapter = VolleyAdapter(context)
+        val key = "AIzaSyAUCMfku2xPsAr16GxrFMp90ao25bD7bOo"
+        val cx = "011625570648950846187:sasexwj1n9g"
+        val credentials = Credentials(key, cx)
+        val googleApi = GoogleApi(networkAdapter, credentials)
+        val googleSearchService = GoogleSearchService(googleApi)
+        val googleArticleRepository = GoogleArticleRepository(googleSearchService)
+        val roomArticleRepository = RoomArticleRepository(context)
+        val repositories = ArrayList<ArticleRepository>()
+        repositories.add(googleArticleRepository)
+        repositories.add(roomArticleRepository)
+        val articleRepository = IntelligentArticleRepository(repositories)
         articleRepository.search("consejos para emprender", adapter)
 
         return viewFragment

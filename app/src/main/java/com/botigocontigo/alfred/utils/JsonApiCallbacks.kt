@@ -9,9 +9,9 @@ abstract class JsonApiCallbacks : AsyncTaskCallbacks<String>() {
     override fun success(result: String) {
         val parser = JSONParser()
         val json = parser.parse(result) as JSONObject
-        successWithParsedResult(json)
+        successWithParsedJson(json)
     }
 
-    abstract fun successWithParsedResult(result: JSONObject)
+    abstract fun successWithParsedJson(result: JSONObject)
 
 }
