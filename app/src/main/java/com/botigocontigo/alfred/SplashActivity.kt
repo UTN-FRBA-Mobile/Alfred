@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import android.content.Intent
-import com.botigocontigo.alfred.risk.RiskActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
             goToActivity(LearnActivity::class.java)
         }
         btnRisk.setOnClickListener {
-            goToActivity(RiskActivity::class.java)
+            //goToActivity(RiskActivity::class.java)
         }
         btnAreas.setOnClickListener {
             goToActivity(AreasActivity::class.java)

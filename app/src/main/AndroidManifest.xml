@@ -37,9 +37,7 @@
         <activity android:name=".SignIn">
         </activity>
         <activity android:name=".Sugerencias">
-
         </activity>
-        <activity android:name=".risk.RiskActivity"></activity>
 
         <receiver android:name=".LearnWidgetProvider">
             <intent-filter>

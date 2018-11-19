@@ -10,7 +10,7 @@
     <color name="selectedTask">#3DA4FF</color>
     <color name="backgroundDropDownPlans">#3f51b5</color>
     <color name="fontDropDownPlans">#ffffff</color>
-    <color name="colorBackgroundDialog">#999</color>
+    <color name="colorBackgroundDialog">#999999</color>
     <color name="bgEditTask">#1DA529</color>
     <color name="bgTrashTask">#C11717</color>
 </resources>

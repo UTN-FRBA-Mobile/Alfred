@@ -11,35 +11,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="0dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerRisk"
             android:layout_width="match_parent"
             android:layout_height="516dp"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/risk_item">
+            android:scrollbars="vertical">
 
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/riskSuggestionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@mipmap/botigocontigo" />
+                android:id="@+id/agregarRiesgo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="0"
+                android:background="@drawable/oval"
+                android:contentDescription="Agregar un nuevo riesgo"
+                android:src="@drawable/ic_plus" />
 
-            <Button
-                android:id="@+id/riskNuevaTareaButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
         </LinearLayout>
 
     </LinearLayout>
