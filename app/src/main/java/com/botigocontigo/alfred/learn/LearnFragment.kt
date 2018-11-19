@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.learn
 
+import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.botigocontigo.alfred.google.GoogleSearchService
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
 import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
+import com.botigocontigo.alfred.learn.repositories.room.LearnDatabase
 import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 import com.botigocontigo.alfred.utils.VolleyAdapter
 import kotlinx.android.synthetic.main.content_learn.view.*
@@ -36,12 +38,21 @@ class LearnFragment : Fragment() {
         val credentials = Credentials(key, cx)
         val googleApi = GoogleApi(networkAdapter, credentials)
         val googleSearchService = GoogleSearchService(googleApi)
+
         val googleArticleRepository = GoogleArticleRepository(googleSearchService)
-        val roomArticleRepository = RoomArticleRepository(context)
+
+        val database = Room.databaseBuilder(context, LearnDatabase::class.java, "alfred-learn")
+                .allowMainThreadQueries()
+                .build()
+        val articleDao = database.articleDao()
+
+        val roomArticleRepository = RoomArticleRepository(articleDao)
+
         val repositories = ArrayList<ArticleRepository>()
         repositories.add(googleArticleRepository)
         repositories.add(roomArticleRepository)
         val articleRepository = IntelligentArticleRepository(repositories)
+
         articleRepository.search("consejos para emprender", adapter)
 
         return viewFragment
