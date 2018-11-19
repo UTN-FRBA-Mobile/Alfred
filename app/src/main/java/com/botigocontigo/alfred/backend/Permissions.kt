@@ -1,9 +1,12 @@
 package com.botigocontigo.alfred.backend
 
-class Permissions(val userId: String) {
+import com.botigocontigo.alfred.User
 
-    fun fill(apiRequest: ApiRequest) {
-        apiRequest.put("userId", userId)
+open class Permissions(val user: User) {
+
+    open fun getUserId() : String {
+        // por ahora, permisos hardcodeados
+        return "pjvgEdPAyRabtAdhk"
     }
 
 }

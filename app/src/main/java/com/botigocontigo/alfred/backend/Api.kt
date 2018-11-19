@@ -1,30 +1,26 @@
 package com.botigocontigo.alfred.backend
 
-import android.content.Context
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
+import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 
-class Api(private val context: Context, private val permissions: Permissions) {
-    private lateinit var queue : RequestQueue
+class Api(private val adapter: NetworkingAdapter, private val permissions: Permissions) {
+
+    // usage example:
+    // api.learnQuery().call(callbacks)
 
     fun learnQuery(): ApiRequest {
-        return createRequest("methods/api.query", "post")
+        val request = ApiRequest(this, "post", "methods/api.query")
+        request.applyPermissions(permissions)
+        return request
     }
 
-    private fun createRequest(relativePath: String, methodName: String) : ApiRequest {
-        val apiRequest = ApiRequest(getQueue(), getUrl(relativePath), methodName)
-        permissions.fill(apiRequest)
-        return apiRequest
+    private fun getUrl(path: String): String {
+        return "http://178.128.229.73:3300/$path"
     }
 
-    private fun getUrl(relativePath: String): String {
-        return "http://178.128.229.73:3300/$relativePath"
-    }
-
-    private fun getQueue(): RequestQueue {
-        if(queue != null) return queue
-        queue = Volley.newRequestQueue(context)
-        return queue
+    fun enqueue(methodName: String, pathWithParams : String, callbacks: AsyncTaskCallbacks<String>) {
+        val url = getUrl(pathWithParams)
+        callbacks.whenTriggered() // first callback
+        adapter.enqueue("botigocontigo-api", methodName, url, callbacks)
     }
 
 }
