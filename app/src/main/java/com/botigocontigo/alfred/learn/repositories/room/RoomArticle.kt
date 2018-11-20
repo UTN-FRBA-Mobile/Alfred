@@ -19,6 +19,9 @@ class RoomArticle {
     @ColumnInfo(name = "image_url")
     private var imageUrl: String? = null
 
+    @ColumnInfo(name = "url")
+    private var url: String? = null
+
     fun getUid(): Int? {
         return uid
     }
@@ -33,6 +36,10 @@ class RoomArticle {
 
     fun getImageUrl(): String? {
         return imageUrl
+    }
+
+    fun getUrl(): String {
+        return url!!
     }
 
     fun setUid(value: Int) {
@@ -50,6 +57,10 @@ class RoomArticle {
 
     fun setImageUrl(value: String?) {
         this.imageUrl = value
-
     }
+
+    fun setUrl(value: String?) {
+        this.url = value
+    }
+
 }

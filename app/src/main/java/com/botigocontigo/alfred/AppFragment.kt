@@ -26,6 +26,8 @@ class AppFragments {
     object POSITION {
         operator fun get(relativeUrl: String): Int {
             return when(relativeUrl) {
+                "/chat" -> 0
+                "/tasks" -> 2
                 "/learn" -> 3
                 else -> 0 // go to interview, by default
             }

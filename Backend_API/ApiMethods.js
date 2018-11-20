@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { Favourites } from '../../../../lib/schemas/favourites';
+import { Mvps } from '../../../../lib/schemas/mvp';
+import { BusinessAreas } from '../../../../lib/schemas/businessArea';
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -72,6 +73,31 @@ if (Meteor.isServer) {
         validationsHelper.parseMongoError(exception);
         return exception;
       }
+    },
+    'api.query'(data) {
+      console.log("=== Calling search.query ===");
+      const mvpLast = Mvps.findOne({userId: data.userId})
+      console.log("MVP Found");
+      console.log(JSON.stringify(mvpLast));
+      if (mvpLast == undefined){
+        return "aprender emprender emprendimiento argentina";
+      }
+      let concatResult = mvpLast && mvpLast.name;
+      concatResult = mvpLast && mvpLast.description && mvpLast.description.concat(` ${concatResult}`) || concatResult;
+      
+      const canvasLast = BusinessAreas.findOne({userId: data.userId})
+      console.log("CANVAS Found");
+      console.log(JSON.stringify(canvasLast));
+      concatResult = canvasLast && canvasLast.name && canvasLast.name.concat(` ${concatResult}`) || concatResult;
+      concatResult = canvasLast && canvasLast.partners && canvasLast.partners.concat(` ${concatResult}`) || concatResult;
+      concatResult = canvasLast && canvasLast.partners && canvasLast.name && canvasLast.partners.concat(` ${canvasLast.name}`) || concatResult;
+      concatResult = canvasLast && canvasLast.valueProposition && canvasLast.valueProposition.concat(` ${concatResult}`) || concatResult;
+      concatResult = canvasLast && canvasLast.valueProposition && canvasLast.name && canvasLast.valueProposition.concat(` ${canvasLast.name}`) || concatResult;
+
+      console.log(`Concat Result: ${concatResult}`);
+      const finalQuery = concatResult.replace(/ /gm, '+');
+      console.log(`Final Query: ${finalQuery}`);
+      return finalQuery;
     },
 
   });

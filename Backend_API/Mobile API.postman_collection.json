@@ -53,6 +53,51 @@
 			"response": []
 		},
 		{
+			"name": "API Query",
+			"request": {
+				"url": {
+					"raw": "http://178.128.229.73:3300/methods/api.query/",
+					"protocol": "http",
+					"host": [
+						"178",
+						"128",
+						"229",
+						"73"
+					],
+					"port": "3300",
+					"path": [
+						"methods",
+						"api.query",
+						""
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":\"pjvgEdPAyRabtAdhk\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Register User",
 			"request": {
 				"url": {
@@ -90,7 +135,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"value\":{\"adentro\": \"IT WORKS\"}}"
+					"raw": ""
 				},
 				"description": ""
 			},

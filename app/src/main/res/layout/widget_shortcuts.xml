@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="2dp">
+
+    <!-- Buttons go here -->
+
+    <ImageView
+        android:id="@+id/widgetTasksImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="3dp"
+        android:src="@drawable/ic_baseline_list_alt"></ImageView>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widgetChatImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@mipmap/botigocontigo"></ImageView>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widgetLearnImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="3dp"
+        android:src="@drawable/ic_baseline_map"></ImageView>
+
+</LinearLayout>
