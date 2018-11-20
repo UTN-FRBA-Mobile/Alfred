@@ -1,7 +1,5 @@
 package com.botigocontigo.alfred.learn.repositories.room
 
-import android.arch.persistence.room.Room
-import android.content.Context
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
@@ -13,8 +11,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
 
     override fun search(query: String, handler: ArticlesHandler) {
         //executor.execute {
-            val dao = articleDao()
-            val results = dao.getAllByText(query)
+            val results = articleDao.getAllByText(query)
             for (result in results) {
                 val article = buildArticle(result)
                 handler.handleArticle(article)
@@ -24,8 +21,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
 
     fun fetchAll(handler: ArticlesHandler) {
         //executor.execute {
-            val dao = articleDao()
-            val results = dao.getAll()
+            val results = articleDao.getAll()
             for (result in results) {
                 val article = buildArticle(result)
                 handler.handleArticle(article)
@@ -33,24 +29,32 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         //}
     }
 
+    fun isPresent(article: Article) : Boolean {
+        val url = article.url
+        val count = articleDao.urlCount(url)
+        return count > 0
+    }
+
     fun saveArticle(article: Article) {
-        val dao = articleDao()
         var element = RoomArticle()
-        element.setTitle(article.getTitle())
-        element.setBody(article.getBody())
-        element.setImageUrl(article.getImageUrl())
-        dao.insertAll(element)
+        element.setTitle(article.title)
+        element.setBody(article.body)
+        element.setImageUrl(article.imageUrl)
+        element.setUrl(article.url)
+        articleDao.insertAll(element)
     }
 
     private fun buildArticle(element: RoomArticle) : Article {
         val title = element.getTitle()
         val body = element.getBody()
         val imageUrl = element.getImageUrl()
-        return Article(title, body, imageUrl)
+        val url = element.getUrl()
+        return Article(title, body, imageUrl, url)
     }
 
-    private fun articleDao() : RoomArticleDao {
-        return articleDao
+    fun deleteArticle(article: Article) {
+        val url = article.url
+        articleDao.deleteByUrl(url)
     }
 
 }

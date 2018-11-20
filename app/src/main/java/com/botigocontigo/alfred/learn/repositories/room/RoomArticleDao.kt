@@ -16,4 +16,10 @@ interface RoomArticleDao {
     @Insert
     fun insertAll(vararg articles: RoomArticle)
 
+    @Query("SELECT COUNT(1) FROM article WHERE url = :url")
+    fun urlCount(url: String) : Int
+
+    @Query("DELETE FROM article WHERE url = :url")
+    fun deleteByUrl(url: String)
+
 }

@@ -23,7 +23,8 @@ class GoogleSearchArticlesDispatcher(private val query: String,
         val title = result.getTitle()
         val body = result.getDescription()
         val imageUrl = result.getImageUrl()
-        return Article(title, body, imageUrl)
+        val url = result.getTargetUrl()
+        return Article(title, body, imageUrl, url)
     }
 
 }

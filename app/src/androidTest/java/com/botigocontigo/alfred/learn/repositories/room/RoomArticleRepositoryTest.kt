@@ -49,14 +49,36 @@ class RoomArticleRepositoryTest {
     @Test
     @Throws(Exception::class)
     fun writeArticleAndReadInListTest() {
-        val article = Article("title", "body", "imageUrl")
+        val article = Article("title", "body", "imageUrl", "url")
         articleRepository.saveArticle(article)
         articleRepository.fetchAll(articlesHandler)
         val captor = argumentCaptor<Article>()
         verify(articlesHandler, times(1)).handleArticle(captor.capture())
-        Assert.assertEquals("title", captor.firstValue.getTitle())
-        Assert.assertEquals("body", captor.firstValue.getBody())
-        Assert.assertEquals("imageUrl", captor.firstValue.getImageUrl())
+        Assert.assertEquals("title", captor.firstValue.title)
+        Assert.assertEquals("body", captor.firstValue.body)
+        Assert.assertEquals("imageUrl", captor.firstValue.imageUrl)
+        Assert.assertEquals("url", captor.firstValue.url)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeAndExistsMatchTest() {
+        val article = Article("title", "body", "imageUrl", "http://specificurl.com")
+        articleRepository.saveArticle(article)
+        val isPresent = articleRepository.isPresent(article)
+        Assert.assertEquals(true, isPresent)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeAndExistsDoesNotMatchTest() {
+        val article1 = Article("title", "body", "imageUrl", "http://fruta.com")
+        val article2 = Article("title", "body", "imageUrl", "http://genericurl.com")
+        articleRepository.saveArticle(article1)
+        articleRepository.saveArticle(article2)
+        val article = Article("title", "body", "imageUrl", "http://specificurl.com")
+        val isPresent = articleRepository.isPresent(article)
+        Assert.assertEquals(false, isPresent)
     }
 
 }

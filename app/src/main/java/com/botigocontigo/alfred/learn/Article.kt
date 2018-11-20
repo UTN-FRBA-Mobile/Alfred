@@ -1,19 +1,7 @@
 package com.botigocontigo.alfred.learn
 
-open class Article (title: String, body: String, imageUrl: String?) {
-    private var title: String = title
-    private var body: String = body
-    private var imageUrl: String? = imageUrl
+open class Article (var title: String, var body: String, var imageUrl: String?, var url: String) {
 
-    fun getTitle(): String {
-        return title
-    }
+    var favorite = false
 
-    fun getBody(): String {
-        return body
-    }
-
-    fun getImageUrl(): String? {
-        return imageUrl
-    }
 }

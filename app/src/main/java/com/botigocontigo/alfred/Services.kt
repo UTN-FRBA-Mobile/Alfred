@@ -1,6 +1,8 @@
 package com.botigocontigo.alfred
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Room
+import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import com.botigocontigo.alfred.backend.BotigocontigoApi
 import com.botigocontigo.alfred.backend.Permissions
@@ -47,8 +49,15 @@ class Services(private val context: Context) {
         return GoogleArticleRepository(googleSearchService())
     }
 
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `Article` ADD url varchar")
+        }
+    }
+
     private val learnDatabase: LearnDatabase = Room.databaseBuilder(context, LearnDatabase::class.java, "alfred-learn")
             .allowMainThreadQueries()
+            .addMigrations(MIGRATION_1_2)
             .build()
 
     private fun learnDatabase(): LearnDatabase {
