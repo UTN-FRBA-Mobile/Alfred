@@ -1,19 +1,29 @@
 package com.botigocontigo.alfred
 
+import android.arch.persistence.room.Room
 import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
 import com.botigocontigo.alfred.foda.FodaFragment
+import com.botigocontigo.alfred.storage.db.AppDatabase
+import com.botigocontigo.alfred.storage.db.entities.Plan
+import com.botigocontigo.alfred.storage.db.entities.Task
+import org.jetbrains.anko.doAsync
+
+//import com.botigocontigo.alfred.storage.db.AppDatabase
+
 
 class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,FodaFragment.OnFragmentInteractionListener {
 
@@ -25,9 +35,9 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     private var mTitle: CharSequence? = null
     private var mFragmentSelected: Fragment? = null
 
-    override fun onFragmentInteraction(uri: Uri) {
+//    private var db: AppDatabase? = null
 
-    }
+    override fun onFragmentInteraction(uri: Uri) { }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +136,7 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         mFragmentSelected = AppFragments.FRAGMENTS[position]
         val args = Bundle()
         args.putInt("fragment_number", position)
+        //args.putParcelable("db", db as Parcelable)
         mFragmentSelected?.arguments = args
 
         // Insert the fragment by replacing any existing fragment
@@ -148,12 +159,10 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
             else -> null
         }
 
-        if (f is TasksFragment && f.selectedTaskCount()!! > 0) {
+        if (f is TasksFragment && f.selectedTaskCount() > 0) {
             f.unCheckTasks()
         } else {
             super.onBackPressed()
         }
     }
-
-
 }

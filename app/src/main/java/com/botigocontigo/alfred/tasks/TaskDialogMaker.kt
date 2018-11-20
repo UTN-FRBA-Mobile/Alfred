@@ -14,17 +14,16 @@ import kotlinx.android.synthetic.main.dialog_form_task.view.*
 
 class TaskDialogMaker (
         private val ctx: Context,
-        private val initPlan: Int?,
+        private val initPlan: String,
         private val arrayPlans: List<String>,
-        private val initNameTask: String?,
-        private val initInterval: Int?,
-        private val arrayIntervals: ArrayList<String>,
-        private val initCount: Int?,
+        private val initNameTask: String,
+        private val initFrecType: String?,
+        private val initFrecValue: Int,
         val initResponsible: String?,
+        private val operation: String,
         val cancelable: (AlertDialog, View) -> Unit,
-        val okable: (AlertDialog, View) -> Unit,
-        private val operation: String
-        ) {
+        val okable: (AlertDialog, View) -> Unit
+) {
 
     private var dialog : View
     private var spinnerPlans : Spinner
@@ -42,28 +41,31 @@ class TaskDialogMaker (
         etIntervalCount = dialog.findViewById<EditText>(R.id.et_dialog_interval)
 
         spinnerPlans.apply {
-            adapter = ArrayAdapter(ctx, R.layout.spinner_tasks, arrayPlans).apply {
+            val arrayAdapterPlan = ArrayAdapter(ctx, R.layout.spinner_tasks, arrayPlans)
+            adapter = arrayAdapterPlan.apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
-            if (initPlan !== null) setSelection(initPlan)
+            setSelection(arrayAdapterPlan.getPosition(initPlan))
         }
 
         spinnerIntervals.apply {
-            adapter = ArrayAdapter(ctx, R.layout.spinner_tasks, arrayIntervals).apply {
+            val arrayAdapter = ArrayAdapter(ctx, R.layout.spinner_tasks,
+                    resources.getStringArray(R.array.task_unit_interval))
+            adapter = arrayAdapter.apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
-            if (initInterval !== null) setSelection(initInterval)
+            setSelection(arrayAdapter.getPosition(initFrecType))
 
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
                 override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
-                    dialog.tv_dialog_interval.text = getPeriod(position)
+                    dialog.tv_dialog_interval.text = getPeriod(getItemAtPosition(position).toString())
                 }
             }
         }
 
-        if (initNameTask !== null) etNameTask.setText(initNameTask)
-        if (initCount !== null) etIntervalCount.setText(initCount.toString())
+        etNameTask.setText(initNameTask)
+        etIntervalCount.setText(initFrecValue.toString())
 
         alertDialog = AlertDialog.Builder(ctx).setView(dialog).show()
 
@@ -90,14 +92,13 @@ class TaskDialogMaker (
         }
     }
 
-    private fun getPeriod(interval: Int) : String {
-        return when (interval){
-            0 -> "Dias"
-            1 -> "Semanas"
-            2 -> "Meses"
-            3 -> "Años"
+    private fun getPeriod(frecuency: String) : String {
+        return when (frecuency){
+            "Diariamente" -> "Dias"
+            "Semanalmente" -> "Semanas"
+            "Mensualmente" -> "Meses"
+            "Anualmente" -> "Años"
             else -> "desconocido"
         }
     }
-
 }

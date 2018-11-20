@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.ViewFlipper
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.storage.db.entities.Task
 
 
-class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : RecyclerView.Adapter<TaskAdapter.ViewHolderTasks>() {
+class TaskAdapter(private val switchFlipper: (Int) -> Unit) :
+        RecyclerView.Adapter<TaskAdapter.ViewHolderTasks>() {
+
+    private var dataset: List<Task> = listOf()
 
     var selectedItems: MutableList<Task> = arrayListOf()
-    var recycler: RecyclerView? = null
-    //var item : Task? = null
+    private var recycler: RecyclerView? = null
 
     class ViewHolderTasks(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.task_name)
@@ -32,43 +34,35 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTasks {
         recycler = parent as RecyclerView
         val view = LayoutInflater.from(parent.context).inflate(R.layout.task_view, parent, false)
-        return ViewHolderTasks(view).listen { position, type ->
+        return ViewHolderTasks(view).listen { position, _ ->
             val item = dataset[position]
             // Verifico si el elemento ya se selecciono anteriormente
             // Si existe, lo quito de la lista y su color de fondo vuelve a la normalidad
-            if (selectedItems.filter { task -> task.id == item.id }.size == 1) {
+            if (selectedItems.count { it.id == item.id } == 1) {
                 selectedItems.remove(item)
                 view.setBackgroundColor(ContextCompat.getColor(parent.context, R.color.colorBackgroundTask))
             } else {
                 selectedItems.add(item)
                 view.setBackgroundColor(ContextCompat.getColor(parent.context, R.color.selectedTask))
             }
-
-            val vf: ViewFlipper = fg.findViewById(R.id.vf_task_options)
-            vf.setFlipInterval(0)
-            vf.inAnimation = null
-            vf.outAnimation = null
-            vf.displayedChild =
-                    when (selectedItems.size) {
-                        0 -> 0
-                        1 -> 1
-                        else -> 2
-                    }
+            switchFlipper(when (selectedItems.size) {
+                0 -> 0
+                1 -> 1
+                else -> 2
+            })
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolderTasks, position: Int) {
         val t = dataset[position]
         holder.name.text = t.name
-        holder.interval.text = "Durante ${t.iterations} ${getPeriod(t.interval)}"
-        holder.assigned.text = t.responsible
+        holder.interval.text = "Durante ${t.frecValue} ${getPeriod(t.frecType)}"
+        holder.assigned.text = t.responsibleId
     }
 
     override fun getItemCount(): Int = dataset.size
 
-    /**
-     * Funcion que sirve deseleccionar las tareas marcadas
-     */
+    // Funcion que sirve deseleccionar las tareas marcadas
     fun deselectTask() {
         val iterator = selectedItems.iterator()
         while (iterator.hasNext()){
@@ -86,10 +80,7 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
     }
 
 
-
-    /**
-     * Eliminar una tarea
-     */
+    // Eliminar una tarea
     fun deleteTasks() {
         for (selec in selectedItems) {
             for ((index, item) in dataset.withIndex()) {
@@ -97,7 +88,7 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
                     val itemView = recycler?.layoutManager?.findViewByPosition(index)
                     itemView?.setBackgroundColor(ContextCompat
                             .getColor(recycler!!.context, R.color.colorBackgroundTask))
-                    dataset.remove(item)
+                    dataset = dataset.filter { it.id != item.id }
                     break
                 }
             }
@@ -105,12 +96,17 @@ class TaskAdapter(private var dataset: ArrayList<Task>, private val fg: View) : 
         selectedItems = arrayListOf()
     }
 
-    private fun getPeriod(interval: Int) : String {
-        return when (interval){
-            0 -> "Dias"
-            1 -> "Semanas"
-            2 -> "Meses"
-            3 -> "Años"
+    fun setDataset(ds: List<Task>): TaskAdapter {
+        dataset = ds
+        return this
+    }
+
+    private fun getPeriod(frecuency: String?) : String {
+        return when (frecuency){
+            "Diariamente" -> "Dias"
+            "Semanalmente" -> "Semanas"
+            "Mensualmente" -> "Meses"
+            "Anualmente" -> "Años"
             else -> "desconocido"
         }
     }

@@ -5,6 +5,8 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.botigocontigo.alfred.google.GoogleSearchResult
+import com.botigocontigo.alfred.google.GoogleSearchResultsHandler
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -21,7 +23,7 @@ class BackendApiService(context: Context) {
                     resultsHandler.success(results)
                 },
                 Response.ErrorListener {
-                    resultsHandler.error()
+                    //resultsHandler.error()
                 })
         queue.add(stringRequest)
     }
