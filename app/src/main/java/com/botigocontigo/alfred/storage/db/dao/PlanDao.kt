@@ -15,9 +15,6 @@ interface PlanDao {
     @Query("DELETE FROM plans")
     fun deleteAllRows()
 
-    @Query("UPDATE SQLITE_SEQUENCE SET seq = 1 WHERE name = 'plans'")
-    fun clearPrimaryKey();
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg plan: Plan)
 

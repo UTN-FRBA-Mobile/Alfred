@@ -18,9 +18,6 @@ interface TaskDao {
     @Query("DELETE FROM tasks")
     fun deleteAllRows()
 
-    @Query("UPDATE SQLITE_SEQUENCE SET seq = 1 WHERE name = 'tasks'")
-    fun clearPrimaryKey()
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg task: Task)
 

@@ -2,11 +2,14 @@ package com.botigocontigo.alfred.storage.db.entities
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "tasks")
 data class Task(
+        @PrimaryKey(autoGenerate = false)
+        @ColumnInfo(name = "id")
+        var id: Int = 0,
+
         @ColumnInfo(name = "name")
         var name: String?,
 
@@ -27,8 +30,4 @@ data class Task(
 
         @ColumnInfo(name = "plan_id")
         var planId: Int?
-) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0
-}
+)

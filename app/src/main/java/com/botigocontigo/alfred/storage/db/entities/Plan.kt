@@ -3,9 +3,17 @@ package com.botigocontigo.alfred.storage.db.entities
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
+import com.botigocontigo.alfred.storage.db.converters.DateConverter
+import java.util.Date
 
 @Entity(tableName = "plans")
+@TypeConverters(DateConverter::class)
 data class Plan(
+        @PrimaryKey(autoGenerate = false)
+        @ColumnInfo(name = "id")
+        var id: Int = 0,
+
         @ColumnInfo(name = "name")
         var name: String,
 
@@ -19,9 +27,5 @@ data class Plan(
         var userEmail: String?,
 
         @ColumnInfo(name = "create_at")
-        var createdDate: Int?
-) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0
-}
+        var createdDate: Date?
+)

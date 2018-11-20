@@ -22,6 +22,7 @@ import com.botigocontigo.alfred.tasks.TaskDialogMaker
 import kotlinx.android.synthetic.main.dialog_form_task.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 class TasksFragment : Fragment() {
 
@@ -51,22 +52,18 @@ class TasksFragment : Fragment() {
         vfrag = inflater.inflate(R.layout.fragment_tasks, container, false)
 
         doAsync {
-            planDao.deleteAllRows()
-            planDao.clearPrimaryKey()
             planDao.insertAll(
-                    Plan("Plan de Capacitacion", "Aprendizaje", "Hugo", "hugos@f.com", 57554),
-                    Plan("Plan de Negocio", "Rentabilidad", "Carlos", "carl25@ww.com", 5496554),
-                    Plan("Plan de Ejercitacion", "Salud", "Norma", "normal@qq.com", 57554)
+                    Plan(1, "Plan de Capacitacion", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000)),
+                    Plan(2, "Plan de Negocio", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000)),
+                    Plan(3, "Plan de Ejercitacion", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
             )
 
-            taskDao.deleteAllRows()
-            taskDao.clearPrimaryKey()
             taskDao.insertAll(
-                    Task("Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false, 3),
-                    Task("Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false, 2),
-                    Task("Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false, 1),
-                    Task("Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false, 2),
-                    Task("Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false, 3)
+                    Task(1, "Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false, 3),
+                    Task(2, "Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false, 2),
+                    Task(3, "Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false, 1),
+                    Task(4, "Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false, 2),
+                    Task(5, "Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false, 3)
             )
             Log.i("Menu", "Inicio")
             Log.i("Plans count", planDao.getAll().size.toString())
