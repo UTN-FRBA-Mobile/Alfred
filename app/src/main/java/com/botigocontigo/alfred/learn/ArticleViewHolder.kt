@@ -1,7 +1,6 @@
 package com.botigocontigo.alfred.learn
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -18,33 +17,34 @@ class ArticleViewHolder  (var view: View) : RecyclerView.ViewHolder(view) {
     private var favoriteImage: ImageView = view.imgFavorite
     private var context: Context = view.context
 
+    private var favorite = false
+
     fun bind(article: Article) {
         titleText.text = article.title
         bodyText.text = article.body
         val imageUrl = article.imageUrl
         Picasso.get().load(imageUrl).into(previewImage)
-        fetchFavoriteStatus(article)
         view.setOnClickListener { changeFavoriteStatus(article) }
+        fetchFavoriteStatus(article)
     }
 
     private fun changeFavoriteStatus(article: Article) {
         val repository = Services(context).roomArticleRepository()
-        if(article.favorite)
-            repository.deleteArticle(article)
-        else
-            repository.saveArticle(article)
-        fetchFavoriteStatus(article)
+        if (favorite) repository.deleteArticle(article)
+        else repository.saveArticle(article)
+        showFavoriteStatus()
     }
 
     private fun fetchFavoriteStatus(article: Article) {
-        val isFavorite = Services(context).roomArticleRepository().isPresent(article)
-        article.favorite = isFavorite
-        if(article.favorite) {
-            favoriteImage.setImageResource(R.mipmap.star)
-        } else {
-            favoriteImage.setImageResource(R.mipmap.star_translucent)
-        }
+        val repository = Services(context).roomArticleRepository()
+        val isPresent = repository.isPresent(article)
+        favorite = isPresent
+        showFavoriteStatus()
+    }
 
+    private fun showFavoriteStatus() {
+        if(favorite) favoriteImage.setImageResource(R.mipmap.star)
+        else favoriteImage.setImageResource(R.mipmap.star_translucent)
     }
 
 }

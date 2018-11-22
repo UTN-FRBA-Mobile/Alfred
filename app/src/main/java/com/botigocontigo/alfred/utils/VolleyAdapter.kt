@@ -19,7 +19,9 @@ class VolleyAdapter(val context: Context) : NetworkingAdapter {
         val method = getMethod(methodName)
         val stringRequest = StringRequest(method, fullUrl,
                 Response.Listener<String> { response: String -> callbacks.success(response) },
-                Response.ErrorListener { callbacks.error() })
+                Response.ErrorListener {
+                    callbacks.error()
+                })
         val queue = getQueue(queueName)
         queue.add(stringRequest)
     }

@@ -79,4 +79,8 @@ class Services(private val context: Context) {
         return IntelligentArticleRepository(repositories)
     }
 
+    fun currentUser(): User {
+        return User() // TODO real user
+    }
+
 }
