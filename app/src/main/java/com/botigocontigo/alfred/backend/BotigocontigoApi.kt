@@ -17,6 +17,13 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
+    fun loginUser(email: String, password: String): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.login")
+        request.put("email", email)
+        request.put("password", password)
+        return request
+    }
+
     fun learnQuery(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.query")
         applyPermissions(request)
