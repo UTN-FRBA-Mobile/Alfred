@@ -9,6 +9,14 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
     // usage example:
     // api.learnQuery().call(callbacks)
 
+    fun registerUser(email: String, password: String, name: String): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.RegisterUser")
+        request.put("email", email)
+        request.put("password", password)
+        request.put("name", name)
+        return request
+    }
+
     fun learnQuery(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.query")
         applyPermissions(request)
