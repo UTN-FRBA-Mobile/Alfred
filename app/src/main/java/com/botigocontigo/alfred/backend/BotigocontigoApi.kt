@@ -3,6 +3,7 @@ package com.botigocontigo.alfred.backend
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
+import org.json.JSONObject
 
 class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
 
@@ -27,6 +28,14 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
     fun learnQuery(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.query")
         applyPermissions(request)
+        return request
+    }
+
+    fun favouritesSave(title: String, description: String, link: String): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.insertFavourite")
+        applyPermissions(request)
+        val favouriteJSONObject= "{ \"title\": $title, \"description\": $description, \"link\": $link }"
+        request.put("userId", favouriteJSONObject)
         return request
     }
 
