@@ -9,6 +9,7 @@ class GoogleSearchArticlesDispatcher(private val query: String,
                                      private val articlesHandler: ArticlesHandler) : GoogleSearchCallbacks() {
 
     override fun successWithParsedResults(results: List<GoogleSearchResult>) {
+        articlesHandler.searchSuccessful()
         for(result in results) {
             val article = buildArticle(result)
             articlesHandler.handleArticle(article)

@@ -12,6 +12,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
     override fun search(query: String, handler: ArticlesHandler) {
         //executor.execute {
             val results = articleDao.getAllByText(query)
+            handler.searchSuccessful()
             for (result in results) {
                 val article = buildArticle(result)
                 handler.handleArticle(article)

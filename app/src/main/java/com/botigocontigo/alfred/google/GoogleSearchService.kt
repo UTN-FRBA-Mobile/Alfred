@@ -8,7 +8,9 @@ class GoogleSearchService(private val googleApi: GoogleApi) {
     }
 
     private fun getRawQuery(query: String) : String {
-        return query.replace(' ', '+')
+        return query
+                .replace("\"", "")
+                .replace(' ', '+')
     }
 
 }

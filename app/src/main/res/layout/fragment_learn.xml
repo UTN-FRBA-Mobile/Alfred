@@ -6,7 +6,11 @@
     android:background="#FFF"
     android:padding="10dp">
 
-    <include layout="@layout/content_learn" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainContainer">
 
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>
 
