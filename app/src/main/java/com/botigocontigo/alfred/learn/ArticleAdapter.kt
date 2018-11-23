@@ -8,8 +8,7 @@ import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import java.lang.RuntimeException
 
-class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHolder>(), ArticlesHandler {
-    private val articles: ArrayList<Article> = ArrayList()
+class ArticleAdapter (val context: Context, private val articles: ArrayList<Article>) : RecyclerView.Adapter<ArticleViewHolder>() {
 
     override fun getItemCount(): Int {
         return articles.size
@@ -20,23 +19,8 @@ class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHo
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val article = articles.get(position)
+        val article = articles[position]
         holder?.bind(article)
-    }
-
-    // ArticlesHandler methods
-
-    override fun handleArticle(article: Article) {
-        articles.add(article)
-        notifyDataSetChanged()
-    }
-
-    override fun error(query: String) {
-        articles.clear()
-    }
-
-    override fun searchSuccessful() {
-        articles.clear()
     }
 
 }

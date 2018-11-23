@@ -1,6 +1,5 @@
 package com.botigocontigo.alfred.learn
 
-import com.botigocontigo.alfred.Services
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 
 class LearnQueryCallbacks(private val learnFragment: LearnFragment) : AsyncTaskCallbacks<String>() {

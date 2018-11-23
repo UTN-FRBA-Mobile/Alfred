@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.content_learn.view.*
 
 class ArticlesFragment : Fragment(), ArticlesHandler {
     private var adapter: ArticleAdapter? = null
+    private val articles = ArrayList<Article>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -21,21 +22,24 @@ class ArticlesFragment : Fragment(), ArticlesHandler {
         val context = inflater.context
         val articleList = viewFragment.articleList!!
         articleList.layoutManager = LinearLayoutManager(context)
-        adapter = ArticleAdapter(context)
+        adapter = ArticleAdapter(context, articles)
         articleList.adapter = adapter
         return viewFragment
     }
 
     override fun searchSuccessful() {
-        adapter?.searchSuccessful()
+        articles.clear()
+        adapter?.notifyDataSetChanged()
     }
 
     override fun handleArticle(article: Article) {
-        adapter!!.handleArticle(article)
+        articles.add(article)
+        adapter?.notifyDataSetChanged()
     }
 
     override fun error(query: String) {
-        adapter!!.error(query)
+        articles.clear()
+        adapter?.notifyDataSetChanged()
     }
 
 }
