@@ -9,7 +9,6 @@ import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import java.lang.RuntimeException
 
 class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHolder>(), ArticlesHandler {
-
     private val articles: ArrayList<Article> = ArrayList()
 
     override fun getItemCount(): Int {
@@ -33,7 +32,11 @@ class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHo
     }
 
     override fun error(query: String) {
-        throw RuntimeException("Something went wrong fetching articles of query: $query")
+        articles.clear()
+    }
+
+    override fun searchSuccessful() {
+        articles.clear()
     }
 
 }

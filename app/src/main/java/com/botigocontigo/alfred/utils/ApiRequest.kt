@@ -8,7 +8,7 @@ open class ApiRequest(private val api: Api,
 
     override fun execute(callbacks: AsyncTaskCallbacks<String>) {
         val pathWithParams = getPathWithParams()
-        api.enqueue(methodName, pathWithParams , callbacks)
+        api.enqueue(methodName, pathWithParams, callbacks)
     }
 
     fun put(key: String, value: String) : ApiRequest {
