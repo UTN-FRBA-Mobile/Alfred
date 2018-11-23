@@ -39,6 +39,12 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
+    fun favouritesGetAll(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getFavourites")
+        applyPermissions(request)
+        return request
+    }
+
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
         request.put("userId", userId)
