@@ -13,13 +13,13 @@ class RoomArticle {
     @ColumnInfo(name = "title")
     private var title: String? = null
 
-    @ColumnInfo(name = "body")
+    @ColumnInfo(name = "description")
     private var body: String? = null
 
     @ColumnInfo(name = "image_url")
     private var imageUrl: String? = null
 
-    @ColumnInfo(name = "url")
+    @ColumnInfo(name = "link")
     private var url: String? = null
 
     fun getUid(): Int? {

@@ -3,8 +3,6 @@ package com.botigocontigo.alfred.learn.repositories.room
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRepository {
     //private val executor: Executor = Executors.newFixedThreadPool(2)
@@ -30,7 +28,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
     }
 
     fun isPresent(article: Article) : Boolean {
-        val url = article.url
+        val url = article.link
         val count = articleDao.urlCount(url)
         return count > 0
     }
@@ -38,9 +36,9 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
     fun saveArticle(article: Article) {
         var element = RoomArticle()
         element.setTitle(article.title)
-        element.setBody(article.body)
+        element.setBody(article.description)
         element.setImageUrl(article.imageUrl)
-        element.setUrl(article.url)
+        element.setUrl(article.link)
         articleDao.insertAll(element)
     }
 
@@ -53,7 +51,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
     }
 
     fun deleteArticle(article: Article) {
-        val url = article.url
+        val url = article.link
         articleDao.deleteByUrl(url)
     }
 
