@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
+import { Favourites } from '../../../../lib/schemas/favourites';
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -9,6 +10,9 @@ if (Meteor.isServer) {
     * email
     * password
     * name
+    * RETURNS
+    * success (Boolean)
+    * error or userId
     */
     'api.RegisterUser'(data) {
       console.log("Called api.RegisterUser");
@@ -68,14 +72,25 @@ if (Meteor.isServer) {
           }
         });
         
-        return newUserId;
+        return {
+          success: true,
+          newUserId: newUserId
+        };
       } catch (exception) {
         validationsHelper.parseMongoError(exception);
-        return exception;
+        return {
+          success: false,
+          error: exception
+        };
       }
     },
+
+    /*
+    * REQUIRES: 
+    * userId
+    */
     'api.query'(data) {
-      console.log("=== Calling search.query ===");
+      console.log("=== Calling api.query ===");
       const mvpLast = Mvps.findOne({userId: data.userId})
       console.log("MVP Found");
       console.log(JSON.stringify(mvpLast));
@@ -99,6 +114,143 @@ if (Meteor.isServer) {
       console.log(`Final Query: ${finalQuery}`);
       return finalQuery;
     },
+    /*
+    * REQUIRES: 
+    * email
+    * password
+    * RETURNS:
+    * success (Boolean)
+    * error or userData
+    */
+    'api.login'(data) {
+      console.log("=== Calling api.login ===");
+      //TODO password must be Bcripted in App? Or at least use SHA256
+      Meteor.loginWithPassword(data.email, data.password, (err) => {
+        if (err) {
+          validationsHelper.displayServerError(err);
+          return {
+            success: false,
+            error: TAPi18n.__('error.login')
+          };
+        } else {
+          const existingUser = Meteor.users.findOne({'emails.address': data.email});
+          return {
+            success: true,
+            userData: existingUser
+          };
+        }
+      });
+    },
+    /*
+    * REQUIRES: 
+    * userId
+    * selectedAnswers (array)
+    * questionNumber (Integer)
+    * hasEndedInterview (Boolean)
+    * RETURNS:
+    * success (Boolean)
+    * error or userId
+    */
+    'api.saveTraits'(data) {
+      console.log("=== Calling api.saveTraits ===");
+      const userID = data.userId;
+      const selectedAnswers = data.selectedAnswers;
+      const questionNumber = data.questionNumber;
+      const hasEndedInterview = data.hasEndedInterview;
+      try {
+        const userToUpdate = Meteor.users.findOne({ _id: userID });
 
+        if (!userToUpdate) {
+          throw new Meteor.Error('user-not-found');
+        }
+
+        console.log("inside saveTraits");
+
+        Meteor.users.update({_id: userID}, {$set: {'personalInformation.currentQuestionNumber': questionNumber}});
+
+        Meteor.users.update({_id: userID}, {$addToSet: { goals: { $each: selectedAnswers.goals }}});
+        Meteor.users.update({_id: userID}, {$addToSet: { contributions: { $each: selectedAnswers.contributions }}});
+        Meteor.users.update({_id: userID}, {$addToSet: { identity_traits: { $each: selectedAnswers.identity_traits }}});
+        Meteor.users.update({_id: userID}, {$addToSet: { perpetual_identity: { $each: selectedAnswers.perpetual_identity }}});
+        
+        if (hasEndedInterview && Roles.userIsInRole(Meteor.userId(), ['entrepreneur']) &&
+          Meteor.user() && Meteor.user().personalInformation.status === 'pendingChatbot') {
+          Meteor.users.update({_id: userID}, {$set: {'personalInformation.status': 'pendingPlans'}});
+        }
+
+        console.log('traits saved');
+        return {
+          success: true,
+          userId: userID
+        }
+      } catch (exception) {
+        console.log(exception);
+        return {
+          success: false,
+          error: exception
+        }
+      }
+    },
+    /*
+    * REQUIRES: 
+    * userId
+    * favourite (JSON with title, description and link)
+    * RETURNS:
+    * success (Boolean)
+    * error or favorites (array)
+    */
+    'api.insertFavourite'(data) {
+      console.log("=== Calling api.insertFavourite ===");
+      try {
+        const allFavorites = Favourites.insertFavourite(data.favourite, data.userId);
+        return {
+          success: true,
+          favorites: allFavorites
+        };
+      } catch (exception) {
+        console.error("=== ERROR on api.insertFavourite ===");
+        console.error(exception);
+        console.trace();
+        return {
+          success: false,
+          error: exception
+        };
+      }
+    },
+    //TODO sucess and error
+    'api.getFavourites'(data) {
+      console.log("Started api.getFavourites");
+      try {
+        const allFavourites = Favourites.get(data.userId);
+        return allFavourites;
+      } catch (exception) {
+        console.error("=== ERROR on api.getFavourites ===");
+        console.error(exception);
+        console.trace();
+        throw exception;
+      }
+    },
+    //TODO sucess and error
+    'api.insertPlanList'(data) {
+      console.log("=== Calling api.insertPlanList ===");
+      try {
+        const newPlanId = UserTasks.insertPlanList(data.plans, data.userId);
+        return newPlanId;
+      } catch (exception) {
+        console.log(exception);
+        throw exception;
+      }
+    },
+    //TODO sucess and error
+    'api.getPlanList'(data) {
+      console.log("=== Calling api.getPlanList ===");
+      try {
+        const plansTasksFound = UserTasks.find({userId: data.userId})
+        return plansTasksFound;
+      } catch (exception) {
+        console.log(exception);
+        throw exception;
+      }
+    },
   });
 }
