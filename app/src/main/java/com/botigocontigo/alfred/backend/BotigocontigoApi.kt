@@ -57,6 +57,37 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return transformedPlans
     }
 
+    //FIXME change plans type for the real one
+    fun plansSaveAll(plans: String): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.insertPlanList")
+        applyPermissions(request)
+        //TODO transform plans to JSON object, must be like:
+        /*
+        {
+        userId,
+        userEmail,
+        businessArea,
+        type,
+        tasks: array of {
+            responsibleID,
+            supervisorID,
+            taskDescription,
+            frequency {
+                type,
+                value
+            },
+            status,
+            completed
+        }
+        }
+
+                secondaryValue,
+                */
+        val plansJSONObject= ""
+        request.put("plans", plansJSONObject)
+        return request
+    }
+
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
         request.put("userId", userId)
