@@ -45,6 +45,14 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
+    fun plansGetAll(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getPlanList")
+        applyPermissions(request)
+        val transformedPlans = request
+        //TODO transform JSON plans to Mobile Plan Class type
+        return transformedPlans
+    }
+
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
         request.put("userId", userId)
