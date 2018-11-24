@@ -12,6 +12,7 @@ import com.botigocontigo.alfred.learn.fragments.ArticlesFragment
 import com.botigocontigo.alfred.learn.fragments.BusyFragment
 import com.botigocontigo.alfred.learn.fragments.ErrorFragment
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.learn.repositories.actions.ArticleRepositoryAction
 
 
 class LearnFragment : Fragment(), ArticlesHandler {
@@ -70,7 +71,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
         articlesFragment.handleArticle(article)
     }
 
-    override fun error(query: String) {
+    override fun error(action: ArticleRepositoryAction) {
         showError("Something went wrong on phase 1")
     }
 
