@@ -224,6 +224,9 @@ if (Meteor.isServer) {
       try {
         const allFavourites = Favourites.get(data.userId);
         return allFavourites;
+        return allFavourites.favs
+                    ? allFavourites.favs 
+                    : [] ;
       } catch (exception) {
         console.error("=== ERROR on api.getFavourites ===");
         console.error(exception);
