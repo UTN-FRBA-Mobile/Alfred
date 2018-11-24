@@ -2,9 +2,11 @@ package com.botigocontigo.alfred.backend
 
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.ArticleDeserializer
+import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
@@ -52,14 +54,13 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return gson.fromJson(request.toString() , Array<Article>::class.java).toList()
     }
 
-    fun plansGetAll(): ApiRequest {
+    fun plansGetAll(): Plan {
         val request = ApiRequest(this, "post", "methods/api.getPlanList")
         applyPermissions(request)
-        //TODO transform JSON plans to Mobile Plan Class type using GSON, example:
-//        val gson = Gson()
-//        val person1 : Person = gson.fromJson(json, Person::class.java)
-        val transformedPlans = request
-        return transformedPlans
+
+        val gson = Gson()
+        //FIXME I think this need to be serialized or some help transforming the array of tasks from the JSON
+        return gson.fromJson(request.toString(), Plan::class.java)
     }
 
     //FIXME change plans type for the real one
