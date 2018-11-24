@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.backend
 
+import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
@@ -42,8 +43,11 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
     }
 
     fun favouritesGetAll(): ApiRequest {
+        val gson = Gson()
         val request = ApiRequest(this, "post", "methods/api.getFavourites")
         applyPermissions(request)
+        val favouriteList: List<Article> = gson.fromJson(request , Array<Article>::class.java).toList()
+
         return request
     }
 
