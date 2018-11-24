@@ -51,7 +51,7 @@ class Services(private val context: Context) {
 
     private val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `Article` ADD link varchar")
+            database.execSQL("ALTER TABLE `Article` ADD url varchar")
         }
     }
 
@@ -75,7 +75,7 @@ class Services(private val context: Context) {
     fun intelligentArticleRepository(): IntelligentArticleRepository {
         val repositories = ArrayList<ArticleRepository>()
         repositories.add(googleArticleRepository())
-        repositories.add(roomArticleRepository())
+        // repositories.add(roomArticleRepository())
         return IntelligentArticleRepository(repositories)
     }
 
