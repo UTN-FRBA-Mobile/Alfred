@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
 import { Favourites } from '../../../../lib/schemas/favourites';
+import { Swots } from '../../../../lib/schemas/swot';
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -250,6 +251,26 @@ if (Meteor.isServer) {
       } catch (exception) {
         console.log(exception);
         throw exception;
+      }
+    },
+    'api.saveSwot'(data) {
+      console.log("=== Calling api.saveSwot ===");
+      try {
+        const newSwotId = Swots.insertSwot(data.swot, data.userId);
+        return newSwotId;
+      } catch (exception) {
+        console.log(exception);
+        return exception;
+      }
+    },
+    'api.getSwot'(data) {
+      console.log("=== Calling api.getSwot ===");
+      try {
+        const swotFound = Swots.getSwot(data.userId);
+        return swotFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
       }
     },
   });
