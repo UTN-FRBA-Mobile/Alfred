@@ -75,7 +75,7 @@ class Services(private val context: Context) {
     fun intelligentArticleRepository(): IntelligentArticleRepository {
         val repositories = ArrayList<ArticleRepository>()
         repositories.add(googleArticleRepository())
-        // repositories.add(roomArticleRepository())
+        repositories.add(roomArticleRepository())
         return IntelligentArticleRepository(repositories)
     }
 
