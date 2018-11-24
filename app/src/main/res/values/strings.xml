@@ -39,6 +39,18 @@
         <item name="year">Años</item>
     </string-array>
 
+    <string-array name="valores_riesgos">
+        <item name="Alta">Alta</item>
+        <item name="Media">Media</item>
+        <item name="Baja">Baja</item>
+    </string-array>
+
+    <string-array name="impacto_riesgo">
+        <item name="Alto">Alto</item>
+        <item name="Medio">Medio</item>
+        <item name="Bajo">Bajo</item>
+    </string-array>
+
 
     <!-- AREAS -->
 
