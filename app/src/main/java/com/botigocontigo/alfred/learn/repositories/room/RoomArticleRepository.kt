@@ -46,14 +46,14 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
     private fun buildArticle(element: RoomArticle) : Article {
         val title = element.getTitle()
         val body = element.getDescription()
+        val link = element.getLink()
         val imageUrl = element.getImageUrl()
-        val url = element.getLink()
-        return Article(title, body, imageUrl!!, url)
+        return Article(title, body, link, imageUrl!!)
     }
 
     fun deleteArticle(article: Article) {
-        val url = article.link
-        articleDao.deleteByLink(url)
+        val link = article.link
+        articleDao.deleteByLink(link)
     }
 
 }

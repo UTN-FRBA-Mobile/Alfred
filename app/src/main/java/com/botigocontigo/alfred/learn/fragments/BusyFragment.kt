@@ -18,4 +18,9 @@ class BusyFragment : Fragment() {
         return viewFragment
     }
 
+    fun updateText(text: String) {
+        this.text = text
+        view?.textView?.text = text
+    }
+
 }
