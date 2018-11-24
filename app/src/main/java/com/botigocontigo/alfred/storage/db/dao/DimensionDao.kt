@@ -24,4 +24,8 @@ interface DimensionDao {
 
     @Delete
     fun deleteAll(vararg dimension: Dimension)
+
+    @Update
+    fun update(entity: Dimension)
+
 }
