@@ -21,7 +21,7 @@ class ArticleViewHolder  (var view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(article: Article) {
         titleText.text = article.title
-        bodyText.text = article.body
+        bodyText.text = article.description
         val imageUrl = article.imageUrl
         Picasso.get().load(imageUrl).into(previewImage)
         view.setOnClickListener { changeFavoriteStatus(article) }

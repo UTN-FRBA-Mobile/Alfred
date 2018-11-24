@@ -1,11 +1,14 @@
 package com.botigocontigo.alfred.backend
 
+import com.botigocontigo.alfred.learn.Article
+import com.botigocontigo.alfred.learn.ArticleDeserializer
+import com.botigocontigo.alfred.storage.db.entities.Plan
+import com.botigocontigo.alfred.tasks.PlanDeserializer
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
 
@@ -41,27 +44,35 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun favouritesGetAll(): ApiRequest {
+    fun favouritesGetAll(): List<Article> {
         val request = ApiRequest(this, "post", "methods/api.getFavourites")
         applyPermissions(request)
-        return request
+
+        val gsonBuilder = GsonBuilder().serializeNulls()
+        gsonBuilder.registerTypeAdapter(Article::class.java, ArticleDeserializer())
+        val gson = gsonBuilder.create()
+
+        return gson.fromJson(request.toString() , Array<Article>::class.java).toList()
     }
 
-    fun plansGetAll(): ApiRequest {
+    fun plansGetAll(): List<Plan> {
         val request = ApiRequest(this, "post", "methods/api.getPlanList")
         applyPermissions(request)
-        //TODO transform JSON plans to Mobile Plan Class type using GSON, example:
-//        val gson = Gson()
-//        val person1 : Person = gson.fromJson(json, Person::class.java)
-        val transformedPlans = request
-        return transformedPlans
+
+        val gsonBuilder = GsonBuilder().serializeNulls()
+        gsonBuilder.registerTypeAdapter(Plan::class.java, PlanDeserializer())
+        val gson = gsonBuilder.create()
+
+        return gson.fromJson(request.toString() , Array<Plan>::class.java).toList()
     }
 
-    //FIXME change plans type for the real one
-    fun plansSaveAll(plans: String): ApiRequest {
+
+    fun plansSaveAll(plans: Array<Plan>): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertPlanList")
         applyPermissions(request)
-        //TODO transform plans to JSON object, must be like:
+
+        //FIXME I think this need to be serialized or transform the array of tasks to a JSON
+        //This transform plans to JSON object, like:
         /*
         {
         userId,
@@ -83,7 +94,8 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
 
                 secondaryValue,
                 */
-        val plansJSONObject= ""
+        val gson = Gson()
+        val plansJSONObject= gson.toJson(plans)
         request.put("plans", plansJSONObject)
         return request
     }
