@@ -17,11 +17,11 @@ class FodaFragment : Fragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
 
-    val arrayOfStrengths = arrayOf("fortaleza1", "fortaleza2", "fortaleza3", "fortaleza4", "fortaleza5")
-    val arrayOfOpportunities = arrayOf("oportunidad1", "oportunidad2", "oportunidad3", "oportunidad4", "oportunidad5")
-    val arrayOfWeaknesses = arrayOf("debilidad1", "debilidad2", "debilidad2", "debilidad2", "debilidad2")
-    val arrayOfThreats = arrayOf("amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1")
-    val dimensions = arrayOf(
+    var arrayOfStrengths = arrayOf("fortaleza1", "fortaleza2", "fortaleza3", "fortaleza4", "fortaleza5")
+    var arrayOfOpportunities = arrayOf("oportunidad1", "oportunidad2", "oportunidad3", "oportunidad4", "oportunidad5")
+    var arrayOfWeaknesses = arrayOf("debilidad1", "debilidad2", "debilidad2", "debilidad2", "debilidad2")
+    var arrayOfThreats = arrayOf("amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1")
+    var dimensions = arrayOf(
             Dimension("Fortalezas", "Interna", arrayOfStrengths),
             Dimension("Oportunidades", "Externa", arrayOfOpportunities),
             Dimension("Debilidades", "Interna", arrayOfWeaknesses),
