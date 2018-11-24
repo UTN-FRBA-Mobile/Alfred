@@ -8,11 +8,12 @@ import com.botigocontigo.alfred.storage.db.dao.*
 import com.botigocontigo.alfred.storage.db.entities.*
 
 
-@Database(entities = [Plan::class, Task::class], version = 1)
+@Database(entities = [Plan::class, Task::class, Area::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun planDao(): PlanDao
     abstract fun taskDao(): TaskDao
+    abstract fun areaDao(): AreaDao
 
     companion object {
         private var db: AppDatabase? = null
