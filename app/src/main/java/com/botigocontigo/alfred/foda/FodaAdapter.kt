@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.storage.db.entities.Dimension
 
 
-class FodaAdapter(private val context:Context,private val dimensionsArray: Array<Dimension>): RecyclerView.Adapter<FodaAdapter.ViewHolderFoda>()  {
+class FodaAdapter(private val context:Context, private val dimensionsArray: MutableList<Dimension>): RecyclerView.Adapter<FodaAdapter.ViewHolderFoda>()  {
 
     class ViewHolderFoda(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.fodaTextView)
@@ -26,7 +27,7 @@ class FodaAdapter(private val context:Context,private val dimensionsArray: Array
     }
 
     override fun onBindViewHolder(holder: ViewHolderFoda, position: Int) {
-        holder.name.text = dimensionsArray[position].name
+        holder.name.text = dimensionsArray[position].dimension_name
         holder.type.text = dimensionsArray[position].type
         holder.listOfTips.adapter = ContentAdapter(context,dimensionsArray[position])
 
