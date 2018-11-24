@@ -223,7 +223,7 @@ if (Meteor.isServer) {
       console.log("Started api.getFavourites");
       try {
         const allFavourites = Favourites.get(data.userId);
-        return allFavourites;
+        console.log(JSON.stringify(allFavourites));
         return allFavourites.favs
                     ? allFavourites.favs 
                     : [] ;

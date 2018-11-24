@@ -8,10 +8,15 @@ const favsSchema = new SimpleSchema({
     type: String
   },
   description: {
-    type: String
+    type: String,
+    optional: true
   },
   link: {
-    type: String
+    type: String,
+  },
+  imageUrl: {
+    type: String,
+    optional: true
   }
 });
 
@@ -32,8 +37,8 @@ const favouritesSchema = new SimpleSchema({
   }
 });
 
-Favourites.insertFavourite = (aFav) => {
-  const favouriteFound = Favourites.findOne({userId: Meteor.userId()});
+Favourites.insertFavourite = (aFav, userId = Meteor.userId()  ) => {
+  const favouriteFound = Favourites.findOne({userId: userId});
     if (favouriteFound) {
       Favourites.update({_id: favouriteFound._id}, {$push: {favs: aFav}});
       return favouriteFound;
@@ -41,14 +46,14 @@ Favourites.insertFavourite = (aFav) => {
       const newFavourite = {
         favs: [aFav]
       };
-      newFavourite.userId = Meteor.userId();
+      newFavourite.userId = userId;
       Favourites.insert(newFavourite);
-      return Favourites.findOne({userId: Meteor.userId()});
+      return Favourites.findOne({userId: userId});
     }
 };
 
-Favourites.get = () => {
-  favouriteFound = Favourites.findOne({userId: Meteor.userId()});
+Favourites.get = (userId = Meteor.userId() ) => {
+  favouriteFound = Favourites.findOne({userId: userId});
   return favouriteFound
           ? favouriteFound
           : [];
