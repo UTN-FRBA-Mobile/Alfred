@@ -1,12 +1,11 @@
 package com.botigocontigo.alfred.backend
 
 import com.botigocontigo.alfred.learn.Article
+import com.botigocontigo.alfred.learn.ArticleDeserializer
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
 
@@ -42,13 +41,15 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun favouritesGetAll(): ApiRequest {
-        val gson = Gson()
+    fun favouritesGetAll(): List<Article> {
         val request = ApiRequest(this, "post", "methods/api.getFavourites")
         applyPermissions(request)
-        val favouriteList: List<Article> = gson.fromJson(request , Array<Article>::class.java).toList()
 
-        return request
+        val gsonBuilder = GsonBuilder().serializeNulls()
+        gsonBuilder.registerTypeAdapter(Article::class.java, ArticleDeserializer())
+        val gson = gsonBuilder.create()
+
+        return gson.fromJson(request.toString() , Array<Article>::class.java).toList()
     }
 
     fun plansGetAll(): ApiRequest {
