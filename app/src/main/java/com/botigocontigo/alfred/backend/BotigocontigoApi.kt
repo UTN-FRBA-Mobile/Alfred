@@ -97,7 +97,8 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
 
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
-        request.put("userId", userId)
+        val body = "{\"userId\":\"$userId\"}"
+        request.body = body
     }
 
     override fun getUrl(path: String): String {
