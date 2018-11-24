@@ -14,13 +14,13 @@ class RoomArticle {
     private var title: String? = null
 
     @ColumnInfo(name = "description")
-    private var body: String? = null
+    private var description: String? = null
 
     @ColumnInfo(name = "image_url")
     private var imageUrl: String? = null
 
-    @ColumnInfo(name = "link")
-    private var url: String? = null
+    @ColumnInfo(name = "url")
+    private var link: String? = null
 
     fun getUid(): Int? {
         return uid
@@ -30,16 +30,16 @@ class RoomArticle {
         return title!!
     }
 
-    fun getBody(): String {
-        return body!!
+    fun getDescription(): String {
+        return description!!
     }
 
     fun getImageUrl(): String? {
         return imageUrl
     }
 
-    fun getUrl(): String {
-        return url!!
+    fun getLink(): String {
+        return link!!
     }
 
     fun setUid(value: Int) {
@@ -50,8 +50,8 @@ class RoomArticle {
         this.title = value
     }
 
-    fun setBody(value: String) {
-        this.body = value
+    fun setDescription(value: String) {
+        this.description = value
 
     }
 
@@ -59,8 +59,8 @@ class RoomArticle {
         this.imageUrl = value
     }
 
-    fun setUrl(value: String?) {
-        this.url = value
+    fun setLink(value: String?) {
+        this.link = value
     }
 
 }

@@ -30,30 +30,30 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
 
     fun isPresent(article: Article) : Boolean {
         val url = article.link
-        val count = articleDao.urlCount(url)
+        val count = articleDao.linkCount(url)
         return count > 0
     }
 
     fun saveArticle(article: Article) {
         var element = RoomArticle()
         element.setTitle(article.title)
-        element.setBody(article.description)
+        element.setDescription(article.description)
         element.setImageUrl(article.imageUrl)
-        element.setUrl(article.link)
+        element.setLink(article.link)
         articleDao.insertAll(element)
     }
 
     private fun buildArticle(element: RoomArticle) : Article {
         val title = element.getTitle()
-        val body = element.getBody()
+        val body = element.getDescription()
+        val link = element.getLink()
         val imageUrl = element.getImageUrl()
-        val url = element.getUrl()
-        return Article(title, body, imageUrl!!, url)
+        return Article(title, body, link, imageUrl!!)
     }
 
     fun deleteArticle(article: Article) {
-        val url = article.link
-        articleDao.deleteByUrl(url)
+        val link = article.link
+        articleDao.deleteByLink(link)
     }
 
 }

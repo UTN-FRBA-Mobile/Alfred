@@ -23,9 +23,9 @@ class GoogleSearchArticlesDispatcher(private val query: String,
     private fun buildArticle(result: GoogleSearchResult): Article {
         val title = result.getTitle()
         val body = result.getDescription()
-        val imageUrl = result.getImageUrl()
         val url = result.getTargetUrl()
-        return Article(title, body, imageUrl!!, url)
+        val imageUrl = result.getImageUrl()
+        return Article(title, body, url, imageUrl!!)
     }
 
 }

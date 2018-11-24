@@ -6,43 +6,63 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.storage.db.AppDatabase
+import com.botigocontigo.alfred.storage.db.dao.DimensionDao
+import com.botigocontigo.alfred.storage.db.entities.Dimension
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.util.*
+import android.provider.SyncStateContract.Helpers.update
+import com.botigocontigo.alfred.R.id.dimensions
+
+
 
 class FodaFragment : Fragment() {
 
-    private var mParam1: String? = null
+    private lateinit var dimensionDao: DimensionDao
+
     private var mParam2: String? = null
+    private var vfoda: View? = null
 
-    var arrayOfStrengths = arrayOf("fortaleza1", "fortaleza2", "fortaleza3", "fortaleza4", "fortaleza5")
-    var arrayOfOpportunities = arrayOf("oportunidad1", "oportunidad2", "oportunidad3", "oportunidad4", "oportunidad5")
-    var arrayOfWeaknesses = arrayOf("debilidad1", "debilidad2", "debilidad2", "debilidad2", "debilidad2")
-    var arrayOfThreats = arrayOf("amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1")
-    var dimensions = arrayOf(
-            Dimension("Fortalezas", "Interna", arrayOfStrengths),
-            Dimension("Oportunidades", "Externa", arrayOfOpportunities),
-            Dimension("Debilidades", "Interna", arrayOfWeaknesses),
-            Dimension("Amenazas", "Externa", arrayOfThreats)
-    )
-
+    lateinit var dimensions:MutableList<Dimension> ;
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
+            val db = AppDatabase.getInstance(context!!)
+            dimensionDao = db.dimensionDao()
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.activity_foda, container, false)
-        loadRecyclerView(view)
+        vfoda= inflater.inflate(R.layout.activity_foda, container, false)
+        doAsync {
 
-        return view
+            dimensions = dimensionDao.getAll() as MutableList<Dimension>
+
+            if (dimensions.isEmpty()) {
+                dimensionDao.insertAll(
+                        Dimension(1, "fortaleza1", "Interna", 1, "Fortalezas", Date()),
+                        Dimension(2, "oportunidad1", "Externa", 1, "Oportunidades", Date()),
+                        Dimension(3, "debilidad1", "Interna", 1, "Debilidades", Date()),
+                        Dimension(4, "amenaza1", "Externa", 1, "Amenazas", Date())
+                )
+                Log.i("Menu", "Inicio")
+                Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
+                dimensions = dimensionDao.getAll() as MutableList<Dimension>
+            }
+            uiThread {         loadRecyclerView() }
+        }
+
+
+        return vfoda
     }
 
 
@@ -52,10 +72,10 @@ class FodaFragment : Fragment() {
         }
     }
 
-    private fun loadRecyclerView(view: View) {
-        view.findViewById<RecyclerView>(R.id.recyclerFoda).apply {
+    private fun loadRecyclerView() {
+        vfoda!!.findViewById<RecyclerView>(R.id.recyclerFoda).apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
             adapter = FodaAdapter(context,dimensions)
         }
     }
@@ -91,6 +111,13 @@ class FodaFragment : Fragment() {
             return fragment
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            dimensions.forEach { dimension -> dimensionDao.update(dimension) }
+        }
     }
 
 }

@@ -28,7 +28,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
         val context = inflater.context
         val services = Services(context)
 
-        busyFragment.text = "Understanding your knowledge needs..."
+        busyFragment.updateText("Understanding your knowledge needs...")
 
         val user = services.currentUser()
         val permissions = Permissions(user)
@@ -46,14 +46,14 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
     private fun showError(message: String) {
         showFragment(errorFragment)
-        errorFragment.text = message
+        errorFragment.updateText(message)
     }
 
     // steps
 
     fun adaptativeQuerySuccess(query: String) {
-        busyFragment.text = "Fetching the best articles for you..."
-        val articleRepository = Services(context!!).intelligentArticleRepository()
+        busyFragment.updateText("Fetching the best articles for you...")
+        val articleRepository = Services(context!!).generalArticleRepository()
         articleRepository.search(query, this)
     }
 

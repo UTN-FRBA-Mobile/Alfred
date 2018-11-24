@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.EditText
+import com.botigocontigo.alfred.storage.db.entities.Dimension
 
 
 class ContentAdapter(context: Context, dimension: Dimension) : BaseAdapter() {
@@ -17,19 +18,19 @@ class ContentAdapter(context: Context, dimension: Dimension) : BaseAdapter() {
 
     init {
         fodaContext = context
-        length = dimension.array.size
+        length = 1
         actualDimension = dimension
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val editText = EditText(this.fodaContext)
-        editText.setText(this.actualDimension!!.array[position])
+        editText.setText(this.actualDimension!!.name)
         editText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotBlank()) {
                     editText.removeTextChangedListener(this)
-                    actualDimension!!.array[position] = s.toString()
+                    actualDimension!!.name = s.toString()
                     editText.addTextChangedListener(this)
                     editText.setFocusableInTouchMode(true)
                     editText.requestFocus()
