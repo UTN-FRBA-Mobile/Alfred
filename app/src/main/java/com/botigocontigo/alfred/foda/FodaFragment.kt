@@ -44,25 +44,30 @@ class FodaFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfoda= inflater.inflate(R.layout.activity_foda, container, false)
         doAsync {
-
-            dimensions = dimensionDao.getAll() as MutableList<Dimension>
-
-            if (dimensions.isEmpty()) {
-                dimensionDao.insertAll(
-                        Dimension(1, "fortaleza1", "Interna", 1, "Fortalezas", Date()),
-                        Dimension(2, "oportunidad1", "Externa", 1, "Oportunidades", Date()),
-                        Dimension(3, "debilidad1", "Interna", 1, "Debilidades", Date()),
-                        Dimension(4, "amenaza1", "Externa", 1, "Amenazas", Date())
-                )
-                Log.i("Menu", "Inicio")
-                Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
-                dimensions = dimensionDao.getAll() as MutableList<Dimension>
-            }
+            dimensions = getDimensions(1);
             uiThread {         loadRecyclerView() }
         }
 
 
         return vfoda
+    }
+
+    private fun getDimensions(i: Int): MutableList<Dimension> {
+        //esto deberia pegarle a la api
+        var newDimensions = dimensionDao.getAll() as MutableList<Dimension>
+
+        if (newDimensions.isEmpty()) {
+            dimensionDao.insertAll(
+                    Dimension(1, "fortaleza1", "Interna", 1, "Fortalezas", Date()),
+                    Dimension(2, "oportunidad1", "Externa", 1, "Oportunidades", Date()),
+                    Dimension(3, "debilidad1", "Interna", 1, "Debilidades", Date()),
+                    Dimension(4, "amenaza1", "Externa", 1, "Amenazas", Date())
+            )
+            Log.i("Menu", "Inicio")
+            Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
+            newDimensions = dimensionDao.getAll() as MutableList<Dimension>
+        }
+    return newDimensions;
     }
 
 
@@ -117,6 +122,7 @@ class FodaFragment : Fragment() {
         super.onDestroyView()
         doAsync {
             dimensions.forEach { dimension -> dimensionDao.update(dimension) }
+            //post to API
         }
     }
 
