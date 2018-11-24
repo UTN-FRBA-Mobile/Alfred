@@ -10,16 +10,16 @@ interface RoomArticleDao {
     @Query("SELECT * FROM article")
     fun getAll(): List<RoomArticle>
 
-    @Query("SELECT * FROM article WHERE title LIKE :text OR body LIKE :text")
+    @Query("SELECT * FROM article WHERE title LIKE :text OR description LIKE :text")
     fun getAllByText(text: String): List<RoomArticle>
 
     @Insert
     fun insertAll(vararg articles: RoomArticle)
 
-    @Query("SELECT COUNT(1) FROM article WHERE url = :url")
+    @Query("SELECT COUNT(1) FROM article WHERE link = :link")
     fun urlCount(url: String) : Int
 
-    @Query("DELETE FROM article WHERE url = :url")
+    @Query("DELETE FROM article WHERE link = :link")
     fun deleteByUrl(url: String)
 
 }
