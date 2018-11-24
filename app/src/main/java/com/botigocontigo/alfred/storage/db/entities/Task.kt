@@ -26,9 +26,8 @@ data class Task(
         var supervisorId: String?,
 
         @ColumnInfo(name = "completed")
-        var completed: Boolean?
-//        ,
-//
-//        @ColumnInfo(name = "plan_id")
-//        var planId: Int?
+        var completed: Boolean?,
+
+        @ColumnInfo(name = "plan_id")
+        var planId: Int?
 )

@@ -13,12 +13,6 @@ interface PlanDao {
     @Query("SELECT * FROM plans WHERE id = :planId")
     fun findById(planId: Int): Plan
 
-    @Query("SELECT tareas FROM plans WHERE id = :planId")
-    fun findTasksById(planId: Int): List<Task>
-
-    @Query("UPDATE plans SET tareas = :tasks WHERE id = :planId")
-    fun updateTasksFromPlan(planId: Int, tasks: List<Task>)
-
     @Query("DELETE FROM plans")
     fun deleteAllRows()
 

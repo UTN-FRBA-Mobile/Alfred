@@ -5,11 +5,10 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 import com.botigocontigo.alfred.storage.db.converters.DateConverter
-import com.botigocontigo.alfred.storage.db.converters.TaskConverter
 import java.util.Date
 
 @Entity(tableName = "plans")
-@TypeConverters(DateConverter::class, TaskConverter::class)
+@TypeConverters(DateConverter::class)
 data class Plan(
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "id")
@@ -28,8 +27,5 @@ data class Plan(
         var userEmail: String?,
 
         @ColumnInfo(name = "create_at")
-        var createdDate: Date?,
-
-        @ColumnInfo(name = "tareas")
-        var tasks: List<Task>? = listOf()
+        var createdDate: Date?
 )

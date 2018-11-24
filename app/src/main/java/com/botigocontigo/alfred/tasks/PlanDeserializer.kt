@@ -1,7 +1,6 @@
 package com.botigocontigo.alfred.tasks
 
 import com.botigocontigo.alfred.learn.Article
-import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -24,7 +23,7 @@ class PlanDeserializer  : JsonDeserializer<Plan> {
                 jsonObject.get("userId").asString,
                 jsonObject.get("userEmail").asString,
                 dateFormated
-                //FIXME serialize all plans when Erik adds the field
+//                jsonObject.get("tasks").
         )
     }
 
