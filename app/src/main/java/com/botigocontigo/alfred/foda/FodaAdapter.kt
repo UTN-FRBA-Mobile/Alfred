@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.storage.db.entities.Dimension
 
 
 class FodaAdapter(private val context:Context, private val dimensionsArray: MutableList<Dimension>): RecyclerView.Adapter<FodaAdapter.ViewHolderFoda>()  {

@@ -55,7 +55,7 @@ class FodaFragment : Fragment() {
         }
 
 
-        return view
+        return vfoda
     }
 
 
@@ -68,7 +68,7 @@ class FodaFragment : Fragment() {
     private fun loadRecyclerView() {
         vfoda!!.findViewById<RecyclerView>(R.id.recyclerFoda).apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
             adapter = FodaAdapter(context,dimensions)
         }
     }
