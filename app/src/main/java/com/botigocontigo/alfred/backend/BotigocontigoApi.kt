@@ -3,6 +3,7 @@ package com.botigocontigo.alfred.backend
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.ArticleDeserializer
 import com.botigocontigo.alfred.storage.db.entities.Plan
+import com.botigocontigo.alfred.tasks.PlanDeserializer
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
@@ -54,21 +55,23 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return gson.fromJson(request.toString() , Array<Article>::class.java).toList()
     }
 
-    fun plansGetAll(): Plan {
+    fun plansGetAll(): List<Plan> {
         val request = ApiRequest(this, "post", "methods/api.getPlanList")
         applyPermissions(request)
 
-        val gson = Gson()
-        //FIXME I think this need to be serialized or some help transforming the array of tasks from the JSON
-        return gson.fromJson(request.toString(), Plan::class.java)
+        val gsonBuilder = GsonBuilder().serializeNulls()
+        gsonBuilder.registerTypeAdapter(Plan::class.java, PlanDeserializer())
+        val gson = gsonBuilder.create()
+
+        return gson.fromJson(request.toString() , Array<Plan>::class.java).toList()
     }
 
-    //FIXME change plans type for the real one
-    fun plansSaveAll(plans: String): ApiRequest {
+
+    fun plansSaveAll(plans: Array<Plan>): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertPlanList")
         applyPermissions(request)
 
-        //FIXME I think this need to be serialized or some help transforming the array of tasks to a JSON
+        //FIXME I think this need to be serialized or transform the array of tasks to a JSON
         //This transform plans to JSON object, like:
         /*
         {
