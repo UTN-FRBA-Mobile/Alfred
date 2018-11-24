@@ -12,21 +12,19 @@
         android:id="@+id/txtNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre Area"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aca va la descripcion y datos de interes"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/transparent"
+        android:hint="Descripcion"
+        />
 
-    <ImageView
-        android:id="@+id/imgGrafico"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/article_image_1" />
 </LinearLayout>
 

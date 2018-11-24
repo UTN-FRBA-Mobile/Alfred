@@ -18,7 +18,7 @@ import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 import com.botigocontigo.alfred.utils.NetworkingAdapter
 import com.botigocontigo.alfred.utils.VolleyAdapter
 
-class Services(private val context: Context) {
+class Services(context: Context) {
 
     private val networkingAdapter: NetworkingAdapter = VolleyAdapter(context)
 
@@ -45,13 +45,9 @@ class Services(private val context: Context) {
         return GoogleSearchService(googleApi())
     }
 
-    fun googleArticleRepository() : GoogleArticleRepository {
-        return GoogleArticleRepository(googleSearchService())
-    }
-
     private val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `Article` ADD link varchar")
+            database.execSQL("ALTER TABLE `Article` ADD url varchar")
         }
     }
 
@@ -72,11 +68,15 @@ class Services(private val context: Context) {
         return RoomArticleRepository(articleDao())
     }
 
-    fun intelligentArticleRepository(): IntelligentArticleRepository {
+    fun favoritesArticleRepository(): IntelligentArticleRepository {
         val repositories = ArrayList<ArticleRepository>()
-        repositories.add(googleArticleRepository())
+        // TODO repositories.add(botigocontigoArticleRepository())
         repositories.add(roomArticleRepository())
         return IntelligentArticleRepository(repositories)
+    }
+
+    fun generalArticleRepository(): ArticleRepository {
+        return GoogleArticleRepository(googleSearchService())
     }
 
     fun currentUser(): User {

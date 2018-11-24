@@ -27,7 +27,7 @@ class FodaAdapter(private val context:Context, private val dimensionsArray: Muta
     }
 
     override fun onBindViewHolder(holder: ViewHolderFoda, position: Int) {
-        holder.name.text = dimensionsArray[position].name
+        holder.name.text = dimensionsArray[position].dimension_name
         holder.type.text = dimensionsArray[position].type
         holder.listOfTips.adapter = ContentAdapter(context,dimensionsArray[position])
 
