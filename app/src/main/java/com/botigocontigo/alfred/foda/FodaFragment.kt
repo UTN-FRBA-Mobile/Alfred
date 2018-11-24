@@ -17,6 +17,10 @@ import com.botigocontigo.alfred.storage.db.entities.Dimension
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import android.provider.SyncStateContract.Helpers.update
+import com.botigocontigo.alfred.R.id.dimensions
+
+
 
 class FodaFragment : Fragment() {
 
@@ -40,17 +44,20 @@ class FodaFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfoda= inflater.inflate(R.layout.activity_foda, container, false)
         doAsync {
-            dimensionDao.insertAll(
-                    Dimension(1,"fortaleza1", "Interna",1,"Fortalezas", Date()),
-                    Dimension(2,"oportunidad1", "Externa", 1,"Oportunidades", Date()),
-                    Dimension(3,"debilidad1", "Interna",1, "Debilidades", Date()),
-                    Dimension(4,"amenaza1", "Externa",1, "Amenazas", Date())
-            )
-            Log.i("Menu", "Inicio")
-            Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
 
             dimensions = dimensionDao.getAll() as MutableList<Dimension>
 
+            if (dimensions.isEmpty()) {
+                dimensionDao.insertAll(
+                        Dimension(1, "fortaleza1", "Interna", 1, "Fortalezas", Date()),
+                        Dimension(2, "oportunidad1", "Externa", 1, "Oportunidades", Date()),
+                        Dimension(3, "debilidad1", "Interna", 1, "Debilidades", Date()),
+                        Dimension(4, "amenaza1", "Externa", 1, "Amenazas", Date())
+                )
+                Log.i("Menu", "Inicio")
+                Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
+                dimensions = dimensionDao.getAll() as MutableList<Dimension>
+            }
             uiThread {         loadRecyclerView() }
         }
 
@@ -104,6 +111,13 @@ class FodaFragment : Fragment() {
             return fragment
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            dimensions.forEach { dimension -> dimensionDao.update(dimension) }
+        }
     }
 
 }
