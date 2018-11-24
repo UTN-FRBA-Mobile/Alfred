@@ -12,7 +12,7 @@ import com.botigocontigo.alfred.storage.db.entities.*
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun planDao(): PlanDao
-    abstract fun taskDao(): TaskDao
+//    abstract fun taskDao(): TaskDao
 
     companion object {
         private var db: AppDatabase? = null

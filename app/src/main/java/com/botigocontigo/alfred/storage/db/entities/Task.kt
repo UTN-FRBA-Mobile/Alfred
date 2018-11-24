@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "tasks")
 data class Task(
-        @PrimaryKey(autoGenerate = false)
+        @PrimaryKey
         @ColumnInfo(name = "id")
         var id: Int = 0,
 
@@ -26,8 +26,9 @@ data class Task(
         var supervisorId: String?,
 
         @ColumnInfo(name = "completed")
-        var completed: Boolean?,
-
-        @ColumnInfo(name = "plan_id")
-        var planId: Int?
+        var completed: Boolean?
+//        ,
+//
+//        @ColumnInfo(name = "plan_id")
+//        var planId: Int?
 )

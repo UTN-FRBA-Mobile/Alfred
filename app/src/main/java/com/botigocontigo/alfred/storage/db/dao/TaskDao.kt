@@ -12,8 +12,8 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     fun findById(id: Int): Task
 
-    @Query("SELECT * FROM tasks WHERE plan_id = :planId")
-    fun getAllByPlanId(planId: Int): List<Task>
+//    @Query("SELECT * FROM tasks WHERE plan_id = :planId")
+//    fun getAllByPlanId(planId: Int): List<Task>
 
     @Query("DELETE FROM tasks")
     fun deleteAllRows()

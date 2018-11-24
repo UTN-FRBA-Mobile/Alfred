@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.*
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.PlanDao
-import com.botigocontigo.alfred.storage.db.dao.TaskDao
 import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.storage.db.entities.Task
 import com.botigocontigo.alfred.tasks.TaskAdapter
@@ -32,7 +31,7 @@ class TasksFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
 
     private lateinit var planDao: PlanDao
-    private lateinit var taskDao: TaskDao
+//    private lateinit var taskDao: TaskDao
 
     private var mapPlans: Map<String, Int> = emptyMap()
 
@@ -42,7 +41,7 @@ class TasksFragment : Fragment() {
         if (arguments != null) {
             val db = AppDatabase.getInstance(context!!)
             planDao = db.planDao()
-            taskDao = db.taskDao()
+//            taskDao = db.taskDao()
         }
     }
 
@@ -53,21 +52,29 @@ class TasksFragment : Fragment() {
 
         doAsync {
             planDao.insertAll(
-                    Plan(1, "Plan de Capacitacion", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000)),
-                    Plan(2, "Plan de Negocio", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000)),
-                    Plan(3, "Plan de Ejercitacion", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
+                    Plan(1, "Plan de Capacitacion", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000), arrayListOf(
+                            Task(1, "Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false)
+                    )),
+                    Plan(2, "Plan de Negocio", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000), arrayListOf(
+                            Task(1, "Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false),
+                            Task(2, "Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false)
+                    )),
+                    Plan(3, "Plan de Ejercitacion", "Salud", "Norma", "normal@qq.com", Date(1552176000000), arrayListOf(
+                            Task(1, "Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false),
+                            Task(2, "Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false)
+                    ))
             )
 
-            taskDao.insertAll(
-                    Task(1, "Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false, 3),
-                    Task(2, "Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false, 2),
-                    Task(3, "Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false, 1),
-                    Task(4, "Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false, 2),
-                    Task(5, "Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false, 3)
-            )
+//            taskDao.insertAll(
+//                    Task(1, "Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false, 3),
+//                    Task(2, "Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false, 2),
+//                    Task(3, "Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false, 1),
+//                    Task(4, "Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false, 2),
+//                    Task(5, "Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false, 3)
+//            )
             Log.i("Menu", "Inicio")
             Log.i("Plans count", planDao.getAll().size.toString())
-            Log.i("Tasks count", taskDao.getAll().size.toString())
+//            Log.i("Tasks count", taskDao.getAll().size.toString())
 
             mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
 
@@ -96,7 +103,8 @@ class TasksFragment : Fragment() {
                 val plan = spinnerPlans.selectedItem.toString()
                 Log.i("SelectedSpinnerPlan", "$plan - id: ${mapPlans.getValue(plan)}")
                 doAsync {
-                    val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(plan))
+//                    val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(plan))
+                    val tasks = planDao.findTasksById(mapPlans.getValue(plan))
                     uiThread {
                         recycler!!.adapter = taskAdapter!!.setDataset(tasks)
                     }
@@ -217,7 +225,8 @@ class TasksFragment : Fragment() {
         builder.setPositiveButton("Si"){ dialog, which ->
             // Eliminar asincronicamente
             doAsync {
-                taskDao!!.deleteAll()
+//                val tasks = planDao.findTasksById()
+//                taskDao!!.deleteAll()
             }
             taskAdapter?.deleteTasks()
             taskAdapter?.notifyDataSetChanged()
@@ -254,18 +263,29 @@ class TasksFragment : Fragment() {
         if (msg != null) {
             fnError(msg)
         } else {
+            val planId = mapPlans.getValue(planName)
+            var tasks = planDao.findTasksById(planId)
+            val id = when(tasks.count()) {
+                0 -> 0
+                else -> tasks.map { it.id }.max()!!.plus(1)
+            }
+            Log.i("Last Id", id.toString())
             val newTask = Task(
+                    id = id,
                     name = taskName,
                     frecType = frecType,
                     frecValue = frecValue!!,
                     responsibleId = responsible,
                     supervisorId = "super",
-                    completed = false,
-                    planId = mapPlans.getValue(planName)
+                    completed = false
+//                    ,
+//                    planId = mapPlans.getValue(planName)
             )
             doAsync {
-                taskDao!!.insertAll(newTask)
-                val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(planName))
+                tasks += newTask
+                planDao.updateTasksFromPlan(planId, tasks)
+//                taskDao!!.insertAll(newTask)
+//                val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(planName))
                 uiThread {
                     taskAdapter!!.setDataset(tasks)
                     taskAdapter!!.notifyDataSetChanged()
