@@ -5,15 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import java.lang.RuntimeException
 
-class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHolder>() {
-
-    private val articles: ArrayList<Article> = ArrayList()
-
-    fun addArticle(article: Article){
-        articles.add(article)
-        notifyDataSetChanged()
-    }
+class ArticleAdapter (val context: Context, private val articles: ArrayList<Article>) : RecyclerView.Adapter<ArticleViewHolder>() {
 
     override fun getItemCount(): Int {
         return articles.size
@@ -24,7 +19,7 @@ class ArticleAdapter (val context: Context) : RecyclerView.Adapter<ArticleViewHo
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val article = articles.get(position)
+        val article = articles[position]
         holder?.bind(article)
     }
 

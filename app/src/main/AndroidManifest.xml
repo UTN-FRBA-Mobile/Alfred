@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +27,6 @@
         <activity android:name=".MenuActivity">
         </activity>
         <activity
-            android:name=".LearnActivity"
-            android:label="@string/title_activity_learn"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AreasActivity"
             android:label="@string/title_activity_areas" />
         <activity android:name=".Login">
@@ -40,14 +37,14 @@
 
         </activity>
 
-        <receiver android:name=".LearnWidgetProvider">
+        <receiver android:name=".ShortcutsWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/learn_widget_info" />
+                android:resource="@xml/shortcuts_widget_info" />
         </receiver>
     </application>
 
