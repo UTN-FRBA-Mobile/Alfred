@@ -36,7 +36,7 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun favouritesSave(title: String, description: String, link: String): ApiRequest {
+    fun saveFavoriteArticle(title: String, description: String, link: String): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertFavourite")
         applyPermissions(request)
         val favouriteJSONObject= "{ \"title\": $title, \"description\": $description, \"link\": $link }"
@@ -44,15 +44,10 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun favouritesGetAll(): List<Article> {
+    fun favoriteArticles(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.getFavourites")
         applyPermissions(request)
-
-        val gsonBuilder = GsonBuilder().serializeNulls()
-        gsonBuilder.registerTypeAdapter(Article::class.java, ArticleDeserializer())
-        val gson = gsonBuilder.create()
-
-        return gson.fromJson(request.toString() , Array<Article>::class.java).toList()
+        return request
     }
 
     fun plansGetAll(): List<Plan> {

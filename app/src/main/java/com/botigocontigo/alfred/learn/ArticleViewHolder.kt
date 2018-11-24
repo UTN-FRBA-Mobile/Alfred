@@ -31,7 +31,7 @@ class ArticleViewHolder  (var view: View) : RecyclerView.ViewHolder(view) {
     private fun changeFavoriteStatus(article: Article) {
         val repository = Services(context).roomArticleRepository()
         if (favorite) repository.deleteArticle(article)
-        else repository.saveArticle(article)
+        else repository.upsert(article)
         showFavoriteStatus()
     }
 
