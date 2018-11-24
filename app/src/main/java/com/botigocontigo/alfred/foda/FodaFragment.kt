@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.botigocontigo.alfred.R
 
 class FodaFragment : Fragment() {
@@ -21,7 +20,7 @@ class FodaFragment : Fragment() {
     var arrayOfOpportunities = arrayOf("oportunidad1", "oportunidad2", "oportunidad3", "oportunidad4", "oportunidad5")
     var arrayOfWeaknesses = arrayOf("debilidad1", "debilidad2", "debilidad2", "debilidad2", "debilidad2")
     var arrayOfThreats = arrayOf("amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1", "amenaza1")
-    var dimensions = arrayOf(
+    var dimensions:MutableList<Dimension> = arrayListOf(
             Dimension("Fortalezas", "Interna", arrayOfStrengths),
             Dimension("Oportunidades", "Externa", arrayOfOpportunities),
             Dimension("Debilidades", "Interna", arrayOfWeaknesses),

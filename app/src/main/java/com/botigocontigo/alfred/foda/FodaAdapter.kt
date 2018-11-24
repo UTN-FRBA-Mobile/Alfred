@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.botigocontigo.alfred.R
 
 
-class FodaAdapter(private val context:Context,private val dimensionsArray: Array<Dimension>): RecyclerView.Adapter<FodaAdapter.ViewHolderFoda>()  {
+class FodaAdapter(private val context:Context, private val dimensionsArray: MutableList<Dimension>): RecyclerView.Adapter<FodaAdapter.ViewHolderFoda>()  {
 
     class ViewHolderFoda(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.fodaTextView)
