@@ -19,7 +19,7 @@ class RoomArticle {
     @ColumnInfo(name = "image_url")
     private var imageUrl: String? = null
 
-    @ColumnInfo(name = "link")
+    @ColumnInfo(name = "url")
     private var link: String? = null
 
     fun getUid(): Int? {
