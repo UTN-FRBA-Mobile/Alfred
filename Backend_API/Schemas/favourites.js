@@ -52,6 +52,16 @@ Favourites.insertFavourite = (aFav, userId = Meteor.userId()  ) => {
     }
 };
 
+Favourites.deleteFavourite = (link, userId = Meteor.userId()  ) => {
+  const favouriteFound = Favourites.findOne({userId: userId});
+    if (favouriteFound) {
+      let updatedFavs = favouriteFound.favs.filter(
+        aFav => aFav.link !== link
+        )
+      Favourites.update({_id: favouriteFound._id}, {$set: {favs: updatedFavs}});
+    }
+};
+
 Favourites.get = (userId = Meteor.userId() ) => {
   favouriteFound = Favourites.findOne({userId: userId});
   return favouriteFound
