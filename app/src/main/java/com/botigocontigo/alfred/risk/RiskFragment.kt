@@ -53,13 +53,13 @@ class RiskFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.activity_risks, container, false)
+
         doAsync {
             riesgos = riskDAO.getAll() as MutableList<Risk>
-            if(riesgos.size == 0){
+            if(riesgos.size == 0)
                 riesgos.add(riesgoEjemplo)
             uiThread {
                 loadRecyclerView(view)
-            }
             }
         }
         loadEventOnClickNewRisk(view)
@@ -74,10 +74,10 @@ class RiskFragment: Fragment(){
     }
 
     private fun loadRecyclerView(view: View) {
+        Log.i("Cantidad de Riesgos: ", riesgos.size.toString())
         view.findViewById<RecyclerView>(R.id.recyclerRisk).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            Log.i("Cantidad de Riesgos: ", riesgos.size.toString())
             adapter = RiskAdapter(riesgos, context)
         }
     }
