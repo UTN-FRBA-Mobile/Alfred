@@ -61,10 +61,10 @@ class FodaFragment : Fragment() {
 
         if (dimensionsDataBase.isEmpty()) {
             dimensionDao.insertAll(
-                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2","","","","","")).toString(), "Interna", "1", TypesEnum.FORTALEZAS.type, Date()),
-                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2","","","","","")).toString(), "Externa", "1", TypesEnum.OPORTUNIDADES.type, Date()),
-                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2","","","","","")).toString(), "Interna", "1", TypesEnum.DEBILIDADES.type, Date()),
-                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2","","","","","","")).toString(), "Externa", "1", TypesEnum.AMENAZAS.type, Date())
+                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2","","","","","")).toString(), "1", TypesEnum.FORTALEZAS.type, Date()),
+                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2","","","","","")).toString(), "1", TypesEnum.OPORTUNIDADES.type, Date()),
+                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2","","","","","")).toString(), "1", TypesEnum.DEBILIDADES.type, Date()),
+                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2","","","","","","")).toString(), "1", TypesEnum.AMENAZAS.type, Date())
             )
             Log.i("Menu", "Inicio")
             Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
@@ -85,9 +85,7 @@ class FodaFragment : Fragment() {
                                     dimensionsDataBase.id,
                                     dimensionsDataBase.dimension_name,
                                     dimensionsDataBase.userId,
-                                    dimensionsDataBase.type,
                                     parseListOfStrings(dimensionsDataBase.name)
-
                             )
                 )
 
@@ -162,7 +160,6 @@ class FodaFragment : Fragment() {
         dimensions.forEach { dimension -> dimensionDao.update(DimensionDataBase(
                 dimension.id,
                 parseJsonFromDimension(dimension.array),
-                dimension.type,
                 dimension.userId,
                 dimension.name,
                 Date()
