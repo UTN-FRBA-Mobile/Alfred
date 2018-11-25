@@ -20,7 +20,7 @@
             android:inputType="none"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Términos de búsqueda"
+            android:text="@string/learn_options_terms_title"
             android:textColor="@color/colorPrimary" />
 
         <EditText
@@ -37,12 +37,12 @@
             android:id="@+id/queryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver artículos recomendados" />
+            android:text="@string/learn_options_show_articles" />
 
         <Button
             android:id="@+id/favoritesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver artículos favoritos" />
+            android:text="@string/learn_options_show_favorites" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

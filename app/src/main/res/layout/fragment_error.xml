@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Ops, something went wrong!" />
+            android:text="@string/learn_generic_error" />
 
     </LinearLayout>
 
