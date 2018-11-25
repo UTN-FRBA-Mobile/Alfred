@@ -5,7 +5,7 @@ import com.botigocontigo.alfred.tasks.PlanDeserializer
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 import com.google.gson.GsonBuilder
 
-abstract class ArrayCallbackDeserializer : AsyncTaskCallbacks<String>() {
+abstract class PlansGetCallbacks : AsyncTaskCallbacks<String>() {
 
     override fun success(result: String) {
         val gsonBuilder = GsonBuilder().serializeNulls()
