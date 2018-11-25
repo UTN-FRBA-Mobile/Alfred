@@ -18,7 +18,8 @@
             android:id="@+id/recyclerRisk"
             android:layout_width="match_parent"
             android:layout_height="516dp"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            tools:listitem="@layout/risk_item">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -31,12 +32,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/agregarRiesgo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/suggerenciasRiesgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:background="@drawable/oval"
-                app:srcCompat="@drawable/ic_plus" />
+                app:srcCompat="@mipmap/botigocontigo" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -44,11 +44,12 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/suggerenciasRiesgo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/agregarRiesgo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_weight="0"
-                app:srcCompat="@mipmap/botigocontigo" />
+                android:background="@drawable/oval"
+                app:srcCompat="@drawable/ic_plus" />
 
         </LinearLayout>
 

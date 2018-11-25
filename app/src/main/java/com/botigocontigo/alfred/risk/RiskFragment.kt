@@ -30,7 +30,7 @@ class RiskFragment: Fragment(){
     private var mParam1: String? = null
     private var mParam2: String? = null
 
-    var riesgos: MutableList<Risk> = arrayListOf()
+    private var riskAdapter :RiskAdapter? = null
 
     private val riesgoEjemplo =
         Risk(0, "Aqui va una descripcion", "Alta", "Bajo", "Alta")
@@ -53,16 +53,16 @@ class RiskFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.activity_risks, container, false)
-
+        riskAdapter = RiskAdapter(arrayListOf(), view.context)
         doAsync {
-            riesgos = riskDAO.getAll() as MutableList<Risk>
+            val riesgos = riskDAO.getAll() as MutableList<Risk>
             if(riesgos.size == 0)
                 riesgos.add(riesgoEjemplo)
             uiThread {
-                loadRecyclerView(view)
+                loadEventOnClickNewRisk(view)
+                loadRecyclerView(view, riesgos)
             }
         }
-        loadEventOnClickNewRisk(view)
         return view
     }
 
@@ -73,12 +73,13 @@ class RiskFragment: Fragment(){
         }
     }
 
-    private fun loadRecyclerView(view: View) {
+    private fun loadRecyclerView(view: View, riesgos: MutableList<Risk>) {
         Log.i("Cantidad de Riesgos: ", riesgos.size.toString())
         view.findViewById<RecyclerView>(R.id.recyclerRisk).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = RiskAdapter(riesgos, context)
+            riskAdapter!!.setDataset(riesgos)
+            adapter = riskAdapter
         }
     }
 
@@ -139,12 +140,10 @@ class RiskFragment: Fragment(){
             val mAlertDialog = mBuilder.show()
 
             dw.confirmRisk.setOnClickListener {
-                doAsync {
-                    crearNuevoRiesgo(dw.descNuevoRiesgo.text.toString(),
+                crearNuevoRiesgo(dw.descNuevoRiesgo.text.toString(),
                             dw.spinnerPdeOcurrencia.selectedItem as String,
                             dw.spinnerImpacto.selectedItem as String,
                             dw.spinnerCdeteccion.selectedItem as String)
-                }
                 mAlertDialog.dismiss()
             }
 
@@ -159,7 +158,14 @@ class RiskFragment: Fragment(){
     }
 
     private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String){
-        riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
+        doAsync {
+            riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
+            val riesgos = riskDAO.getAll() as MutableList<Risk>
+            uiThread {
+                riskAdapter!!.setDataset(riesgos)
+                riskAdapter!!.notifyDataSetChanged()
+            }
+        }
 
     }
 
