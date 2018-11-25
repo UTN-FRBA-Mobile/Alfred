@@ -363,8 +363,32 @@ if (Meteor.isServer) {
       console.log("=== Calling api.getAreas ===");
       try {
         const areasFound = BusinessAreas.getAreas(data.userId);
-        console.log(JSON.stringify(areasFound));
         return areasFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
+      }
+    },
+    'api.saveRisks'(data) {
+      console.log("=== Calling api.saveRisks ===");
+      try {
+        Risks.insertRisks(data.risks, data.userId);
+        return {
+          success: true
+        };
+      } catch (exception) {
+        console.log(exception);
+        return {
+          success: false,
+          error: exception
+        };
+      }
+    },
+    'api.getRisks'(data) {
+      console.log("=== Calling api.getRisks ===");
+      try {
+        const risksFound = Risks.getRisks(data.userId);
+        return risksFound;
       } catch (exception) {
         console.error(exception);
         return exception;
