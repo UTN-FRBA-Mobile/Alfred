@@ -32,7 +32,9 @@ class VolleyAdapter(val context: Context) : NetworkingAdapter {
                          callbacks: AsyncTaskCallbacks<String>) {
         val method = getMethod(methodName)
         val stringRequest = StringBodyRequest(method, fullUrl, body,
-                Response.Listener<String> { response: String -> callbacks.success(response) },
+                Response.Listener<String> { response: String ->
+                    callbacks.success(response)
+                },
                 Response.ErrorListener {
                     callbacks.error()
                 })
