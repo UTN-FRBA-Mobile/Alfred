@@ -313,10 +313,34 @@ if (Meteor.isServer) {
     'api.getSwot'(data) {
       console.log("=== Calling api.getSwot ===");
       try {
-        const swotFound = Swots.getSwot(data.userId);
-        return swotFound;
+        let swotsTransformed = [];
+        let swotFound = Swots.getSwot(data.userId);
+
+        swotFound.forEach(swotItem => {
+          console.log(swotItem);
+          console.log("------------");
+          console.log(swotsTransformed[swotItem.type])
+          if(swotsTransformed[swotItem.type] == undefined)
+          {
+            console.log("primera vez");
+            swotsTransformed[swotItem.type] = {
+              id: swotItem._id,
+              type: swotItem.type,
+              userId: data.userId,
+              name: swotItem.type,
+              array: []
+            };
+          }
+          swotsTransformed[swotItem.type].array = swotsTransformed[swotItem.type].array.concat(swotItem.descriptions);
+        });
+
+        console.log("----- RETURN ------");
+        var stuff = swotsTransformed;
+        console.log(stuff);
+        return stuff;
       } catch (exception) {
         console.error(exception);
+        console.log("--- ERROR ---");
         return exception;
       }
     },
