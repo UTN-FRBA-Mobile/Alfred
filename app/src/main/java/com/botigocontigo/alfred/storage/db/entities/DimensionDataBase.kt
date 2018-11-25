@@ -21,7 +21,7 @@ data class DimensionDataBase(
         var type: String,
 
         @ColumnInfo(name = "user_id")
-        var userId: Int,
+        var userId: String,
 
         @ColumnInfo(name = "dimension_name")
         var dimension_name: String,
