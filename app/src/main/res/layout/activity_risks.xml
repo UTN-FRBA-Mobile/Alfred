@@ -30,16 +30,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/suggerenciasRiesgo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="266dp"
-                android:layout_marginTop="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/oval"
-                android:src="@mipmap/botigocontigo" />
-
             <ImageView
                 android:id="@+id/agregarRiesgo"
                 android:layout_width="40dp"
@@ -47,6 +37,18 @@
                 android:layout_weight="0"
                 android:background="@drawable/oval"
                 app:srcCompat="@drawable/ic_plus" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/suggerenciasRiesgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                app:srcCompat="@mipmap/botigocontigo" />
 
         </LinearLayout>
 

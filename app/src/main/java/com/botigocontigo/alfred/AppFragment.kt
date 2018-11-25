@@ -3,7 +3,6 @@ package com.botigocontigo.alfred
 import android.support.v4.app.Fragment
 import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.risk.RiskFragment
-import com.botigocontigo.alfred.tasks.TasksFragment
 import com.botigocontigo.alfred.foda.FodaFragment
 import com.botigocontigo.alfred.learn.LearnFragment
 

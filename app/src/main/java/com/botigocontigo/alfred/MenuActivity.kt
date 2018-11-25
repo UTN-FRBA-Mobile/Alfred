@@ -18,7 +18,6 @@ import android.widget.ListView
 import android.widget.AdapterView
 import com.botigocontigo.alfred.foda.FodaFragment
 import com.botigocontigo.alfred.risk.RiskFragment
-import com.botigocontigo.alfred.tasks.TasksFragment
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.storage.db.entities.Task

@@ -3,6 +3,7 @@ package com.botigocontigo.alfred.risk
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.botigocontigo.alfred.storage.db.entities.Risk
 import kotlinx.android.synthetic.main.risk_item.view.*
 
 class RiskViewHolder (view: View) : RecyclerView.ViewHolder(view) {
@@ -15,7 +16,7 @@ class RiskViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
     open fun bind(risk: Risk) {
         descrpcion.text = risk.descripcion
-        pDeOcurrecia.text = risk.pDeOcurrecia.toString()
+        pDeOcurrecia.text = risk.pDeOcurrecia
         impacto.text = risk.impacto
         cDeDeteccion.text = risk.cDeDeteccion
     }
