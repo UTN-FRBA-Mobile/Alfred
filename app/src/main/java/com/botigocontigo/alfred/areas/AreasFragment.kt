@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.ImageButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.widget.Button
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
 
 
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.storage.db.AppDatabase
+import com.botigocontigo.alfred.storage.db.dao.AreaDao
+import com.botigocontigo.alfred.storage.db.entities.Area
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class AreasFragment : Fragment(), View.OnClickListener{
@@ -23,12 +25,21 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private var vfrag: View? = null
     private var listener: OnFragmentInteractionListener? = null
 
+    private lateinit var areaDao: AreaDao
+    private var mapModels: Map<String?, Int?> = emptyMap()
+
     private val modelos_negocio: Array<String> =
             arrayOf("Modelo de Afiliacion", "Modelo Freemium",
                     "Modelo de Subastas", "Modelo de Venta Directa",
                     "Modelo de Franquicia", "Modelo de Cola Larga")
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            val db = AppDatabase.getInstance(context!!)
+            areaDao = db.areaDao()
+        }
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -40,6 +51,25 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadEventOnClickNewModel()
         //loadEventOnClickAreaDetail(v)
+
+        doAsync {
+            //INSERT FOR TEST
+            areaDao.insertAll(
+                    Area(1, "1", "Modelo A"),
+                    Area(2, "1", "Modelo B"),
+                    Area(3, "2", "Modelo C")
+            )
+            Log.i("Areas", "Prueba de log")
+            Log.i("Area count", areaDao.getAll().size.toString())
+
+            //HARDCODED USER ID
+            mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
+
+
+            Log.i("MAP Areas",mapModels.toList().toString())
+            Log.i("MAP Areas", areaDao.findById(3).name)
+
+        }
 
         return vfrag
     }
