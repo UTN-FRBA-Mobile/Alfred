@@ -334,37 +334,51 @@ class TasksFragment : Fragment() {
 
     private fun loadToDb(response: List<com.botigocontigo.alfred.tasks.Plan>) {
 
-        planDao.deleteAllRows()
-        taskDao.deleteAllRows()
+        doAsync {
+            planDao.deleteAllRows()
+            taskDao.deleteAllRows()
 
-        response.forEach { p ->
-            planDao.insertAll(Plan(
-                    id = p.id,
-                    name = p.name,
-                    businessArea = p.businessArea,
-                    userId = p.userId,
-                    userEmail = p.userEmail,
-                    createdDate = p.createAt
-            ))
-
-            p.tasks.forEach {
-                taskDao.insertAll(Task(
-                        id = it.id,
-                        name = it.name,
-                        responsibleId = it.responsibleId,
-                        supervisorId = it.supervisorId,
-                        frecType = it.frequency!!.type,
-                        frecValue = it.frequency!!.value,
-                        completed = it.completed,
-                        planId = p.id
+            response.forEach { p ->
+                planDao.insertAll(Plan(
+                        id = p.id,
+                        name = p.name,
+                        businessArea = p.businessArea,
+                        userId = p.userId,
+                        userEmail = p.userEmail,
+                        createdDate = p.createAt
                 ))
+
+                p.tasks.forEach {
+                    taskDao.insertAll(Task(
+                            id = it.id,
+                            name = it.name,
+                            responsibleId = it.responsibleId,
+                            supervisorId = it.supervisorId,
+                            frecType = it.frequency!!.type,
+                            frecValue = it.frequency!!.value,
+                            completed = it.completed,
+                            planId = p.id
+                    ))
+                }
             }
         }
     }
 
     private fun savePlans(plans: List<Plan>) {
 
-
+//        var plansApi = List<com.botigocontigo.alfred.tasks.Plan>
+//
+//        plans.forEach { p ->
+//
+//
+//
+//            val tasks = taskDao.getAllByPlanId(p.id)
+//            tasks.forEach { t ->
+//
+//            }
+//        }
+//
+//
 //        api.plansSaveAll()
     }
 }
