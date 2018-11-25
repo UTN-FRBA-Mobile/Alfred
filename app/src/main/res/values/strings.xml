@@ -103,6 +103,16 @@
     <string name="costos_descripcion_corta">Descripcion Corta</string>
     <string name="costos_descripcion_larga">Descripcion Completa</string>
 
+    <!-- LEARN -->
+    <string name="learn_generic_error">Ops, algo salió mal</string>
+    <string name="learn_error_fetching_articles">Ops, algo salió mal</string>
+    <string name="learn_fetching_query">Entendiendo tus necesidades…</string>
+    <string name="learn_fetching_articles">Buscando los mejores artículos…</string>
+    <string name="learn_fetching_favorites">Buscando tus favoritos…</string>
+    <string name="learn_options_terms_title">Términos de búsqueda</string>
+    <string name="learn_options_show_articles">Ver artículos recomendados</string>
+    <string name="learn_options_show_favorites">Ver artículos favoritos</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
