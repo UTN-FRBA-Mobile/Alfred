@@ -21,5 +21,4 @@ interface RoomArticleDao {
 
     @Query("DELETE FROM article WHERE url = :link")
     fun deleteByLink(link: String)
-
 }

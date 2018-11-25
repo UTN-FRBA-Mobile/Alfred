@@ -2,7 +2,7 @@ package com.botigocontigo.alfred.backend
 
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.ArticleDeserializer
-import com.botigocontigo.alfred.storage.db.entities.Plan
+import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.tasks.PlanDeserializer
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest

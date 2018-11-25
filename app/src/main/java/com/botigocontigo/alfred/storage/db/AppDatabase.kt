@@ -16,7 +16,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun areaDao(): AreaDao
     abstract fun dimensionDao(): DimensionDao
 
-
     companion object {
         private var db: AppDatabase? = null
         private val DB_NAME = "database-alfred"
