@@ -13,13 +13,12 @@ import android.view.ViewGroup
 import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.DimensionDao
-import com.botigocontigo.alfred.storage.db.entities.Dimension
+import com.botigocontigo.alfred.storage.db.entities.DimensionDataBase
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
-import android.provider.SyncStateContract.Helpers.update
-import com.botigocontigo.alfred.R.id.dimensions
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 class FodaFragment : Fragment() {
@@ -29,7 +28,10 @@ class FodaFragment : Fragment() {
     private var mParam2: String? = null
     private var vfoda: View? = null
 
-    lateinit var dimensions:MutableList<Dimension> ;
+    lateinit var dimensionsDataBase:MutableList<DimensionDataBase>
+    lateinit var dimensions:MutableList<Dimension>
+
+
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,20 +56,49 @@ class FodaFragment : Fragment() {
 
     private fun getDimensions(i: Int): MutableList<Dimension> {
         //esto deberia pegarle a la api
-        var newDimensions = dimensionDao.getAll() as MutableList<Dimension>
+       dimensionsDataBase = dimensionDao.getAll() as MutableList<DimensionDataBase>
+        var newDimensions:MutableList<Dimension> =arrayListOf()
 
-        if (newDimensions.isEmpty()) {
+        if (dimensionsDataBase.isEmpty()) {
             dimensionDao.insertAll(
-                    Dimension(1, "fortaleza1", "Interna", 1, "Fortalezas", Date()),
-                    Dimension(2, "oportunidad1", "Externa", 1, "Oportunidades", Date()),
-                    Dimension(3, "debilidad1", "Interna", 1, "Debilidades", Date()),
-                    Dimension(4, "amenaza1", "Externa", 1, "Amenazas", Date())
+                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2")).toString(), "Interna", 1, "Fortalezas", Date()),
+                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2")).toString(), "Externa", 1, "Oportunidades", Date()),
+                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2")).toString(), "Interna", 1, "Debilidades", Date()),
+                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2")).toString(), "Externa", 1, "Amenazas", Date())
             )
             Log.i("Menu", "Inicio")
             Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
-            newDimensions = dimensionDao.getAll() as MutableList<Dimension>
+            dimensionsDataBase = dimensionDao.getAll() as MutableList<DimensionDataBase>
         }
-    return newDimensions;
+        if (dimensionsDataBase.isNotEmpty()) {
+            newDimensions = parseDataBaseDimensions(dimensionsDataBase)
+        }
+
+    return newDimensions
+    }
+
+    private fun parseDataBaseDimensions(newDimensions: MutableList<DimensionDataBase>): MutableList<Dimension> {
+        var postaDimensions:MutableList<Dimension> = arrayListOf()
+            newDimensions.forEach{dimensionsDataBase ->
+                postaDimensions.add(
+                            Dimension(
+                                    dimensionsDataBase.id,
+                                    dimensionsDataBase.dimension_name,
+                                    dimensionsDataBase.type,
+                                    parseListOfStrings(dimensionsDataBase.name)
+
+                            )
+                )
+
+            }
+        return postaDimensions
+
+    }
+
+    private fun parseListOfStrings(name: String): Array<String> {
+        val listType = object : TypeToken<List<String>>() {}.getType()
+        val gson: List<String> = Gson().fromJson(name,listType)
+        return  gson.toTypedArray()
     }
 
 
@@ -121,8 +152,9 @@ class FodaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         doAsync {
-            dimensions.forEach { dimension -> dimensionDao.update(dimension) }
+           // dimensionsDataBase.forEach { dimension -> dimensionDao.update(dimension) }
             //post to API
+            dimensionDao.deleteAllRows()
         }
     }
 
