@@ -26,12 +26,9 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var areaDao: AreaDao
-    private var mapModels: Map<String?, Int?> = emptyMap()
 
-    private val modelos_negocio: Array<String> =
-            arrayOf("Modelo de Afiliacion", "Modelo Freemium",
-                    "Modelo de Subastas", "Modelo de Venta Directa",
-                    "Modelo de Franquicia", "Modelo de Cola Larga")
+    private var mapModels: Map<String?, Int?> = emptyMap()
+    private var model: Area? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,27 +44,20 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadButtons()
 
-
-
         loadEventOnClickNewModel()
         //loadEventOnClickAreaDetail(v)
 
         doAsync {
             //INSERT FOR TEST
             areaDao.insertAll(
-                    Area(1, "1", "Modelo A", "clientesA","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+                    Area(1, "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
                     Area(2, "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
                     Area(3, "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
             )
-            Log.i("Areas", "Prueba de log")
-            Log.i("Area count", areaDao.getAll().size.toString())
 
             //HARDCODED USER ID
             mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
-
-
-            Log.i("MAP Areas",mapModels.toList().toString())
-            Log.i("MAP Areas", areaDao.findById(3).name)
+            model = areaDao.findById(1)
 
             uiThread { loadSpinnerModelos()  }
 
@@ -96,26 +86,26 @@ class AreasFragment : Fragment(), View.OnClickListener{
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
-    private fun switchFragment(areaName: String){
+    private fun switchFragment(areaName: String, areaDetail: String?){
         //Cambio al Fragment de Detalle de area
         fragmentManager!!
                 .beginTransaction()
-                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName))
+                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, areaDetail))
                 .addToBackStack(null)
                 .commit()
     }
 
     private fun switchArea(opc : Int){
         when(opc){
-            R.id.btnClientes -> switchFragment("Segmento Clientes")
-            R.id.btnRelaciones -> switchFragment("Relaciones")
-            R.id.btnCanales -> switchFragment("Canales")
-            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor")
-            R.id.btnActividades -> switchFragment("Actividades")
-            R.id.btnRecursos -> switchFragment("Recursos")
-            R.id.btnSociosClave -> switchFragment("Socios Clave")
-            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso")
-            R.id.btnCostos -> switchFragment("Costos")
+            R.id.btnClientes -> switchFragment("Segmento Clientes", model?.clients)
+            R.id.btnRelaciones -> switchFragment("Relaciones", model?.relationships)
+            R.id.btnCanales -> switchFragment("Canales", model?.channels)
+            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor", model?.valueProposition)
+            R.id.btnActividades -> switchFragment("Actividades",model?.activities)
+            R.id.btnRecursos -> switchFragment("Recursos",model?.resources)
+            R.id.btnSociosClave -> switchFragment("Socios Clave",model?.partners)
+            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso",model?.income)
+            R.id.btnCostos -> switchFragment("Costos",model?.costs)
         }
     }
 
@@ -177,12 +167,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
         view.findViewById<Button>(R.id.btnClientes)!!.setOnClickListener {
             Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
 
-            //Cambio de fragment
-//            val detailFragment = DetailAreaFragment()
-//            val manager = childFragmentManager
-//            manager.beginTransaction().
-//                    replace(R.id.layout_detail_fragment, detailFragment, detailFragment.tag)
-//                    .commit()
             fragmentManager!!
                     .beginTransaction()
                     .replace(R.id.content_frame, DetailAreaFragment())
