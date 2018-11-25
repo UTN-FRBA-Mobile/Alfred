@@ -20,7 +20,6 @@ import org.jetbrains.anko.uiThread
 
 private const val ARG_areaName = "areaName"
 
-
 class DetailAreaFragment : Fragment() {
     private var viewFragDetail: View? = null
     private var areaName: String? = null

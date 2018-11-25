@@ -47,7 +47,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadButtons()
 
-        loadSpinnerModelos() // Cargo los elementos que deben ir dentro del spinner
+
 
         loadEventOnClickNewModel()
         //loadEventOnClickAreaDetail(v)
@@ -55,9 +55,9 @@ class AreasFragment : Fragment(), View.OnClickListener{
         doAsync {
             //INSERT FOR TEST
             areaDao.insertAll(
-                    Area(1, "1", "Modelo A"),
-                    Area(2, "1", "Modelo B"),
-                    Area(3, "2", "Modelo C")
+                    Area(1, "1", "Modelo A", "clientesA","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+                    Area(2, "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
+                    Area(3, "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
             )
             Log.i("Areas", "Prueba de log")
             Log.i("Area count", areaDao.getAll().size.toString())
@@ -68,6 +68,8 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
             Log.i("MAP Areas",mapModels.toList().toString())
             Log.i("MAP Areas", areaDao.findById(3).name)
+
+            uiThread { loadSpinnerModelos()  }
 
         }
 
@@ -141,7 +143,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private fun loadSpinnerModelos() {
         val spinner = vfrag?.findViewById<Spinner>(R.id.spinner_modelos)
-        spinner!!.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, modelos_negocio).apply {
+        spinner!!.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, mapModels.keys.toList()).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
     }
