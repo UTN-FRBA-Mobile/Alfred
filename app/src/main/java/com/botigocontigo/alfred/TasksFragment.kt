@@ -29,7 +29,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
-
+import com.botigocontigo.alfred.backend.PlansGetCallbacks
 
 
 class TasksFragment : Fragment() {
@@ -63,56 +63,28 @@ class TasksFragment : Fragment() {
 
         container!!.bringToFront()
 
-        val context = inflater.context
-        val services = Services(context)
-        val user = services.currentUser()
-
-        api = services.botigocontigoApi(Permissions(user))
+        val services = Services(inflater.context)
+        api = services.botigocontigoApi()
 
         doAsync {
 
-//            planDao.deleteAllRows()
-//            taskDao.deleteAllRows()
+            api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
 
-//            val plans: List<com.botigocontigo.alfred.tasks.Plan> = api.plansGetAll()
+            if (planDao.getPlansCount() == 0) {
+                planDao.insertAll(
+                        Plan("aaa", "Plan Comercial", "Comercio", "Hugo", "hugos@f.com", Date(1565481600000)),
+                        Plan("bbb", "Plan de Comunicación", "Recursos Humanos", "Carlos", "carl25@ww.com", Date(1552262400000)),
+                        Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
+                )
+            }
 //
-//            plans.forEach { p ->
-//                planDao.insertAll(Plan(
-//                        id = p.id,
-//                        name = p.name,
-//                        businessArea = p.businessArea,
-//                        userId = p.userId,
-//                        userEmail = p.userEmail,
-//                        createdDate = p.createAt
-//                ))
-//
-//                p.tasks.forEach {
-//                    taskDao.insertAll(Task(
-//                            id = it.id,
-//                            name = it.name,
-//                            responsibleId = it.responsibleId,
-//                            supervisorId = it.supervisorId,
-//                            frecType = it.frequency!!.type,
-//                            frecValue = it.frequency!!.value,
-//                            completed = it.completed,
-//                            planId = p.id
-//                    ))
-//                }
-//            }
-
-            planDao.insertAll(
-                    Plan("aaa", "Plan Comercial", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000)),
-                    Plan("bbb", "Plan de Comunicación", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000)),
-                    Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
-            )
-
-            taskDao.insertAll(
-                    Task("qwe123", "Correr 10k", "Semanalmente", "2", "Norma", "Carlos", false, "ccc"),
-                    Task("asd123", "Contratar Personal", "Mensualmente", "5", "Hugo", "Norma", false, "bbb"),
-                    Task("zxc123", "Enseñar Computacion 2", "Semanalmente", "2", "Hugo", "Carlos", false, "aaa"),
-                    Task("tyu789", "Vender Productos", "Semanalmente", "10", "Carlos", "Hugo", false, "bbb"),
-                    Task("oiu098", "Chequeo medico", "Anualmente", "5", "Norma", "Carlos", false, "ccc")
-            )
+//            taskDao.insertAll(
+//                    Task("qwe123", "Correr 10k", "Semanalmente", "2", "Norma", "Carlos", false, "ccc"),
+//                    Task("asd123", "Contratar Personal", "Mensualmente", "5", "Hugo", "Norma", false, "bbb"),
+//                    Task("zxc123", "Enseñar Computacion 2", "Semanalmente", "2", "Hugo", "Carlos", false, "aaa"),
+//                    Task("tyu789", "Vender Productos", "Semanalmente", "10", "Carlos", "Hugo", false, "bbb"),
+//                    Task("oiu098", "Chequeo medico", "Anualmente", "5", "Norma", "Carlos", false, "ccc")
+//            )
 
             Log.i("Plans count", planDao.getAll().size.toString())
 
@@ -358,5 +330,41 @@ class TasksFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun loadToDb(response: List<com.botigocontigo.alfred.tasks.Plan>) {
+
+        planDao.deleteAllRows()
+        taskDao.deleteAllRows()
+
+        response.forEach { p ->
+            planDao.insertAll(Plan(
+                    id = p.id,
+                    name = p.name,
+                    businessArea = p.businessArea,
+                    userId = p.userId,
+                    userEmail = p.userEmail,
+                    createdDate = p.createAt
+            ))
+
+            p.tasks.forEach {
+                taskDao.insertAll(Task(
+                        id = it.id,
+                        name = it.name,
+                        responsibleId = it.responsibleId,
+                        supervisorId = it.supervisorId,
+                        frecType = it.frequency!!.type,
+                        frecValue = it.frequency!!.value,
+                        completed = it.completed,
+                        planId = p.id
+                ))
+            }
+        }
+    }
+
+    private fun savePlans(plans: List<Plan>) {
+
+
+//        api.plansSaveAll()
     }
 }
