@@ -53,7 +53,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
         val services = Services(context)
 
-        busyFragment.updateText("Understanding your knowledge needs...")
+        busyFragment.updateText("Entendiendo tus necesidades...")
 
         val learnQueryCallbacks = LearnQueryCallbacks(this)
 
@@ -66,7 +66,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
         val services = Services(context)
 
-        busyFragment.updateText("Looking for your favorites...")
+        busyFragment.updateText("Buscando tus favoritos...")
 
         val repository = services.favoritesArticleRepository()
         repository.getAll(this)
@@ -84,7 +84,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
     fun adaptativeQuerySuccess(query: String) {
         learnOptionsFragment.query = query
-        busyFragment.updateText("Fetching the best articles for you...")
+        busyFragment.updateText("Buscando los mejores artículos...")
         val articleRepository = Services(context!!).generalArticleRepository()
         articleRepository.search(query, this)
     }
@@ -103,7 +103,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
     }
 
     override fun error(action: ArticleRepositoryAction) {
-        showError("Something went wrong on phase 1")
+        showError("Algo inesperado ocurrió")
     }
 
 }
