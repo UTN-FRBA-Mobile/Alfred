@@ -4,26 +4,34 @@ import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRepository {
     //private val executor: Executor = Executors.newFixedThreadPool(2)
 
     override fun search(query: String, handler: ArticlesHandler) {
         //executor.execute {
+        doAsync {
             val results = articleDao.getAllByText(query)
-            dispatch(results, handler)
+            uiThread { dispatch(results, handler) }
+        }
         //}
     }
 
     override fun getAll(handler: ArticlesHandler) {
-        val results = articleDao.getAll()
-        dispatch(results, handler)
+        doAsync {
+            val results = articleDao.getAll()
+            uiThread { dispatch(results, handler) }
+        }
     }
 
     override fun isPresent(article: Article, handler: ArticlePresentHandler) {
-        val url = article.link
-        val count = articleDao.linkCount(url)
-        handler.success(count > 0)
+        doAsync {
+            val url = article.link
+            val count = articleDao.linkCount(url)
+            uiThread { handler.success(count > 0) }
+        }
     }
 
     override fun upsert(article: Article) {
@@ -32,12 +40,12 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         element.setDescription(article.description)
         element.setImageUrl(article.imageUrl)
         element.setLink(article.link)
-        articleDao.insertAll(element)
+        doAsync { articleDao.insertAll(element) }
     }
 
     override fun delete(article: Article) {
         val link = article.link
-        articleDao.deleteByLink(link)
+        doAsync { articleDao.deleteByLink(link) }
     }
 
     private fun dispatch(roomArticles: List<RoomArticle>, handler: ArticlesHandler) {
