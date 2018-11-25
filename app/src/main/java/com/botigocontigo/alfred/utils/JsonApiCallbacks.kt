@@ -2,13 +2,19 @@ package com.botigocontigo.alfred.utils
 
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import java.lang.RuntimeException
 
 abstract class JsonApiCallbacks : AsyncTaskCallbacks<String>() {
 
     override fun success(result: String) {
-        val parser = JSONParser()
-        val json = parser.parse(result) as JSONObject
-        successWithParsedJson(json)
+        var json: JSONObject? = null
+        try {
+            val parser = JSONParser()
+            json = parser.parse(result) as JSONObject
+        } catch (exception: RuntimeException) {
+            error()
+        }
+        successWithParsedJson(json!!)
     }
 
     abstract fun successWithParsedJson(result: JSONObject)
