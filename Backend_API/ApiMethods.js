@@ -287,5 +287,31 @@ if (Meteor.isServer) {
         return exception;
       }
     },
+    'api.saveAreas'(data) {
+      console.log("=== Calling api.saveAreas ===");
+      try {
+        BusinessAreas.insertBusinessAreas(data.areas, data.userId);
+        return {
+          success: true
+        };
+      } catch (exception) {
+        console.log(exception);
+        return {
+          success: false,
+          error: exception
+        };
+      }
+    },
+    'api.getAreas'(data) {
+      console.log("=== Calling api.getAreas ===");
+      try {
+        const areasFound = BusinessAreas.getAreas(data.userId);
+        console.log(JSON.stringify(areasFound));
+        return areasFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
+      }
+    },
   });
 }
