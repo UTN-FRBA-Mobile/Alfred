@@ -3,8 +3,15 @@ import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
 import { Favourites } from '../../../../lib/schemas/favourites';
 import { Swots } from '../../../../lib/schemas/swot';
+import { validationsHelper } from '../../helpers/validationsHelper';
 
 if (Meteor.isServer) {
+  function capitalize(str){
+    return str.trim().split('')
+      .map((char,i) => i === 0 ? char.toUpperCase() : char )
+      .reduce((final,char)=> final += char, '' )
+  }
+
   Meteor.methods({
     /*
     * REQUIRES: 
@@ -78,6 +85,10 @@ if (Meteor.isServer) {
           newUserId: newUserId
         };
       } catch (exception) {
+        console.error("=== ERROR on register ===");
+        console.error(exception);
+        console.error(JSON.stringify(exception));
+        console.trace();
         validationsHelper.parseMongoError(exception);
         return {
           success: false,
@@ -126,21 +137,35 @@ if (Meteor.isServer) {
     'api.login'(data) {
       console.log("=== Calling api.login ===");
       //TODO password must be Bcripted in App? Or at least use SHA256
-      Meteor.loginWithPassword(data.email, data.password, (err) => {
-        if (err) {
-          validationsHelper.displayServerError(err);
-          return {
-            success: false,
-            error: TAPi18n.__('error.login')
-          };
-        } else {
-          const existingUser = Meteor.users.findOne({'emails.address': data.email});
-          return {
-            success: true,
-            userData: existingUser
-          };
-        }
-      });
+      // Meteor.loginWithPassword(data.email, data.password, (err) => {
+      //   if (err) {
+      //     validationsHelper.displayServerError(err);
+      //     return {
+      //       success: false,
+      //       error: TAPi18n.__('error.login')
+      //     };
+      //   } else {
+      //     const existingUser = Meteor.users.findOne({'emails.address': data.email});
+      //     return {
+      //       success: true,
+      //       userData: existingUser
+      //     };
+      //   }
+      // });
+      const existingUser = Meteor.users.findOne({'emails.address': data.email});
+      if (existingUser) {
+      return {
+        success: true,
+        userData: existingUser,
+        userId: existingUser._id,
+        email: existingUser["emails"][0]["address"]
+      };
+      } else {
+        return {
+          success: false,
+          error: TAPi18n.__('error.login')
+        };
+      }
     },
     /*
     * REQUIRES: 

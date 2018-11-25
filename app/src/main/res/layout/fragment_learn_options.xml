@@ -8,30 +8,41 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView5"
+        <ImageView
+            android:id="@+id/imgLogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Términos de búsqueda:" />
+            android:padding="5dp"
+            android:src="@mipmap/botigocontigo" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:inputType="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/learn_options_terms_title"
+            android:textColor="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/queryText"
+            android:inputType="none"
+            android:editable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="aprendiendo a emprender" />
+            android:text="aprendiendo a emprender"
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/queryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver artículos recomendados" />
+            android:text="@string/learn_options_show_articles" />
 
         <Button
             android:id="@+id/favoritesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver artículos favoritos" />
+            android:text="@string/learn_options_show_favorites" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
