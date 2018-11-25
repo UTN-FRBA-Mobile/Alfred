@@ -28,8 +28,21 @@ class GoogleSearchResult (json: JSONObject) {
     }
 
     private fun safeString(input: String) : String {
-        val regex = Regex("[^A-Za-z0-9]")
-        return input.replace(regex, " ")
+        var output = input
+        output = output.replace("á", "a")
+        output = output.replace("é", "e")
+        output = output.replace("í", "i")
+        output = output.replace("ó", "o")
+        output = output.replace("ú", "u")
+        output = output.replace("Á", "A")
+        output = output.replace("É", "E")
+        output = output.replace("Í", "I")
+        output = output.replace("Ó", "O")
+        output = output.replace("Ú", "U")
+        var regex = Regex("\\\\s+")
+        output = output.replace(regex, " ")
+        regex = Regex("[^A-Za-z0-9,.:?!]")
+        return output.replace(regex, " ")
     }
 
 }
