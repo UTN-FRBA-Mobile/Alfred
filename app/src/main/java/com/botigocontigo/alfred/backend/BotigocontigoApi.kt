@@ -10,7 +10,7 @@ import com.botigocontigo.alfred.utils.NetworkingAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
+class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Permissions) : Api(adapter) {
 
     // usage example:
     // api.learnQuery().call(callbacks)
@@ -45,8 +45,8 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
     fun saveFavoriteArticle(title: String, description: String, link: String, imageUrl: String?): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertFavourite")
         val userId = permissions.getUserId()
-        val articleBody = if(imageUrl != null) "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\"}"
-        else "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\",\"imageUrl\":\"$imageUrl\"}"
+        val articleBody = if(imageUrl != null) "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\",\"imageUrl\":\"$imageUrl\"}"
+        else "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\"}"
         val body = "{\"favourite\":$articleBody,\"userId\":\"$userId\"}"
         request.body = body
         return request
