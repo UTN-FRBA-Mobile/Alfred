@@ -23,8 +23,36 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@android:color/transparent"
-        android:hint="Descripcion"
-        />
+        android:hint="Descripcion" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimary"
+            android:text="@string/dialog_cancel"
+            android:textColor="@color/colorBackgroundTask" />
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="255dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/colorPrimary"
+            android:text="Guardar"
+            android:textColor="@color/colorBackgroundTask" />
+
+    </RelativeLayout>
 
 </LinearLayout>
 

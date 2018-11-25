@@ -14,19 +14,10 @@ data class Area(
     var userId: String?,
 
     @ColumnInfo(name = "name")
-    var name: String?
-/*
-    @ColumnInfo(name = "partners")
-    var partners: String?,
+    var name: String?,
 
-    @ColumnInfo(name = "activities")
-    var activities: String?,
-
-    @ColumnInfo(name = "resources")
-    var resources: String?,
-
-    @ColumnInfo(name = "valueProposition")
-    var valueProposition: String?,
+    @ColumnInfo(name = "clients")
+    var clients: String?,
 
     @ColumnInfo(name = "relationships")
     var relationships: String?,
@@ -34,14 +25,31 @@ data class Area(
     @ColumnInfo(name = "channels")
     var channels: String?,
 
+    @ColumnInfo(name = "valueProposition")
+    var valueProposition: String?,
+
+    @ColumnInfo(name = "activities")
+    var activities: String?,
+
+    @ColumnInfo(name = "resources")
+    var resources: String?,
+
+    @ColumnInfo(name = "partners")
+    var partners: String?,
+
+    @ColumnInfo(name = "income")
+    var income: String?,
+
+    @ColumnInfo(name = "costs")
+    var costs: String?
+
+/*
+
     @ColumnInfo(name = "segments")
     var segments: String?,
 
     @ColumnInfo(name = "providers")
     var providers: String?,
-
-    @ColumnInfo(name = "clients")
-    var clients: String?,
 
     @ColumnInfo(name = "agglutinators")
     var agglutinators: String?,
