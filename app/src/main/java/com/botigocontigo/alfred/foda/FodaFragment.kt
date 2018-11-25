@@ -65,10 +65,10 @@ class FodaFragment : Fragment() {
 
         if (dimensionsDataBase.isEmpty()) {
             dimensionDao.insertAll(
-                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2","","","","","")).toString(), "1", TypesEnum.FORTALEZAS.type, Date()),
-                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2","","","","","")).toString(), "1", TypesEnum.OPORTUNIDADES.type, Date()),
-                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2","","","","","")).toString(), "1", TypesEnum.DEBILIDADES.type, Date()),
-                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2","","","","","","")).toString(), "1", TypesEnum.AMENAZAS.type, Date())
+                    DimensionDataBase(1, Gson().toJson(arrayListOf("Notoriedad de la marca a nivel nacional","Equipo Profesional con amplia Experiencia","Alta fidelización de nuestros clientes","Especializacion de producto","")).toString(), "1", TypesEnum.FORTALEZAS.type, Date()),
+                    DimensionDataBase(2, Gson().toJson(arrayListOf("Tendencia favorable en el mercado","Aparición de nuevos segmentos","Probabilidad de establecer alianzas estrategicas","")).toString(), "1", TypesEnum.OPORTUNIDADES.type, Date()),
+                    DimensionDataBase(3, Gson().toJson(arrayListOf("Falta de financiación","Costes unitarios elevados","Cartera de productos limitada","")).toString(), "1", TypesEnum.DEBILIDADES.type, Date()),
+                    DimensionDataBase(4, Gson().toJson(arrayListOf("Entrada de nuevos competidores","Nueva legislación que afecta al sector","Cambio de hábitos de los consumidores","Globalización de mercados","")).toString(), "1", TypesEnum.AMENAZAS.type, Date())
             )
             Log.i("Menu", "Inicio")
             Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
