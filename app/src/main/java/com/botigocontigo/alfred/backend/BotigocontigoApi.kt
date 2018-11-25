@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.backend
 
 import android.support.annotation.Dimension
 import com.botigocontigo.alfred.storage.db.entities.Area
+import com.botigocontigo.alfred.storage.db.entities.Risk
 import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
@@ -116,6 +117,12 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         return request
     }
 
+
+    fun risksGetAll(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getRisks")
+        applyPermissions(request)
+        return request
+    }
     fun fodaGetAll():ApiRequest {
         val request = ApiRequest(this,"post","methods/api.getSwot")
         applyPermissions(request)
