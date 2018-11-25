@@ -18,19 +18,19 @@ class ContentAdapter(context: Context, dimension: Dimension) : BaseAdapter() {
 
     init {
         fodaContext = context
-        length = dimension.array.size
+        length = dimension.descriptions.size
         actualDimension = dimension
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val editText = EditText(this.fodaContext)
-        editText.setText(this.actualDimension!!.array[position])
+        editText.setText(this.actualDimension!!.descriptions[position])
         editText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotBlank()) {
                     editText.removeTextChangedListener(this)
-                    actualDimension!!.array[position] = s.toString()
+                    actualDimension!!.descriptions[position] = s.toString()
                     editText.addTextChangedListener(this)
                     editText.setFocusableInTouchMode(true)
                     editText.requestFocus()

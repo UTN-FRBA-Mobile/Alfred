@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.Services
 import com.botigocontigo.alfred.backend.FodaGetCallbacks
+import com.botigocontigo.alfred.backend.FodaPostCallbacks
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.DimensionDao
 import com.botigocontigo.alfred.storage.db.entities.DimensionDataBase
@@ -164,16 +165,27 @@ class FodaFragment : Fragment() {
         super.onDestroyView()
         doAsync {
             persistDimensionDatabaseFromDimension()
+            persistOnServer()
             //post to API
         }
+    }
+
+    private fun persistOnServer() {
+
+        val services = Services(this.vfoda!!.context)
+
+        val fodaPostCallbacks= FodaPostCallbacks()
+
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.fodaSaveAll(this.dimensions ).call(fodaPostCallbacks)
     }
 
     private fun persistDimensionDatabaseFromDimension() {
         dimensions.forEach { dimension -> dimensionDao.update(DimensionDataBase(
                 dimension.id,
-                parseJsonFromDimension(dimension.array),
+                parseJsonFromDimension(dimension.descriptions),
                 dimension.userId,
-                dimension.name,
+                dimension.type,
                 Date()
         )) }
     }
