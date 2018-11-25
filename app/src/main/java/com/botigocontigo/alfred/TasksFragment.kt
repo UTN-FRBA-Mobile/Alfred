@@ -67,7 +67,7 @@ class TasksFragment : Fragment() {
             )
             Log.i("Menu", "Inicio")
             Log.i("Plans count", planDao.getAll().size.toString())
-            Log.i("Tasks count", taskDao.getAll().size.toString())
+//            Log.i("Tasks count", taskDao.getAll().size.toString())
 
             mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
 
@@ -96,7 +96,7 @@ class TasksFragment : Fragment() {
                 val plan = spinnerPlans.selectedItem.toString()
                 Log.i("SelectedSpinnerPlan", "$plan - id: ${mapPlans.getValue(plan)}")
                 doAsync {
-                    val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(plan))
+                    val tasks = taskDao.getAllByPlanId(mapPlans.getValue(plan))
                     uiThread {
                         recycler!!.adapter = taskAdapter!!.setDataset(tasks)
                     }
@@ -217,7 +217,8 @@ class TasksFragment : Fragment() {
         builder.setPositiveButton("Si"){ dialog, which ->
             // Eliminar asincronicamente
             doAsync {
-                taskDao!!.deleteAll()
+//                val tasks = planDao.findTasksById()
+                taskDao.deleteAll()
             }
             taskAdapter?.deleteTasks()
             taskAdapter?.notifyDataSetChanged()
@@ -254,18 +255,22 @@ class TasksFragment : Fragment() {
         if (msg != null) {
             fnError(msg)
         } else {
+            val planId = mapPlans.getValue(planName)
+            var tasks = taskDao.getAllByPlanId(mapPlans.getValue(planName))
+            val id = if (tasks.count()>0) tasks.map { it.id }.max() else 0
             val newTask = Task(
+                    id = id!!.plus(1),
                     name = taskName,
                     frecType = frecType,
                     frecValue = frecValue!!,
                     responsibleId = responsible,
                     supervisorId = "super",
                     completed = false,
-                    planId = mapPlans.getValue(planName)
+                    planId = planId
             )
             doAsync {
-                taskDao!!.insertAll(newTask)
-                val tasks = taskDao!!.getAllByPlanId(mapPlans.getValue(planName))
+                taskDao.insertAll(newTask)
+                tasks = taskDao.getAllByPlanId(planId)
                 uiThread {
                     taskAdapter!!.setDataset(tasks)
                     taskAdapter!!.notifyDataSetChanged()

@@ -11,4 +11,5 @@ abstract class AsyncTaskCallbacks<resultObjectClass> {
     open fun error() {
         // does nothing by default
     }
+
 }
