@@ -61,10 +61,10 @@ class FodaFragment : Fragment() {
 
         if (dimensionsDataBase.isEmpty()) {
             dimensionDao.insertAll(
-                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2")).toString(), "Interna", "1", "Fortalezas", Date()),
-                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2")).toString(), "Externa", "1", "Oportunidades", Date()),
-                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2")).toString(), "Interna", "1", "Debilidades", Date()),
-                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2")).toString(), "Externa", "1", "Amenazas", Date())
+                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2","","","","","")).toString(), "Interna", "1", "Fortalezas", Date()),
+                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2","","","","","")).toString(), "Externa", "1", "Oportunidades", Date()),
+                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2","","","","","")).toString(), "Interna", "1", "Debilidades", Date()),
+                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2","","","","","","")).toString(), "Externa", "1", "Amenazas", Date())
             )
             Log.i("Menu", "Inicio")
             Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
