@@ -80,6 +80,16 @@ const businessAreasSchema = new SimpleSchema({
     label: "agglutinators",
     optional: true
   },
+  income: {
+    type: String,
+    label: "income",
+    optional: true
+  },
+  costs: {
+    type: String,
+    label: "costs",
+    optional: true
+  },
   competitors: {
     type: Array,
     label: "competitors",
@@ -94,13 +104,20 @@ const businessAreasSchema = new SimpleSchema({
   }
 });
 
-BusinessAreas.insertBusinessAreas = (businessAreas) => {
-  BusinessAreas.remove({userId: Meteor.userId()});
+BusinessAreas.insertBusinessAreas = (businessAreas, userId = Meteor.userId()  ) => {
+  BusinessAreas.remove({userId: userId});
   businessAreas.forEach(businessArea => {
     const newBusinessArea = Object.assign({}, businessArea);
-    newBusinessArea.userId = Meteor.userId();
+    newBusinessArea.userId = userId;
     BusinessAreas.insert(newBusinessArea);
   });
+};
+
+BusinessAreas.getAreas = (userId = Meteor.userId() ) => {
+  areasFound = BusinessAreas.find({userId: userId});
+  return areasFound
+          ? areasFound
+          : "";
 };
 
 BusinessAreas.attachSchema(businessAreasSchema);
