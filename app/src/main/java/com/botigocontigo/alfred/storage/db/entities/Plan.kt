@@ -12,13 +12,13 @@ import java.util.Date
 data class Plan(
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "id")
-        var id: Int = 0,
+        var id: String,
 
         @ColumnInfo(name = "name")
         var name: String,
 
         @ColumnInfo(name = "business_area")
-        var business_area: String?,
+        var businessArea: String?,
 
         @ColumnInfo(name = "user_id")
         var userId: String?,

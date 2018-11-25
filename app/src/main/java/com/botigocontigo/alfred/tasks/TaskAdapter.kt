@@ -96,8 +96,8 @@ class TaskAdapter(private val switchFlipper: (Int) -> Unit) :
         selectedItems = arrayListOf()
     }
 
-    fun setDataset(ds: List<Task>): TaskAdapter {
-        dataset = ds
+    fun setDataset(ds: List<Task>?): TaskAdapter {
+        dataset = if (ds == null) listOf() else ds
         return this
     }
 

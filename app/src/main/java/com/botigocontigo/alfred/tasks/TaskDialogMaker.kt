@@ -2,15 +2,20 @@ package com.botigocontigo.alfred.tasks
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.support.v4.content.ContextCompat.getSystemService
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import com.botigocontigo.alfred.R
 import kotlinx.android.synthetic.main.dialog_form_task.view.*
+import android.support.v4.content.ContextCompat.getSystemService
+
+
 
 class TaskDialogMaker (
         private val ctx: Context,
@@ -18,7 +23,7 @@ class TaskDialogMaker (
         private val arrayPlans: List<String>,
         private val initNameTask: String,
         private val initFrecType: String?,
-        private val initFrecValue: Int,
+        private val initFrecValue: String,
         val initResponsible: String?,
         private val operation: String,
         val cancelable: (AlertDialog, View) -> Unit,
@@ -90,6 +95,15 @@ class TaskDialogMaker (
                 okable(alertDialog, dialog)
             }
         }
+
+        hideKeypad(etNameTask)
+        hideKeypad(etIntervalCount)
+
+    }
+
+    private fun hideKeypad(et: EditText) {
+        val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(et.windowToken, 0)
     }
 
     private fun getPeriod(frecuency: String) : String {
