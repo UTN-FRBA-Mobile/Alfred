@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.learn
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.Services
-import com.botigocontigo.alfred.backend.Permissions
 import com.botigocontigo.alfred.learn.fragments.ArticlesFragment
 import com.botigocontigo.alfred.learn.fragments.BusyFragment
 import com.botigocontigo.alfred.learn.fragments.ErrorFragment
@@ -20,23 +20,17 @@ class LearnFragment : Fragment(), ArticlesHandler {
     private val errorFragment = ErrorFragment()
     private val busyFragment = BusyFragment()
     private val articlesFragment = ArticlesFragment()
+    private val learnOptionsFragment = LearnOptionsFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        learnOptionsFragment.learnFragment = this
         val viewFragment = inflater.inflate(R.layout.fragment_learn, container, false)
-        showFragment(busyFragment)
 
-        val context = inflater.context
-        val services = Services(context)
+        val floatingButton: View = viewFragment.findViewById(R.id.options)
+        floatingButton.setOnClickListener { showOptions() }
 
-        busyFragment.updateText("Understanding your knowledge needs...")
-
-        val user = services.currentUser()
-        val permissions = Permissions(user)
-        val learnQueryCallbacks = LearnQueryCallbacks(this)
-
-        val botigocontigoApi = services.botigocontigoApi(permissions)
-        botigocontigoApi.learnQuery().call(learnQueryCallbacks)
+        startSearch(inflater.context)
 
         return viewFragment
     }
@@ -50,9 +44,46 @@ class LearnFragment : Fragment(), ArticlesHandler {
         errorFragment.updateText(message)
     }
 
+    private fun showOptions() {
+        showFragment(learnOptionsFragment)
+    }
+
+    private fun startSearch(context: Context) {
+        showFragment(busyFragment)
+
+        val services = Services(context)
+
+        busyFragment.updateText("Understanding your knowledge needs...")
+
+        val learnQueryCallbacks = LearnQueryCallbacks(this)
+
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.learnQuery().call(learnQueryCallbacks)
+    }
+
+    private fun startGetAll(context: Context) {
+        showFragment(busyFragment)
+
+        val services = Services(context)
+
+        busyFragment.updateText("Looking for your favorites...")
+
+        val repository = services.favoritesArticleRepository()
+        repository.getAll(this)
+    }
+
+    fun showQueryArticles() {
+        startSearch(context!!)
+    }
+
+    fun showFavoritesArticles() {
+        startGetAll(context!!)
+    }
+
     // steps
 
     fun adaptativeQuerySuccess(query: String) {
+        learnOptionsFragment.query = query
         busyFragment.updateText("Fetching the best articles for you...")
         val articleRepository = Services(context!!).generalArticleRepository()
         articleRepository.search(query, this)
