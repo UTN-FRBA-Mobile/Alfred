@@ -77,7 +77,7 @@ class Services(context: Context) {
     fun favoritesArticleRepository(): IntelligentArticleRepository {
         val repositories = ArrayList<ArticleRepository>()
         repositories.add(apiArticleRepository())
-        // repositories.add(roomArticleRepository())
+        repositories.add(roomArticleRepository())
         return IntelligentArticleRepository(repositories)
     }
 
