@@ -50,15 +50,10 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun plansGetAll(): List<Plan> {
+    fun plansGetAll(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.getPlanList")
         applyPermissions(request)
-
-        val gsonBuilder = GsonBuilder().serializeNulls()
-        gsonBuilder.registerTypeAdapter(Plan::class.java, PlanDeserializer())
-        val gson = gsonBuilder.create()
-
-        return gson.fromJson(request.toString() , Array<Plan>::class.java).toList()
+        return request
     }
 
 
