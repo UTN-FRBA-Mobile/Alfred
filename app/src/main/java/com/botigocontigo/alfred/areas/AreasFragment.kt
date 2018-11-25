@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.areas
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.AreaDao
 import com.botigocontigo.alfred.storage.db.entities.Area
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
+import kotlinx.android.synthetic.main.fragment_areas.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -44,7 +46,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadButtons()
 
-        loadEventOnClickNewModel()
         //loadEventOnClickAreaDetail(v)
 
         doAsync {
@@ -55,14 +56,15 @@ class AreasFragment : Fragment(), View.OnClickListener{
                     Area(3, "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
             )
 
+
             //HARDCODED USER ID
             mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
             model = areaDao.findById(1)
 
-            uiThread { loadSpinnerModelos()  }
-
+            uiThread {
+                loadEventOnClickNewModel()
+                loadSpinnerModelos()  }
         }
-
         return vfrag
     }
 
@@ -132,89 +134,76 @@ class AreasFragment : Fragment(), View.OnClickListener{
     }
 
     private fun loadSpinnerModelos() {
+
         val spinner = vfrag?.findViewById<Spinner>(R.id.spinner_modelos)
         spinner!!.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, mapModels.keys.toList()).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
+
+        Log.i("MAP ITEMS", mapModels.toList().toString())
     }
 
     private fun loadEventOnClickNewModel() {
         vfrag?.findViewById<ImageButton>(R.id.btnNewModel)!!.setOnClickListener {
             // dw = dialogView
-            val dw: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
-            val mBuilder = AlertDialog.Builder(context!!).setView(dw)
+            val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
+            val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 
-            //dw.btnOk.text = "AGREGAR"
-            //dw.btnCancel.text = "CANCELAR"
 
             val mAlertDialog = mBuilder.show()
 
-            dw.btnCancel.setOnClickListener {
+            diagView.btnCancel.setOnClickListener {
                 mAlertDialog.dismiss()
             }
 
-            dw.btnOk.setOnClickListener {
+            diagView.btnOk.setOnClickListener {
                 mAlertDialog.dismiss()
+                toast("Modelo Creado")
+                createModel(mAlertDialog,diagView)
             }
         }
     }
 
+    private fun createModel(alertDialog: AlertDialog, viewDialog: View) {
+        var msg: String? = null
 
+        var newModelName: String? = viewDialog.findViewById<TextInputEditText>(R.id.txtNewModel).text.toString()
 
-    private fun loadEventOnClickAreaDetail(view: View) {
+        Log.i("CREATE: ", newModelName)
 
-        /**SEGMENTO CLIENTES**/
-        view.findViewById<Button>(R.id.btnClientes)!!.setOnClickListener {
-            Toast.makeText(activity, "Segmento Clientes" , Toast.LENGTH_LONG).show()
+        if (newModelName == "" )
+            msg = "Escriba un nombre para el modelo"
 
-            fragmentManager!!
-                    .beginTransaction()
-                    .replace(R.id.content_frame, DetailAreaFragment())
-                    .addToBackStack(null)
-                    .commit()
+        if (msg != null) {
+            toast("Error: "+msg)
+        } else {
+            val newModel = Area(
+                    id = mapModels.count()+1,
+                    //HARCODED USER
+                    userId = "1",
+                    name = newModelName,
+                    activities = "",
+                    channels = "",
+                    clients = "",
+                    costs = "",
+                    income = "",
+                    partners = "",
+                    relationships = "",
+                    resources = "",
+                    valueProposition = ""
+            )
+            doAsync {
+                areaDao.insertAll(newModel)
+                //HARDCODED USER ID
+                mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
+
+                uiThread {
+
+                    loadSpinnerModelos()
+                    alertDialog.dismiss()
+                }
+            }
         }
-
-        /**RELACIONES**/
-        view.findViewById<Button>(R.id.btnRelaciones)!!.setOnClickListener {
-            Toast.makeText(activity, "Relaciones" , Toast.LENGTH_LONG).show()
-        }
-
-        /**CANALES**/
-        view.findViewById<Button>(R.id.btnCanales)!!.setOnClickListener {
-            Toast.makeText(activity, "Canales" , Toast.LENGTH_LONG).show()
-        }
-
-        /**PROPUESTA DE VALOR**/
-        view.findViewById<Button>(R.id.btn_PropuestaValor)!!.setOnClickListener {
-            Toast.makeText(activity, "Propuesta de Valor" , Toast.LENGTH_LONG).show()
-        }
-
-        /**ACTIVIDADES**/
-        view.findViewById<Button>(R.id.btnActividades)!!.setOnClickListener {
-            Toast.makeText(activity, "Actividades" , Toast.LENGTH_LONG).show()
-        }
-
-        /**RECURSOS**/
-        view.findViewById<Button>(R.id.btnRecursos)!!.setOnClickListener {
-            Toast.makeText(activity, "Recursos" , Toast.LENGTH_LONG).show()
-        }
-
-        /**SOCIOS CLAVE**/
-        view.findViewById<Button>(R.id.btnSociosClave)!!.setOnClickListener {
-            Toast.makeText(activity, "Socios Clave" , Toast.LENGTH_LONG).show()
-        }
-
-        /**FUENTES DE INGRESO**/
-        view.findViewById<Button>(R.id.btnFuentesIngreso)!!.setOnClickListener {
-            Toast.makeText(activity, "Fuentes de Ingreso" , Toast.LENGTH_LONG).show()
-        }
-
-        /**COSTOS**/
-        view.findViewById<Button>(R.id.btnCostos)!!.setOnClickListener {
-            Toast.makeText(activity, "Costos" , Toast.LENGTH_LONG).show()
-        }
-
     }
-
 
 }

@@ -33,7 +33,6 @@ class DetailAreaFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private var txtAreaDetail: TextView? = null
-    private var dialogEditArea: AlertDialog? = null
     private var editAreaDetail: EditText? = null
 
     private fun toast(msg:String){
@@ -67,29 +66,25 @@ class DetailAreaFragment : Fragment() {
 
     private fun loadEventOnClickEditArea() {
         viewFragDetail?.findViewById<Button>(R.id.btnEdit)!!.setOnClickListener {
-            // dw = dialogView
-            val dw: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_area, null)
-            val mBuilder = AlertDialog.Builder(context!!).setView(dw)
+            val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_area, null)
+            val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 
-            editAreaDetail = dw.findViewById<TextInputEditText>(R.id.editAreaDetail)
+            editAreaDetail = diagView.findViewById<TextInputEditText>(R.id.editAreaDetail)
             editAreaDetail?.setText(txtAreaDetail?.text)
 
-            mBuilder.setTitle("EDITAR" + areaName)
+            mBuilder.setTitle(areaName)
             val mAlertDialog = mBuilder.show()
 
-            dw.btnCancel.setOnClickListener {
+            diagView.btnCancel.setOnClickListener {
                 mAlertDialog.dismiss()
             }
 
-            dw.btnOk.setOnClickListener {
+            diagView.btnOk.setOnClickListener {
                 mAlertDialog.dismiss()
-                Toast.makeText(context,"Area editada",Toast.LENGTH_SHORT).show()
+                toast("Area editada")
+                //Toast.makeText(context,"Area editada",Toast.LENGTH_SHORT).show()
                 txtAreaDetail?.text= editAreaDetail?.text
             }
-
-
-
-
         }
     }
 
