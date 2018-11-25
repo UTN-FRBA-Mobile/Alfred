@@ -1,0 +1,145 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Mobile API",
+		"_postman_id": "a3a3624f-8fdf-c1e0-c903-31c1a462e33e",
+		"description": "Set de Pruebas simples para Probar el API mas rapidamente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Test",
+			"request": {
+				"url": {
+					"raw": "http://178.128.229.73:3300/methods/favourites.test/",
+					"protocol": "http",
+					"host": [
+						"178",
+						"128",
+						"229",
+						"73"
+					],
+					"port": "3300",
+					"path": [
+						"methods",
+						"favourites.test",
+						""
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"value\":{\"adentro\": \"IT WORKS\"}}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "API Query",
+			"request": {
+				"url": {
+					"raw": "http://178.128.229.73:3300/methods/api.query/",
+					"protocol": "http",
+					"host": [
+						"178",
+						"128",
+						"229",
+						"73"
+					],
+					"port": "3300",
+					"path": [
+						"methods",
+						"api.query",
+						""
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":\"pjvgEdPAyRabtAdhk\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"url": {
+					"raw": "http://178.128.229.73:3300/methods/api.RegisterUser",
+					"protocol": "http",
+					"host": [
+						"178",
+						"128",
+						"229",
+						"73"
+					],
+					"port": "3300",
+					"path": [
+						"methods",
+						"api.RegisterUser"
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "{valor: \"pepe\"}",
+							"equals": true,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

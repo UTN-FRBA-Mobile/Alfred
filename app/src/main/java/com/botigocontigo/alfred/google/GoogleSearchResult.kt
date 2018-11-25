@@ -24,4 +24,5 @@ class GoogleSearchResult (json: JSONObject) {
         val cseImage1 = cseImage.get(0) as JSONObject
         return cseImage1.get("src") as String
     }
+
 }

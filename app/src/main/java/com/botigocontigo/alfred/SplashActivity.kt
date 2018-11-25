@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
             goToActivity(MenuActivity::class.java)
         }
         btnLearn.setOnClickListener {
-            goToActivity(LearnActivity::class.java)
+            //goToActivity(LearnActivity::class.java)
         }
         btnRisk.setOnClickListener {
             //goToActivity(RiskActivity::class.java)

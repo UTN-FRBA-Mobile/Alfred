@@ -1,44 +1,50 @@
 package com.botigocontigo.alfred.foda
 
 import android.content.Context
-import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.RadioButton
-import android.widget.TextView
-import com.botigocontigo.alfred.R
-import org.w3c.dom.Text
-import android.text.Spanned
-import android.text.style.BulletSpan
-import android.text.SpannableString
-import android.view.Gravity
+import android.widget.EditText
+import com.botigocontigo.alfred.storage.db.entities.Dimension
 
 
-class ContentAdapter(context: Context, inputArray: Array<String>): BaseAdapter() {
+class ContentAdapter(context: Context, dimension: Dimension) : BaseAdapter() {
     private val fodaContext: Context
     private val length: Int
-    private val array:Array<String>
+    public var actualDimension: Dimension? = null
+
 
     init {
         fodaContext = context
-        length = inputArray.size
-        array= inputArray
+        length = 1
+        actualDimension = dimension
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val textView = TextView(this.fodaContext)
-        val string = SpannableString("Text witBullet point")
-        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.abc_btn_radio_material, 0,0 , 0)
-        textView.height=120
+        val editText = EditText(this.fodaContext)
+        editText.setText(this.actualDimension!!.name)
+        editText.addTextChangedListener(object : TextWatcher {
 
-        textView.setCompoundDrawablePadding(16);
-        textView.setPadding(20,20,0,20)
-        textView.gravity = Gravity.CENTER_VERTICAL
-        textView.setTextSize(18F);
-        textView.setTextColor(Color.BLACK)
-        textView.setText(this.array[position])
-        return textView
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotBlank()) {
+                    editText.removeTextChangedListener(this)
+                    actualDimension!!.name = s.toString()
+                    editText.addTextChangedListener(this)
+                    editText.setFocusableInTouchMode(true)
+                    editText.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        return editText
     }
 
     override fun getItem(position: Int): Any {
@@ -50,6 +56,7 @@ class ContentAdapter(context: Context, inputArray: Array<String>): BaseAdapter()
     }
 
     override fun getCount(): Int {
-        return this.length   }
+        return this.length
+    }
 
 }
