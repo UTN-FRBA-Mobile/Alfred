@@ -7,11 +7,13 @@ class GoogleSearchResult (json: JSONObject) {
     private var json = json
 
     fun getTitle(): String {
-        return json.get("title") as String
+        val input = json["title"] as String
+        return safeString(input)
     }
 
     fun getDescription(): String {
-        return json.get("snippet") as String
+        val input = json["snippet"] as String
+        return safeString(input)
     }
 
     fun getTargetUrl(): String {
@@ -23,6 +25,11 @@ class GoogleSearchResult (json: JSONObject) {
         val cseImage = pagemap.get("cse_image") as JSONArray
         val cseImage1 = cseImage.get(0) as JSONObject
         return cseImage1.get("src") as String
+    }
+
+    private fun safeString(input: String) : String {
+        val regex = Regex("[^A-Za-z0-9]")
+        return input.replace(regex, " ")
     }
 
 }
