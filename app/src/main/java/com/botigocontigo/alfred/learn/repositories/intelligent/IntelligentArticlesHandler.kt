@@ -17,8 +17,12 @@ class IntelligentArticlesHandler(private val otherRepositories: List<ArticleRepo
     }
 
     override fun error(action: ArticleRepositoryAction) {
-        val repository = IntelligentArticleRepository(otherRepositories)
-        action.execute(repository, realHandler)
+        if(otherRepositories.isEmpty()) {
+            realHandler.error(action)
+        } else {
+            val repository = IntelligentArticleRepository(otherRepositories)
+            action.execute(repository, realHandler)
+        }
     }
 
 }

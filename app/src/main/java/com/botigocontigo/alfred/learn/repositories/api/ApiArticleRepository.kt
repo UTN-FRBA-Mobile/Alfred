@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.learn.repositories.api
 
 import com.botigocontigo.alfred.backend.BotigocontigoApi
 import com.botigocontigo.alfred.learn.Article
+import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import com.botigocontigo.alfred.learn.repositories.actions.SearchAction
@@ -26,6 +27,17 @@ class ApiArticleRepository(val api: BotigocontigoApi) : ArticleRepository {
         val imageUrl = article.imageUrl
         val callbacks = NullCallbacks()
         api.saveFavoriteArticle(title, description, link, imageUrl).call(callbacks)
+    }
+
+    override fun delete(article: Article) {
+        val link = article.link
+        val callbacks = NullCallbacks()
+        api.deleteFavoriteArticle(link).call(callbacks)
+    }
+
+    override fun isPresent(article: Article, handler: ArticlePresentHandler) {
+        val callbacks = ApiArticlePresentAdapter(article, handler)
+        api.favoriteArticles().call(callbacks)
     }
 
 }

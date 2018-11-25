@@ -4,15 +4,15 @@ import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import com.botigocontigo.alfred.learn.repositories.actions.GetAllAction
 import com.botigocontigo.alfred.utils.JsonApiCallbacks
+import com.botigocontigo.alfred.utils.JsonArrayApiCallbacks
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 
-class ApiArticlesDispatcher(private val handler: ArticlesHandler) : JsonApiCallbacks() {
+class ApiArticlesDispatcher(private val handler: ArticlesHandler) : JsonArrayApiCallbacks() {
 
-    override fun successWithParsedJson(result: JSONObject) {
-        val list = result["favs"] as JSONArray
+    override fun successWithParsedJson(result: JSONArray) {
         handler.searchSuccessful()
-        list.forEach { element ->
+        result.forEach { element ->
             val article = buildArticle(element as JSONObject)
             handler.handleArticle(article)
         }
