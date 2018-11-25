@@ -10,6 +10,7 @@ import com.botigocontigo.alfred.google.Credentials
 import com.botigocontigo.alfred.google.GoogleApi
 import com.botigocontigo.alfred.google.GoogleSearchService
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
+import com.botigocontigo.alfred.learn.repositories.api.ApiArticleRepository
 import com.botigocontigo.alfred.learn.repositories.google.GoogleArticleRepository
 import com.botigocontigo.alfred.learn.repositories.intelligent.IntelligentArticleRepository
 import com.botigocontigo.alfred.learn.repositories.room.LearnDatabase
@@ -26,8 +27,8 @@ class Services(context: Context) {
         return networkingAdapter
     }
 
-    fun botigocontigoApi(permissions: Permissions): BotigocontigoApi {
-        return BotigocontigoApi(networkingAdapter(), permissions)
+    fun botigocontigoApi(): BotigocontigoApi {
+        return BotigocontigoApi(networkingAdapter(), currentPermissions())
     }
 
     private fun defaultGoogleCredentials() : Credentials {
@@ -68,15 +69,24 @@ class Services(context: Context) {
         return RoomArticleRepository(articleDao())
     }
 
+    private fun apiArticleRepository(): ArticleRepository {
+        val api = botigocontigoApi()
+        return ApiArticleRepository(api)
+    }
+
     fun favoritesArticleRepository(): IntelligentArticleRepository {
         val repositories = ArrayList<ArticleRepository>()
-        // TODO repositories.add(botigocontigoArticleRepository())
+        repositories.add(apiArticleRepository())
         repositories.add(roomArticleRepository())
         return IntelligentArticleRepository(repositories)
     }
 
     fun generalArticleRepository(): ArticleRepository {
         return GoogleArticleRepository(googleSearchService())
+    }
+
+    private fun currentPermissions() : Permissions {
+        return Permissions(currentUser())
     }
 
     fun currentUser(): User {

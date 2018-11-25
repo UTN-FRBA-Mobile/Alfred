@@ -7,24 +7,24 @@ import android.arch.persistence.room.TypeConverters
 import com.botigocontigo.alfred.storage.db.converters.DateConverter
 import java.util.Date
 
-@Entity(tableName = "dimensions")
+@Entity(tableName = "dimensionsDataBase")
 @TypeConverters(DateConverter::class)
-data class Dimension(
+data class DimensionDataBase(
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "id")
         var id: Int = 0,
 
-        @ColumnInfo(name = "name")
+        @ColumnInfo(name = "descriptions")
         var name: String,
 
         @ColumnInfo(name = "type")
-        var type: String?,
+        var type: String,
 
         @ColumnInfo(name = "user_id")
-        var userId: Int?,
+        var userId: String,
 
         @ColumnInfo(name = "dimension_name")
-        var dimension_name: String?,
+        var dimension_name: String,
 
         @ColumnInfo(name = "create_at")
         var createdDate: Date?

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
 import { Favourites } from '../../../../lib/schemas/favourites';
+import { Swots } from '../../../../lib/schemas/swot';
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -222,9 +223,23 @@ if (Meteor.isServer) {
       console.log("Started api.getFavourites");
       try {
         const allFavourites = Favourites.get(data.userId);
-        return allFavourites;
+        return allFavourites.favs
+                    ? allFavourites.favs 
+                    : [] ;
       } catch (exception) {
         console.error("=== ERROR on api.getFavourites ===");
+        console.error(exception);
+        console.trace();
+        throw exception;
+      }
+    },
+    //TODO sucess and error
+    'api.deleteFavourites'(data) {
+      console.log("Started api.deleteFavourites");
+      try {
+        Favourites.deleteFavourite(data.link, data.userId);
+      } catch (exception) {
+        console.error("=== ERROR on api.deleteFavourites ===");
         console.error(exception);
         console.trace();
         throw exception;
@@ -250,6 +265,52 @@ if (Meteor.isServer) {
       } catch (exception) {
         console.log(exception);
         throw exception;
+      }
+    },
+    'api.saveSwot'(data) {
+      console.log("=== Calling api.saveSwot ===");
+      try {
+        const newSwotId = Swots.insertSwot(data.swot, data.userId);
+        return newSwotId;
+      } catch (exception) {
+        console.log(exception);
+        return exception;
+      }
+    },
+    'api.getSwot'(data) {
+      console.log("=== Calling api.getSwot ===");
+      try {
+        const swotFound = Swots.getSwot(data.userId);
+        return swotFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
+      }
+    },
+    'api.saveAreas'(data) {
+      console.log("=== Calling api.saveAreas ===");
+      try {
+        BusinessAreas.insertBusinessAreas(data.areas, data.userId);
+        return {
+          success: true
+        };
+      } catch (exception) {
+        console.log(exception);
+        return {
+          success: false,
+          error: exception
+        };
+      }
+    },
+    'api.getAreas'(data) {
+      console.log("=== Calling api.getAreas ===");
+      try {
+        const areasFound = BusinessAreas.getAreas(data.userId);
+        console.log(JSON.stringify(areasFound));
+        return areasFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
       }
     },
   });

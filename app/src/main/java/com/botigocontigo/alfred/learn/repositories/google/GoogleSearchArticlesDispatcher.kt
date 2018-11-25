@@ -4,20 +4,22 @@ import com.botigocontigo.alfred.google.GoogleSearchCallbacks
 import com.botigocontigo.alfred.google.GoogleSearchResult
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.learn.repositories.actions.SearchAction
 
 class GoogleSearchArticlesDispatcher(private val query: String,
-                                     private val articlesHandler: ArticlesHandler) : GoogleSearchCallbacks() {
+                                     private val handler: ArticlesHandler) : GoogleSearchCallbacks() {
 
     override fun successWithParsedResults(results: List<GoogleSearchResult>) {
-        articlesHandler.searchSuccessful()
+        handler.searchSuccessful()
         for(result in results) {
             val article = buildArticle(result)
-            articlesHandler.handleArticle(article)
+            handler.handleArticle(article)
         }
     }
 
     override fun error() {
-        articlesHandler.error(query)
+        val action = SearchAction(query)
+        handler.error(action)
     }
 
     private fun buildArticle(result: GoogleSearchResult): Article {
