@@ -1,6 +1,9 @@
 package com.botigocontigo.alfred.learn
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -27,7 +30,8 @@ class ArticleViewHolder  (var view: View) : RecyclerView.ViewHolder(view), Artic
         bodyText.text = article.description
         val imageUrl = article.imageUrl
         Picasso.get().load(imageUrl).into(previewImage)
-        view.setOnClickListener { changeFavoriteStatus(article) }
+        favoriteImage.setOnClickListener { changeFavoriteStatus(article) }
+        view.setOnClickListener { openUrl(article.link) }
         fetchFavoriteStatus(article)
     }
 
@@ -50,6 +54,12 @@ class ArticleViewHolder  (var view: View) : RecyclerView.ViewHolder(view), Artic
     override fun error() {
         favorite = false
         favoriteImage.setImageResource(R.mipmap.star_translucent)
+    }
+
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(context, intent, null)
     }
 
 }
