@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.FodaGetCallbacks
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.DimensionDao
 import com.botigocontigo.alfred.storage.db.entities.DimensionDataBase
@@ -56,6 +58,7 @@ class FodaFragment : Fragment() {
 
     private fun getDimensions(i: Int): MutableList<Dimension> {
         //esto deberia pegarle a la api
+        val apiInfo  = getServerInfo( vfoda!!.context)
        dimensionsDataBase = dimensionDao.getAll() as MutableList<DimensionDataBase>
         var newDimensions:MutableList<Dimension> =arrayListOf()
 
@@ -77,6 +80,15 @@ class FodaFragment : Fragment() {
     return newDimensions
     }
 
+    private fun getServerInfo(context: Context) {
+
+        val services = Services(context)
+
+        val fodaGetCallbacks= FodaGetCallbacks()
+
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.fodaGetAll().call(fodaGetCallbacks)
+    }
     private fun parseDimensionsfromDimensionDataBase(newDimensions: MutableList<DimensionDataBase>): MutableList<Dimension> {
         var postaDimensions:MutableList<Dimension> = arrayListOf()
             newDimensions.forEach{dimensionsDataBase ->
