@@ -5,13 +5,16 @@ import com.botigocontigo.alfred.storage.db.entities.Area
 
 @Dao
 interface AreaDao {
-    @Query("SELECT * FROM areas")
+    @Query("SELECT * FROM modelos")
     fun getAll(): List<Area>
 
-    @Query("SELECT * FROM areas WHERE id = :areaId")
+    @Query("SELECT * FROM modelos where userId= :uId")
+    fun getModelsByUserId(uId: String): List<Area>
+
+    @Query("SELECT * FROM modelos WHERE id = :areaId")
     fun findById(areaId: Int): Area
 
-    @Query("DELETE FROM areas")
+    @Query("DELETE FROM modelos")
     fun deleteAllRows()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

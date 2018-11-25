@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "tasks")
 data class Task(
-        @PrimaryKey(autoGenerate = false)
+        @PrimaryKey
         @ColumnInfo(name = "id")
         var id: Int = 0,
 

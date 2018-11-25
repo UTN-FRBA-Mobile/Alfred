@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.storage.db.dao
 
 import android.arch.persistence.room.*
 import com.botigocontigo.alfred.storage.db.entities.Plan
+import com.botigocontigo.alfred.storage.db.entities.Task
 
 @Dao
 interface PlanDao {

@@ -4,18 +4,18 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "areas")
+@Entity(tableName = "modelos")
 data class Area(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     var id: Int? = null,
 
-    @ColumnInfo(name = "user_Id")
+    @ColumnInfo(name = "userId")
     var userId: String?,
 
     @ColumnInfo(name = "name")
-    var name: String?,
-
+    var name: String?
+/*
     @ColumnInfo(name = "partners")
     var partners: String?,
 
@@ -48,4 +48,5 @@ data class Area(
 
     @ColumnInfo(name = "competitors")
     var competitors: String?
+*/
 )

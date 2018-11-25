@@ -1,31 +1,31 @@
 package com.botigocontigo.alfred.storage.db.dao
 
 import android.arch.persistence.room.*
-import com.botigocontigo.alfred.storage.db.entities.Dimension
+import com.botigocontigo.alfred.storage.db.entities.DimensionDataBase
 
 @Dao
 interface DimensionDao {
 
-    @Query("SELECT * FROM dimensions")
-    fun getAll(): List<Dimension>
+    @Query("SELECT * FROM dimensionsDataBase")
+    fun getAll(): List<DimensionDataBase>
 
 
-    @Query("SELECT * FROM dimensions WHERE dimension_name= :dimensionClass")
-    fun getDimensions(dimensionClass: String): List<Dimension>
+    @Query("SELECT * FROM dimensionsDataBase WHERE dimension_name= :dimensionClass")
+    fun getDimensions(dimensionClass: String): List<DimensionDataBase>
 
-    @Query("SELECT * FROM dimensions WHERE id = :dimensionId")
-    fun findById(dimensionId: Int): Dimension
+    @Query("SELECT * FROM dimensionsDataBase WHERE id = :dimensionId")
+    fun findById(dimensionId: Int): DimensionDataBase
 
-    @Query("DELETE FROM dimensions")
+    @Query("DELETE FROM dimensionsDataBase")
     fun deleteAllRows()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg dimension: Dimension)
+    fun insertAll(vararg dimensionDataBase: DimensionDataBase)
 
     @Delete
-    fun deleteAll(vararg dimension: Dimension)
+    fun deleteAll(vararg dimensionDataBase: DimensionDataBase)
 
     @Update
-    fun update(entity: Dimension)
+    fun update(entity: DimensionDataBase)
 
 }

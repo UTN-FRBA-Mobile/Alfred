@@ -5,10 +5,12 @@ open class ApiRequest(private val api: Api,
                       private val path: String) : AsyncTask<String>() {
 
     var params: HashMap<String, String> = HashMap()
+    var body: String? = null
 
     override fun execute(callbacks: AsyncTaskCallbacks<String>) {
         val pathWithParams = getPathWithParams()
-        api.enqueue(methodName, pathWithParams, callbacks)
+        if(body != null) api.enqueue(methodName, pathWithParams, body!!, callbacks)
+        else api.enqueue(methodName, pathWithParams, callbacks)
     }
 
     fun put(key: String, value: String) : ApiRequest {

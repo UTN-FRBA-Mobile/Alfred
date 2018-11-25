@@ -22,6 +22,14 @@ const swotsSchema = new SimpleSchema({
     label: "description",
     optional: true
   },
+  descriptions: {
+    type: Array,
+    optional: true,
+    label: "descriptions"
+  },
+  'descriptions.$': {
+    type: String,
+  },
   genericFodaElementId: {
     type: String,
     label: "genericFodaElementId",
@@ -33,12 +41,12 @@ const swotsSchema = new SimpleSchema({
   }
 });
 
-Swots.insertSwot = (swot) => {
-  Swots.remove({userId: Meteor.userId()});
+Swots.insertSwot = (swot, userId = Meteor.userId()) => {
+  Swots.remove({userId: userId});
   ['strengths', 'weaknesses', 'opportunities', 'threats'].forEach(swotElement => {
     swot[swotElement].forEach(element => {
       const newSwotElement = {};
-      newSwotElement.userId = Meteor.userId();
+      newSwotElement.userId = userId;
       newSwotElement.type = swotElement;
       newSwotElement.description = element;
       Swots.insert(newSwotElement);
@@ -52,6 +60,13 @@ Swots.updateUserTaskId = (_id, userTasksId) => {
 
 Swots.removeUserTaskIds = () => {
   Swots.update({userId: Meteor.userId()}, {$unset: {userTasksId: ""}}, {multi: true});
+};
+
+Swots.getSwot = (userId = Meteor.userId() ) => {
+  swotFound = Swots.findOne({userId: userId});
+  return swotFound
+          ? swotFound
+          : "";
 };
 
 Swots.attachSchema(swotsSchema);

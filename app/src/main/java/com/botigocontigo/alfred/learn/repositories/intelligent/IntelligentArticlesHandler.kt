@@ -3,6 +3,7 @@ package com.botigocontigo.alfred.learn.repositories.intelligent
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.learn.repositories.actions.ArticleRepositoryAction
 
 class IntelligentArticlesHandler(private val otherRepositories: List<ArticleRepository>,
                                  private val realHandler: ArticlesHandler) : ArticlesHandler {
@@ -15,9 +16,9 @@ class IntelligentArticlesHandler(private val otherRepositories: List<ArticleRepo
         realHandler.handleArticle(article)
     }
 
-    override fun error(query: String) {
+    override fun error(action: ArticleRepositoryAction) {
         val repository = IntelligentArticleRepository(otherRepositories)
-        repository.search(query, realHandler)
+        action.execute(repository, realHandler)
     }
 
 }
