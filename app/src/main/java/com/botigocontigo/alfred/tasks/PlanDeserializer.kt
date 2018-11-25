@@ -25,7 +25,7 @@ class PlanDeserializer  : JsonDeserializer<Plan> {
         val tasksDeserialized : List<Task> = gson.fromJson(jsonObject.get("tasks").asString , Array<Task>::class.java).toList()
 
         return Plan(
-                jsonObject.get("_id").asInt,
+                jsonObject.get("_id").asString,
                 jsonObject.get("name").asString,
                 jsonObject.get("businessArea").asString,
                 jsonObject.get("userId").asString,
