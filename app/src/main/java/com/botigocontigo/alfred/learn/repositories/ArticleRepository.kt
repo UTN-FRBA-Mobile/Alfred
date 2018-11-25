@@ -7,5 +7,7 @@ interface ArticleRepository {
     fun search(query: String, handler: ArticlesHandler)
     fun getAll(handler: ArticlesHandler)
     fun upsert(article: Article)
+    fun delete(article: Article)
+    fun isPresent(article: Article, handler: ArticlePresentHandler)
 
 }

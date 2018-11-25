@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred.learn.repositories.room
 
 import com.botigocontigo.alfred.learn.Article
+import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 
@@ -19,10 +20,10 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         dispatch(results, handler)
     }
 
-    fun isPresent(article: Article) : Boolean {
+    override fun isPresent(article: Article, handler: ArticlePresentHandler) {
         val url = article.link
         val count = articleDao.linkCount(url)
-        return count > 0
+        handler.success(count > 0)
     }
 
     override fun upsert(article: Article) {
@@ -34,7 +35,7 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         articleDao.insertAll(element)
     }
 
-    fun deleteArticle(article: Article) {
+    override fun delete(article: Article) {
         val link = article.link
         articleDao.deleteByLink(link)
     }

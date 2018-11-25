@@ -1,6 +1,5 @@
 package com.botigocontigo.alfred.utils
 
-import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 

@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.learn.repositories.google
 
 import com.botigocontigo.alfred.google.GoogleSearchService
 import com.botigocontigo.alfred.learn.Article
+import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
 import com.botigocontigo.alfred.learn.repositories.actions.GetAllAction
@@ -20,6 +21,15 @@ class GoogleArticleRepository(private val googleSearchService: GoogleSearchServi
 
     override fun upsert(article: Article) {
         // does nothing
+    }
+
+    override fun delete(article: Article) {
+        // does nothing
+    }
+
+    override fun isPresent(article: Article, handler: ArticlePresentHandler) {
+        // everything is in google (?)
+        handler.success(true)
     }
 
 }
