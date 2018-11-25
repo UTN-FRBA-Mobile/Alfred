@@ -99,7 +99,6 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         return request
     }
 
-
     fun areasGetAll(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.getAreas")
         applyPermissions(request)
@@ -123,6 +122,18 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         applyPermissions(request)
         return request
     }
+
+    fun risksSaveAll(risks: Array<Risk>): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.saveRisks")
+        applyPermissions(request)
+
+        //FIXME if this fails we need to transform manually pDeOcurrecia and cDeDeteccion fields to change their name
+        val gson = Gson()
+        val areasJSONObject= gson.toJson(risks)
+        request.put("risks", areasJSONObject)
+        return request
+    }
+
     fun fodaGetAll():ApiRequest {
         val request = ApiRequest(this,"post","methods/api.getSwot")
         applyPermissions(request)
