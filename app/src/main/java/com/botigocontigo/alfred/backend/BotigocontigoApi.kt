@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.backend
 
+import android.support.annotation.Dimension
 import com.botigocontigo.alfred.storage.db.entities.Area
 import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.utils.Api
@@ -114,6 +115,22 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         request.put("areas", areasJSONObject)
         return request
     }
+
+    fun fodaGetAll():ApiRequest {
+        val request = ApiRequest(this,"post","methods/api.getSwot")
+        applyPermissions(request)
+        return request
+    }
+
+    fun fodaSaveAll(dimensions:Array<Dimension>):ApiRequest {
+        val request = ApiRequest(this,"post","methods/api.saveSwot")
+        applyPermissions(request)
+        val gson = Gson()
+        val fodaJson= gson.toJson(dimensions)
+        request.put("swot", fodaJson)
+        return request
+    }
+
 
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
