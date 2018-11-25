@@ -43,6 +43,7 @@ const swotsSchema = new SimpleSchema({
 
 Swots.insertSwot = (swot, userId = Meteor.userId()) => {
   Swots.remove({userId: userId});
+  console.log(swot);
   ['strengths', 'weaknesses', 'opportunities', 'threats'].forEach(swotElement => {
     swot[swotElement].forEach(element => {
       const newSwotElement = {};
@@ -63,10 +64,10 @@ Swots.removeUserTaskIds = () => {
 };
 
 Swots.getSwot = (userId = Meteor.userId() ) => {
-  swotFound = Swots.findOne({userId: userId});
+  swotFound = Swots.find({userId: userId}).fetch();
   return swotFound
           ? swotFound
-          : "";
+          : [];
 };
 
 Swots.attachSchema(swotsSchema);
