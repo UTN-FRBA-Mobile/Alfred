@@ -18,7 +18,7 @@ class TaskDialogMaker (
         private val arrayPlans: List<String>,
         private val initNameTask: String,
         private val initFrecType: String?,
-        private val initFrecValue: Int,
+        private val initFrecValue: String,
         val initResponsible: String?,
         private val operation: String,
         val cancelable: (AlertDialog, View) -> Unit,

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.getSystemService
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,20 +12,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.botigocontigo.alfred.backend.BotigocontigoApi
+import com.botigocontigo.alfred.backend.Permissions
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.PlanDao
 import com.botigocontigo.alfred.storage.db.dao.TaskDao
 import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.storage.db.entities.Task
+
 import com.botigocontigo.alfred.tasks.TaskAdapter
 import com.botigocontigo.alfred.tasks.TaskDialogMaker
 import kotlinx.android.synthetic.main.dialog_form_task.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
+
+
 
 class TasksFragment : Fragment() {
+
+    private lateinit var api: BotigocontigoApi
 
     private var vfrag: View? = null
     private var taskAdapter: TaskAdapter? = null
@@ -34,7 +44,7 @@ class TasksFragment : Fragment() {
     private lateinit var planDao: PlanDao
     private lateinit var taskDao: TaskDao
 
-    private var mapPlans: Map<String, Int> = emptyMap()
+    private var mapPlans: Map<String, String> = emptyMap()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +61,58 @@ class TasksFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfrag = inflater.inflate(R.layout.fragment_tasks, container, false)
 
+        val context = inflater.context
+        val services = Services(context)
+        val user = services.currentUser()
+
+        api = services.botigocontigoApi(Permissions(user))
+
         doAsync {
+
+            planDao.deleteAllRows()
+            taskDao.deleteAllRows()
+
+//            val plans: List<com.botigocontigo.alfred.tasks.Plan> = api.plansGetAll()
+//
+//            plans.forEach { p ->
+//                planDao.insertAll(Plan(
+//                        id = p.id,
+//                        name = p.name,
+//                        businessArea = p.businessArea,
+//                        userId = p.userId,
+//                        userEmail = p.userEmail,
+//                        createdDate = p.createAt
+//                ))
+//
+//                p.tasks.forEach {
+//                    taskDao.insertAll(Task(
+//                            id = it.id,
+//                            name = it.name,
+//                            responsibleId = it.responsibleId,
+//                            supervisorId = it.supervisorId,
+//                            frecType = it.frequency!!.type,
+//                            frecValue = it.frequency!!.value,
+//                            completed = it.completed,
+//                            planId = p.id
+//                    ))
+//                }
+//            }
+
             planDao.insertAll(
-                    Plan(1, "Plan de Capacitacion", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000)),
-                    Plan(2, "Plan de Negocio", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000)),
-                    Plan(3, "Plan de Ejercitacion", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
+                    Plan("aaa", "Plan Comercial", "Aprendizaje", "Hugo", "hugos@f.com", Date(1565481600000)),
+                    Plan("bbb", "Plan de Comunicación", "Rentabilidad", "Carlos", "carl25@ww.com", Date(1552262400000)),
+                    Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
             )
 
             taskDao.insertAll(
-                    Task(1, "Correr 10k", "Semanalmente", 2, "Norma", "Carlos", false, 3),
-                    Task(2, "Contratar Personal", "Mensualmente", 5, "Hugo", "Norma", false, 2),
-                    Task(3, "Enseñar Computacion 2", "Semanalmente", 2, "Hugo", "Carlos", false, 1),
-                    Task(4, "Vender Productos", "Semanalmente", 10, "Carlos", "Hugo", false, 2),
-                    Task(5, "Chequeo medico", "Anualmente", 5, "Norma", "Carlos", false, 3)
+                    Task("qwe123", "Correr 10k", "Semanalmente", "2", "Norma", "Carlos", false, "ccc"),
+                    Task("asd123", "Contratar Personal", "Mensualmente", "5", "Hugo", "Norma", false, "bbb"),
+                    Task("zxc123", "Enseñar Computacion 2", "Semanalmente", "2", "Hugo", "Carlos", false, "aaa"),
+                    Task("tyu789", "Vender Productos", "Semanalmente", "10", "Carlos", "Hugo", false, "bbb"),
+                    Task("oiu098", "Chequeo medico", "Anualmente", "5", "Norma", "Carlos", false, "ccc")
             )
-            Log.i("Menu", "Inicio")
+
             Log.i("Plans count", planDao.getAll().size.toString())
-//            Log.i("Tasks count", taskDao.getAll().size.toString())
 
             mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
 
@@ -85,7 +130,7 @@ class TasksFragment : Fragment() {
 
         taskAdapter = TaskAdapter(::switchFlipper)
 
-        val adapterPlan = ArrayAdapter(context!!, R.layout.spinner_tasks, mapPlans.keys.toList())
+        val adapterPlan = ArrayAdapter<String>(context!!, R.layout.spinner_tasks, resources.getStringArray(R.array.all_plans))
         adapterPlan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         val spinnerPlans = vfrag!!.findViewById<Spinner>(R.id.spinner_plans)
@@ -159,6 +204,11 @@ class TasksFragment : Fragment() {
         }
     }
 
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
 
     // Desmarca las tareas seleccionadas y cambia el flipper al default
     private fun deselectTasks() {
@@ -182,10 +232,16 @@ class TasksFragment : Fragment() {
 
     private fun loadNewTaskEvent() {
         val planSelected = vfrag!!.findViewById<Spinner>(R.id.spinner_plans).selectedItem.toString()
-        TaskDialogMaker(context!!, planSelected, mapPlans.keys.toList(),
-                "", null, 1, null, "CREATE",
-                { alertDialog: AlertDialog, _ -> alertDialog.dismiss() },
+        TaskDialogMaker(context!!, planSelected, listOf(planSelected),
+                "", null, "1", null, "CREATE",
+                { alertDialog: AlertDialog, _ ->
+                    run {
+                        vfrag!!.hideKeyboard()
+                        alertDialog.dismiss()
+                    }
+                },
                 { alertDialog: AlertDialog, view: View ->
+                    vfrag!!.hideKeyboard()
                     createTask(alertDialog, view, { message: String ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     })
@@ -196,12 +252,19 @@ class TasksFragment : Fragment() {
     private fun loadEditTaskEvent() {
         val task: Task = taskAdapter!!.selectedItems.first()
         val planSelected = vfrag!!.findViewById<Spinner>(R.id.spinner_plans).selectedItem.toString()
-        TaskDialogMaker(context!!, planSelected, mapPlans.keys.toList(),
+//        TaskDialogMaker(context!!, planSelected, mapPlans.keys.toList(),
+        TaskDialogMaker(context!!, planSelected, listOf(planSelected),
                 task.name!!, task.frecType, task.frecValue!!, task.responsibleId,
                 "UPDATE",
-                { alertDialog: AlertDialog, _ -> alertDialog.dismiss() },
-                { alertDialog: AlertDialog, _: View ->
+                cancelable = { alertDialog: AlertDialog, _ ->
+                    vfrag!!.hideKeyboard()
                     alertDialog.dismiss()
+                },
+                okable = { alertDialog: AlertDialog, view: View ->
+                    vfrag!!.hideKeyboard()
+                    updateTask(task.id, alertDialog, view, { message: String ->
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    })
                 }
         )
     }
@@ -236,7 +299,7 @@ class TasksFragment : Fragment() {
         val planName: String = viewDialog.spinner_dialog_plans.selectedItem as String
         val taskName: String = viewDialog.et_dialog_nameTask.text.toString()
         val frecType: String = viewDialog.spinner_dialog_interval.selectedItem as String
-        val frecValue: Int? = viewDialog.et_dialog_interval.text.toString().toInt()
+        val frecValue: String? = viewDialog.et_dialog_interval.text.toString()
         val responsible = "yo"
 
         var msg: String? = null
@@ -247,7 +310,7 @@ class TasksFragment : Fragment() {
             msg = "Falta completar el nombre de la tarea"
         if (frecType == "")
             msg = "Falta completar el periodo de la tarea"
-        if (frecValue == null || frecValue <= 0)
+        if (frecValue == null || frecValue == "")
             msg = "Falta completar las repeticiones de la tarea"
         if (responsible == "")
             msg = "Falta completar el responsable de la tarea"
@@ -256,10 +319,8 @@ class TasksFragment : Fragment() {
             fnError(msg)
         } else {
             val planId = mapPlans.getValue(planName)
-            var tasks = taskDao.getAllByPlanId(mapPlans.getValue(planName))
-            val id = if (tasks.count()>0) tasks.map { it.id }.max() else 0
             val newTask = Task(
-                    id = id!!.plus(1),
+                    id = UUID.randomUUID().toString(),
                     name = taskName,
                     frecType = frecType,
                     frecValue = frecValue!!,
@@ -270,10 +331,46 @@ class TasksFragment : Fragment() {
             )
             doAsync {
                 taskDao.insertAll(newTask)
-                tasks = taskDao.getAllByPlanId(planId)
+                val tasks = taskDao.getAllByPlanId(planId)
                 uiThread {
                     taskAdapter!!.setDataset(tasks)
                     taskAdapter!!.notifyDataSetChanged()
+                    alertDialog.dismiss()
+                }
+            }
+        }
+    }
+
+    private fun updateTask(taskId: String, alertDialog: AlertDialog, viewDialog: View, fnError: (String) -> Unit) {
+        val planName: String = viewDialog.spinner_dialog_plans.selectedItem as String
+        val taskName: String = viewDialog.et_dialog_nameTask.text.toString()
+        val frecType: String = viewDialog.spinner_dialog_interval.selectedItem as String
+        val frecValue: String? = viewDialog.et_dialog_interval.text.toString()
+        val responsible = "yo"
+
+        var msg: String? = null
+
+        if (planName == "")
+            msg = "Falta completar el Plan"
+        if (taskName == "")
+            msg = "Falta completar el nombre de la tarea"
+        if (frecType == "")
+            msg = "Falta completar el periodo de la tarea"
+        if (frecValue == null || frecValue == "")
+            msg = "Falta completar las repeticiones de la tarea"
+        if (responsible == "")
+            msg = "Falta completar el responsable de la tarea"
+
+        if (msg != null) {
+            fnError(msg)
+        } else {
+            doAsync {
+                taskDao.updateTask(taskId, taskName, frecType, frecValue!!)
+                val tasks = taskDao.getAllByPlanId(mapPlans.getValue(planName))
+                uiThread {
+                    taskAdapter!!.setDataset(tasks)
+                    taskAdapter!!.notifyDataSetChanged()
+                    deselectTasks()
                     alertDialog.dismiss()
                 }
             }

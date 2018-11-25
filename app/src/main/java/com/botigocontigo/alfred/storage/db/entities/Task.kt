@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey
 data class Task(
         @PrimaryKey
         @ColumnInfo(name = "id")
-        var id: Int = 0,
+        var id: String,
 
         @ColumnInfo(name = "name")
         var name: String?,
@@ -17,7 +17,7 @@ data class Task(
         var frecType: String?,
 
         @ColumnInfo(name = "frecuency_value")
-        var frecValue: Int?,
+        var frecValue: String?,
 
         @ColumnInfo(name = "responsible_id")
         var responsibleId: String?,
@@ -29,5 +29,5 @@ data class Task(
         var completed: Boolean?,
 
         @ColumnInfo(name = "plan_id")
-        var planId: Int?
+        var planId: String
 )
