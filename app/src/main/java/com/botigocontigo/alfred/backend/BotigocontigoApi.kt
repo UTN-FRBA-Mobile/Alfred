@@ -36,11 +36,11 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
-    fun saveFavoriteArticle(title: String, description: String, link: String): ApiRequest {
+    fun saveFavoriteArticle(title: String, description: String, link: String, imageUrl: String?): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertFavourite")
-        applyPermissions(request)
-        val favouriteJSONObject= "{ \"title\": $title, \"description\": $description, \"link\": $link }"
-        request.put("userId", favouriteJSONObject)
+        val userId = permissions.getUserId()
+        val body = "{\"title\":$title,\"description\":$description,\"link\":$link,\"userId\":$userId}"
+        request.body = body
         return request
     }
 
@@ -97,7 +97,8 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
 
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()
-        request.put("userId", userId)
+        val body = "{\"userId\":\"$userId\"}"
+        request.body = body
     }
 
     override fun getUrl(path: String): String {
