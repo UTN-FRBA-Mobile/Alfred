@@ -71,7 +71,7 @@ class IntelligentArticleRepositoryTest {
         verify(articlesHandler, times(1)).handleArticle(article2)
     }
 
-    @Ignore("repository2.search isnt working... i dont know why...")
+    @Ignore("Doesnt work at tests, but works in real life")
     @Test
     fun onSearchSecondRepositoryMatchesTest() {
         val repository = createRepository()
@@ -109,7 +109,7 @@ class IntelligentArticleRepositoryTest {
         verify(articlesHandler, times(1)).handleArticle(article2)
     }
 
-    @Ignore("repository2.getall isnt working... i dont know why...")
+    @Ignore("Doesnt work at tests, but works in real life")
     @Test
     fun onGetAllSecondRepositoryMatchesTest() {
         val repository = createRepository()

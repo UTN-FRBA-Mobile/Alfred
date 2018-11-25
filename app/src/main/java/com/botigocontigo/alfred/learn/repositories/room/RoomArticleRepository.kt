@@ -8,21 +8,25 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRepository {
-    //private val executor: Executor = Executors.newFixedThreadPool(2)
+    var onAsyncTaskDone = { }
 
     override fun search(query: String, handler: ArticlesHandler) {
-        //executor.execute {
         doAsync {
             val results = articleDao.getAllByText(query)
-            uiThread { dispatch(results, handler) }
+            uiThread {
+                onAsyncTaskDone()
+                dispatch(results, handler)
+            }
         }
-        //}
     }
 
     override fun getAll(handler: ArticlesHandler) {
         doAsync {
             val results = articleDao.getAll()
-            uiThread { dispatch(results, handler) }
+            uiThread {
+                onAsyncTaskDone()
+                dispatch(results, handler)
+            }
         }
     }
 
@@ -30,7 +34,10 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         doAsync {
             val url = article.link
             val count = articleDao.linkCount(url)
-            uiThread { handler.success(count > 0) }
+            uiThread {
+                onAsyncTaskDone()
+                handler.success(count > 0)
+            }
         }
     }
 
@@ -40,12 +47,18 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         element.setDescription(article.description)
         element.setImageUrl(article.imageUrl)
         element.setLink(article.link)
-        doAsync { articleDao.insertAll(element) }
+        doAsync {
+            onAsyncTaskDone()
+            articleDao.insertAll(element)
+        }
     }
 
     override fun delete(article: Article) {
         val link = article.link
-        doAsync { articleDao.deleteByLink(link) }
+        doAsync {
+            onAsyncTaskDone()
+            articleDao.deleteByLink(link)
+        }
     }
 
     private fun dispatch(roomArticles: List<RoomArticle>, handler: ArticlesHandler) {
