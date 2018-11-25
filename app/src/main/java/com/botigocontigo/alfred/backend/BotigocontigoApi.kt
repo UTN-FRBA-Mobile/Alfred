@@ -1,16 +1,14 @@
 package com.botigocontigo.alfred.backend
 
-import com.botigocontigo.alfred.learn.Article
-import com.botigocontigo.alfred.learn.ArticleDeserializer
+import android.support.annotation.Dimension
+import com.botigocontigo.alfred.storage.db.entities.Area
 import com.botigocontigo.alfred.tasks.Plan
-import com.botigocontigo.alfred.tasks.PlanDeserializer
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
 import com.botigocontigo.alfred.utils.NetworkingAdapter
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
-class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions) : Api(adapter) {
+class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Permissions) : Api(adapter) {
 
     // usage example:
     // api.learnQuery().call(callbacks)
@@ -36,17 +34,27 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         return request
     }
 
+    fun favoriteArticles(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getFavourites")
+        applyPermissions(request)
+        return request
+    }
+
     fun saveFavoriteArticle(title: String, description: String, link: String, imageUrl: String?): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertFavourite")
         val userId = permissions.getUserId()
-        val body = "{\"title\":$title,\"description\":$description,\"link\":$link,\"userId\":$userId}"
+        val articleBody = if(imageUrl != null) "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\",\"imageUrl\":\"$imageUrl\"}"
+        else "{\"title\":\"$title\",\"description\":\"$description\",\"link\":\"$link\"}"
+        val body = "{\"favourite\":$articleBody,\"userId\":\"$userId\"}"
         request.body = body
         return request
     }
 
-    fun favoriteArticles(): ApiRequest {
-        val request = ApiRequest(this, "post", "methods/api.getFavourites")
-        applyPermissions(request)
+    fun deleteFavoriteArticle(link: String): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.deleteFavourites")
+        val userId = permissions.getUserId()
+        val body = "{\"link\":\"$link\",\"userId\":\"$userId\"}"
+        request.body = body
         return request
     }
 
@@ -89,6 +97,40 @@ class BotigocontigoApi(adapter: NetworkingAdapter, val permissions: Permissions)
         request.put("plans", plansJSONObject)
         return request
     }
+
+
+    fun areasGetAll(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getAreas")
+        applyPermissions(request)
+        return request
+    }
+
+    fun areasSaveAll(areas: Array<Area>): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.saveAreas")
+        applyPermissions(request)
+
+        //FIXME if this fails we need to transform each area and concat the strings as a JSON array
+        val gson = Gson()
+        val areasJSONObject= gson.toJson(areas)
+        request.put("areas", areasJSONObject)
+        return request
+    }
+
+    fun fodaGetAll():ApiRequest {
+        val request = ApiRequest(this,"post","methods/api.getSwot")
+        applyPermissions(request)
+        return request
+    }
+
+    fun fodaSaveAll(dimensions:Array<Dimension>):ApiRequest {
+        val request = ApiRequest(this,"post","methods/api.saveSwot")
+        applyPermissions(request)
+        val gson = Gson()
+        val fodaJson= gson.toJson(dimensions)
+        request.put("swot", fodaJson)
+        return request
+    }
+
 
     private fun applyPermissions(request: ApiRequest) {
         val userId = permissions.getUserId()

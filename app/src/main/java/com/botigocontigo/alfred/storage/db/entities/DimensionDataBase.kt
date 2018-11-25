@@ -17,9 +17,6 @@ data class DimensionDataBase(
         @ColumnInfo(name = "descriptions")
         var name: String,
 
-        @ColumnInfo(name = "type")
-        var type: String,
-
         @ColumnInfo(name = "user_id")
         var userId: String,
 
