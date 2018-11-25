@@ -20,10 +20,10 @@ data class Task(
         var frecValue: String?,
 
         @ColumnInfo(name = "responsible_id")
-        var responsibleId: String?,
+        var responsibleId: String? = null,
 
         @ColumnInfo(name = "supervisor_id")
-        var supervisorId: String?,
+        var supervisorId: String? = null,
 
         @ColumnInfo(name = "completed")
         var completed: Boolean?,

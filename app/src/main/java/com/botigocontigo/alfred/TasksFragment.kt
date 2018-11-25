@@ -61,6 +61,8 @@ class TasksFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfrag = inflater.inflate(R.layout.fragment_tasks, container, false)
 
+        container!!.bringToFront()
+
         val context = inflater.context
         val services = Services(context)
         val user = services.currentUser()
@@ -69,8 +71,8 @@ class TasksFragment : Fragment() {
 
         doAsync {
 
-            planDao.deleteAllRows()
-            taskDao.deleteAllRows()
+//            planDao.deleteAllRows()
+//            taskDao.deleteAllRows()
 
 //            val plans: List<com.botigocontigo.alfred.tasks.Plan> = api.plansGetAll()
 //
@@ -161,7 +163,7 @@ class TasksFragment : Fragment() {
             setOnClickListener { loadDeleteTasksEvent() }
         }
 
-        vfrag!!.findViewById<ImageView>(R.id.btn_deleteTask).apply {
+        vfrag!!.findViewById<ImageView>(R.id.btn_deleteAllTasks).apply {
             bringToFront()
             setOnClickListener { loadDeleteTasksEvent() }
         }
@@ -204,12 +206,6 @@ class TasksFragment : Fragment() {
         }
     }
 
-    fun View.hideKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-
-
     // Desmarca las tareas seleccionadas y cambia el flipper al default
     private fun deselectTasks() {
         taskAdapter?.deselectTask()
@@ -234,14 +230,10 @@ class TasksFragment : Fragment() {
         val planSelected = vfrag!!.findViewById<Spinner>(R.id.spinner_plans).selectedItem.toString()
         TaskDialogMaker(context!!, planSelected, listOf(planSelected),
                 "", null, "1", null, "CREATE",
-                { alertDialog: AlertDialog, _ ->
-                    run {
-                        vfrag!!.hideKeyboard()
-                        alertDialog.dismiss()
-                    }
+                cancelable = { alertDialog: AlertDialog, _ ->
+                    alertDialog.dismiss()
                 },
-                { alertDialog: AlertDialog, view: View ->
-                    vfrag!!.hideKeyboard()
+                okable = { alertDialog: AlertDialog, view: View ->
                     createTask(alertDialog, view, { message: String ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     })
@@ -252,16 +244,13 @@ class TasksFragment : Fragment() {
     private fun loadEditTaskEvent() {
         val task: Task = taskAdapter!!.selectedItems.first()
         val planSelected = vfrag!!.findViewById<Spinner>(R.id.spinner_plans).selectedItem.toString()
-//        TaskDialogMaker(context!!, planSelected, mapPlans.keys.toList(),
         TaskDialogMaker(context!!, planSelected, listOf(planSelected),
                 task.name!!, task.frecType, task.frecValue!!, task.responsibleId,
                 "UPDATE",
                 cancelable = { alertDialog: AlertDialog, _ ->
-                    vfrag!!.hideKeyboard()
                     alertDialog.dismiss()
                 },
                 okable = { alertDialog: AlertDialog, view: View ->
-                    vfrag!!.hideKeyboard()
                     updateTask(task.id, alertDialog, view, { message: String ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     })
@@ -270,23 +259,22 @@ class TasksFragment : Fragment() {
     }
 
     private fun loadDeleteTasksEvent() {
-        val selectedCount = taskAdapter!!.selectedItems.size
-
+        val selected = taskAdapter!!.selectedItems
         val builder = AlertDialog.Builder(context!!)
         builder.setTitle("Alerta")
         builder.setMessage("¿Está seguro que desea eliminar ${
-            if (selectedCount > 1) "las $selectedCount tareas" else "1 tarea"
+            if (selected.size > 1) "las ${selected.size} tareas" else "1 tarea"
         } del plan?")
         builder.setPositiveButton("Si"){ dialog, which ->
-            // Eliminar asincronicamente
             doAsync {
-//                val tasks = planDao.findTasksById()
-                taskDao.deleteAll()
+                selected.forEach { taskDao.deleteAll(it) }
+                uiThread {
+                    taskAdapter?.deleteTasks()
+                    taskAdapter?.notifyDataSetChanged()
+                    switchFlipper(0)
+                    Toast.makeText(context, if (selected.size > 1) "Tareas Eliminadas" else "Tarea Eliminada",Toast.LENGTH_SHORT).show()
+                }
             }
-            taskAdapter?.deleteTasks()
-            taskAdapter?.notifyDataSetChanged()
-            switchFlipper(0)
-            Toast.makeText(context,"Tarea Eliminada",Toast.LENGTH_SHORT).show()
         }
         builder.setNegativeButton("No"){ _, _ -> }
         val dialog: AlertDialog = builder.create()
@@ -300,7 +288,6 @@ class TasksFragment : Fragment() {
         val taskName: String = viewDialog.et_dialog_nameTask.text.toString()
         val frecType: String = viewDialog.spinner_dialog_interval.selectedItem as String
         val frecValue: String? = viewDialog.et_dialog_interval.text.toString()
-        val responsible = "yo"
 
         var msg: String? = null
 
@@ -312,8 +299,6 @@ class TasksFragment : Fragment() {
             msg = "Falta completar el periodo de la tarea"
         if (frecValue == null || frecValue == "")
             msg = "Falta completar las repeticiones de la tarea"
-        if (responsible == "")
-            msg = "Falta completar el responsable de la tarea"
 
         if (msg != null) {
             fnError(msg)
@@ -324,12 +309,13 @@ class TasksFragment : Fragment() {
                     name = taskName,
                     frecType = frecType,
                     frecValue = frecValue!!,
-                    responsibleId = responsible,
-                    supervisorId = "super",
                     completed = false,
                     planId = planId
             )
             doAsync {
+                val userId = planDao.findById(planId).userId
+                newTask.responsibleId = userId
+                newTask.supervisorId = userId
                 taskDao.insertAll(newTask)
                 val tasks = taskDao.getAllByPlanId(planId)
                 uiThread {
@@ -346,7 +332,6 @@ class TasksFragment : Fragment() {
         val taskName: String = viewDialog.et_dialog_nameTask.text.toString()
         val frecType: String = viewDialog.spinner_dialog_interval.selectedItem as String
         val frecValue: String? = viewDialog.et_dialog_interval.text.toString()
-        val responsible = "yo"
 
         var msg: String? = null
 
@@ -358,8 +343,6 @@ class TasksFragment : Fragment() {
             msg = "Falta completar el periodo de la tarea"
         if (frecValue == null || frecValue == "")
             msg = "Falta completar las repeticiones de la tarea"
-        if (responsible == "")
-            msg = "Falta completar el responsable de la tarea"
 
         if (msg != null) {
             fnError(msg)

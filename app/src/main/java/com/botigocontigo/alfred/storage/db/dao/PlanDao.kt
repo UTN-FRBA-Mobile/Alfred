@@ -11,7 +11,7 @@ interface PlanDao {
     fun getAll(): List<Plan>
 
     @Query("SELECT * FROM plans WHERE id = :planId")
-    fun findById(planId: Int): Plan
+    fun findById(planId: String): Plan
 
     @Query("DELETE FROM plans")
     fun deleteAllRows()
