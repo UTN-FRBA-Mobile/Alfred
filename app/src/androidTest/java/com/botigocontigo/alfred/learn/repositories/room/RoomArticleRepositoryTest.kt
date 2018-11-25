@@ -51,7 +51,7 @@ class RoomArticleRepositoryTest {
     fun writeArticleAndReadInListTest() {
         val article = Article("title", "description", "imageUrl", "link")
         articleRepository.saveArticle(article)
-        articleRepository.fetchAll(articlesHandler)
+        articleRepository.getAll(articlesHandler)
         val captor = argumentCaptor<Article>()
         verify(articlesHandler, times(1)).handleArticle(captor.capture())
         Assert.assertEquals("title", captor.firstValue.title)

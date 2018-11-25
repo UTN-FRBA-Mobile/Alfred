@@ -10,6 +10,7 @@ import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.ArticleAdapter
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.learn.repositories.actions.ArticleRepositoryAction
 import kotlinx.android.synthetic.main.content_learn.view.*
 
 class ArticlesFragment : Fragment(), ArticlesHandler {
@@ -37,7 +38,7 @@ class ArticlesFragment : Fragment(), ArticlesHandler {
         adapter?.notifyDataSetChanged()
     }
 
-    override fun error(query: String) {
+    override fun error(action: ArticleRepositoryAction) {
         articles.clear()
         adapter?.notifyDataSetChanged()
     }

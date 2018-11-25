@@ -223,12 +223,23 @@ if (Meteor.isServer) {
       console.log("Started api.getFavourites");
       try {
         const allFavourites = Favourites.get(data.userId);
-        console.log(JSON.stringify(allFavourites));
         return allFavourites.favs
                     ? allFavourites.favs 
                     : [] ;
       } catch (exception) {
         console.error("=== ERROR on api.getFavourites ===");
+        console.error(exception);
+        console.trace();
+        throw exception;
+      }
+    },
+    //TODO sucess and error
+    'api.deleteFavourites'(data) {
+      console.log("Started api.deleteFavourites");
+      try {
+        Favourites.deleteFavourite(data.link, data.userId);
+      } catch (exception) {
+        console.error("=== ERROR on api.deleteFavourites ===");
         console.error(exception);
         console.trace();
         throw exception;
