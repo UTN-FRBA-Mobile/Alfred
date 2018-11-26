@@ -14,9 +14,10 @@ class PlanDeserializer  : JsonDeserializer<Plan> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Plan {
         val jsonObject = json.asJsonObject
 
-        val formatter = SimpleDateFormat("M/d/yy hh:mm a")
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
         formatter.timeZone = TimeZone.getTimeZone("UTC")
-        val dateFormated: Date = formatter.parse(jsonObject.get("createdAt").asString)
+        val strDate = jsonObject.get("createdAt").asString.substring(0, 10)
+        val dateFormated: Date = formatter.parse(strDate)
 
         val gsonBuilder = GsonBuilder().serializeNulls()
         gsonBuilder.registerTypeAdapter(Task::class.java, TaskDeserializer())
