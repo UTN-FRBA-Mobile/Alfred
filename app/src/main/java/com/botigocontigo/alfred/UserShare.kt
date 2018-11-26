@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred
 
-class UserShare internal constructor(
-                                     private val userId: String,
-                                     private val email: String)
+open class UserShare (
+     var userId: String,
+     var email: String
+)
