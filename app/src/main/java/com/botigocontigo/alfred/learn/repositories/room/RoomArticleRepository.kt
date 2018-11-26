@@ -4,41 +4,39 @@ import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticleRepository
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.utils.executors.AnkoExecutor
+import com.botigocontigo.alfred.utils.executors.AnkoExecutorFactory
+import com.botigocontigo.alfred.utils.executors.Executor
+import com.botigocontigo.alfred.utils.executors.ExecutorFactory
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRepository {
-    var onAsyncTaskDone = { }
+    var executorFactory: ExecutorFactory = AnkoExecutorFactory()
 
     override fun search(query: String, handler: ArticlesHandler) {
-        doAsync {
-            val results = articleDao.getAllByText(query)
-            uiThread {
-                onAsyncTaskDone()
-                dispatch(results, handler)
-            }
-        }
+        executorFactory.create<List<RoomArticle>>().async {
+            articleDao.getAllByText(query)
+        }.sync {
+            dispatch(it, handler)
+        }.run()
     }
 
     override fun getAll(handler: ArticlesHandler) {
-        doAsync {
-            val results = articleDao.getAll()
-            uiThread {
-                onAsyncTaskDone()
-                dispatch(results, handler)
-            }
-        }
+        executorFactory.create<List<RoomArticle>>().async {
+            articleDao.getAll()
+        }.sync {
+            dispatch(it, handler)
+        }.run()
     }
 
     override fun isPresent(article: Article, handler: ArticlePresentHandler) {
-        doAsync {
+        executorFactory.create<Int>().async {
             val url = article.link
-            val count = articleDao.linkCount(url)
-            uiThread {
-                onAsyncTaskDone()
-                handler.success(count > 0)
-            }
-        }
+            articleDao.linkCount(url)
+        }.sync {
+            handler.success(it > 0)
+        }.run()
     }
 
     override fun upsert(article: Article) {
@@ -47,18 +45,16 @@ class RoomArticleRepository(private val articleDao: RoomArticleDao) : ArticleRep
         element.setDescription(article.description)
         element.setImageUrl(article.imageUrl)
         element.setLink(article.link)
-        doAsync {
-            onAsyncTaskDone()
+        executorFactory.create<Unit>().async {
             articleDao.insertAll(element)
-        }
+        }.run()
     }
 
     override fun delete(article: Article) {
         val link = article.link
-        doAsync {
-            onAsyncTaskDone()
+        executorFactory.create<Unit>().async {
             articleDao.deleteByLink(link)
-        }
+        }.run()
     }
 
     private fun dispatch(roomArticles: List<RoomArticle>, handler: ArticlesHandler) {
