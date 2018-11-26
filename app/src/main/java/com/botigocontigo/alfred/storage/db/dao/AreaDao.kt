@@ -23,6 +23,9 @@ interface AreaDao {
     @Query("UPDATE modelos SET clients =:newClients WHERE id =:areaId")
     fun updateClients(areaId: String, newClients:String)
 
+    @Update
+    fun update(entity: Area)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg area: Area)
 

@@ -47,6 +47,10 @@ class DetailAreaFragment : Fragment() {
             areaName = it.getString(ARG_areaName)
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
+
+            doAsync {
+                Log.i("DAOO CREATE: ", areaDao.getAll().toString())
+            }
         }
 
         areasMap=hashMapOf(
@@ -171,6 +175,11 @@ class DetailAreaFragment : Fragment() {
             }
 
             Log.i("NEWMODEL: ", newModel.toString())
+            doAsync {
+                Log.i("DAOO: ", areaDao.getAll().toString())
+                areaDao.update(newModel!!)
+            Log.i("DAOO: ", areaDao.getAll().toString())}
+
         }
     }
 }

@@ -65,12 +65,12 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 areaDao.insertAll(
                         Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
                         Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                        Area("3", "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
+                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
                 )
             }
 
             //HARDCODED USER ID
-            mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
+            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
             model = areaDao.findById("1")
 
             uiThread {
