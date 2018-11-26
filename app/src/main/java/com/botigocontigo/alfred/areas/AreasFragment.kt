@@ -57,27 +57,31 @@ class AreasFragment : Fragment(), View.OnClickListener{
         val services = Services(inflater.context)
         api = services.botigocontigoApi()
 
-        doAsync {
+        api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
 
-            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
-
-            if (areaDao.getAreasCount() == 0 ) {
-                areaDao.insertAll(
-                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-                )
-            }
-
-            //HARDCODED USER ID
-            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
-            model = areaDao.findById("1")
-
-            uiThread {
-                loadEventOnClickNewModel()
-                loadSpinnerModelos()
-            }
-        }
+//        doAsync {
+//
+//            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
+//
+//            if (areaDao.getAreasCount() == 0 ) {
+//                areaDao.insertAll(
+//                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+//                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
+//                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
+//                )
+//            }
+//
+//            //HARDCODED USER ID
+//            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
+//            model = areaDao.findById("1")
+//
+//            Log.i("DAOO CREATE: ", areaDao.getAll().toString())
+//
+//            uiThread {
+//                loadEventOnClickNewModel()
+//                loadSpinnerModelos()
+//            }
+//        }
         return vfrag
     }
 
@@ -222,8 +226,26 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadToDB(areas: List<Area>) {
         doAsync {
             areaDao.deleteAllRows()
-            if (areas.size > 0)
+            if (areas.size > 0) {
                 areaDao.insertAll(*areas.toTypedArray())
+            } else {
+                areaDao.insertAll(
+                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
+                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
+                )
+            }
+
+            //HARDCODED USER ID
+            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
+            model = areaDao.findById("1")
+
+            Log.i("DAOO CREATE: ", areaDao.getAll().toString())
+
+            uiThread {
+                loadEventOnClickNewModel()
+                loadSpinnerModelos()
+            }
         }
     }
 
