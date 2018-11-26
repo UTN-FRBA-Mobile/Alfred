@@ -32,7 +32,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private var executeInitializeDB: Boolean = true
     private var vfrag: View? = null
     private lateinit var api: BotigocontigoApi
-    private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var areaDao: AreaDao
 
@@ -54,7 +53,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadButtons()
 
-        //loadEventOnClickAreaDetail(v)
+        toast("Seleccione un area para ver el detalle")
 
         val services = Services(inflater.context)
         api = services.botigocontigoApi()
@@ -81,7 +80,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     }
 
     private fun toast(msg:String){
-        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun switchFragment(areaName: String){
@@ -219,15 +218,18 @@ class AreasFragment : Fragment(), View.OnClickListener{
         doAsync {
 
             if (executeInitializeDB) {
-                areaDao.deleteAllRows()
+
                 if (areas.isNotEmpty()) {
+                    areaDao.deleteAllRows()
                     areaDao.insertAll(*areas.toTypedArray())
                 } else {
-                    areaDao.insertAll(
-                            Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-                            Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                            Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-                    )
+                    if(areaDao.getAreasCount()<1) {
+                        areaDao.insertAll(
+                                Area("1", "1", "Modelo A", "clientesA", "relA", "chanA", "valueA", "actA", "resoA", "parA", "incA", "costA"),
+                                Area("2", "1", "Modelo B", "clientesB", "relB", "chanB", "valueB", "actB", "resoB", "partB", "incB", "costB"),
+                                Area("3", "1", "Modelo C", "clientesC", "relC", "chanC", "valueC", "actC", "resoC", "partC", "incC", "costC")
+                        )
+                    }
                 }
             }
 
@@ -235,9 +237,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
             mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
 
             uiThread {
-
-                Log.i("mapModels",mapModels.toString())
-
                 loadEventOnClickNewModel()
                 loadSpinnerModelos()
             }

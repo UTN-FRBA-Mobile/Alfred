@@ -47,10 +47,6 @@ class DetailAreaFragment : Fragment() {
             areaName = it.getString(ARG_areaName)
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
-
-            doAsync {
-                Log.i("DAOO: ", areaDao.getAll().toString())
-            }
         }
 
         areasMap=hashMapOf(
@@ -89,6 +85,7 @@ class DetailAreaFragment : Fragment() {
             9->txtAreaDetail?.text = model?.costs
         }
 
+        if(txtAreaDetail?.text=="") toast("Haga click en editar para agregar detalles")
 
         loadEventOnClickEditArea()
 
