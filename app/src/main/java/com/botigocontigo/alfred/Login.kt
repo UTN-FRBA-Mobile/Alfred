@@ -3,12 +3,16 @@ package com.botigocontigo.alfred
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.Dimension
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.botigocontigo.alfred.backend.UserShareDeserealizer
+import com.botigocontigo.alfred.tasks.FodaDeserealizer
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import org.json.JSONObject
 
 class Login : AppCompatActivity() {
@@ -56,6 +60,12 @@ class Login : AppCompatActivity() {
 
                         //Log.i(LOG_TAG, "Response user id es: ", response.userId)
                         //Log.i(LOG_TAG, "Response email es: $response.email")
+                        val gsonBuilder = GsonBuilder().serializeNulls()
+                        gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
+                        val gson = gsonBuilder.create()
+
+                        val userShareJsonParsed : UserShare = gson.fromJson(response.toString(), UserShare::class.java)
+                        // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
                         startActivity(Intent(this, SplashActivity::class.java))
                     },
                     Response.ErrorListener { error ->
