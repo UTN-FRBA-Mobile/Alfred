@@ -19,7 +19,7 @@ import com.botigocontigo.alfred.learn.repositories.room.RoomArticleRepository
 import com.botigocontigo.alfred.utils.NetworkingAdapter
 import com.botigocontigo.alfred.utils.VolleyAdapter
 
-class Services(context: Context) {
+class Services(val context: Context) {
 
     private val networkingAdapter: NetworkingAdapter = VolleyAdapter(context)
 
@@ -90,7 +90,8 @@ class Services(context: Context) {
     }
 
     fun currentUser(): User {
-        return User() // TODO real user
+        val pref = MyPreferences(context)
+        return User(userId = pref.getUserId(), email = pref.getUserEmail())
     }
 
 }
