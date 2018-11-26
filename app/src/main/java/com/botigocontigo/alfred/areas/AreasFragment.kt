@@ -13,6 +13,9 @@ import android.widget.*
 
 
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.AreasGetCallbacks
+import com.botigocontigo.alfred.backend.BotigocontigoApi
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.AreaDao
 import com.botigocontigo.alfred.storage.db.entities.Area
@@ -20,16 +23,18 @@ import kotlinx.android.synthetic.main.dialog_form_model.view.*
 import kotlinx.android.synthetic.main.fragment_areas.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class AreasFragment : Fragment(), View.OnClickListener{
 
     private var vfrag: View? = null
+    private lateinit var api: BotigocontigoApi
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var areaDao: AreaDao
 
-    private var mapModels: Map<String?, Int?> = emptyMap()
+    private var mapModels: Map<String?, String?> = emptyMap()
     private var model: Area? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
+
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,22 +54,29 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         //loadEventOnClickAreaDetail(v)
 
-        doAsync {
-            //INSERT FOR TEST
-            areaDao.insertAll(
-                    Area(1, "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-                    Area(2, "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                    Area(3, "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-            )
+        val services = Services(inflater.context)
+        api = services.botigocontigoApi()
 
+        doAsync {
+
+            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
+
+            if (areaDao.getAreasCount() == 0 ) {
+                areaDao.insertAll(
+                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
+                        Area("3", "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
+                )
+            }
 
             //HARDCODED USER ID
             mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
-            model = areaDao.findById(1)
+            model = areaDao.findById("1")
 
             uiThread {
                 loadEventOnClickNewModel()
-                loadSpinnerModelos()  }
+                loadSpinnerModelos()
+            }
         }
         return vfrag
     }
@@ -178,7 +191,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
             toast("Error: "+msg)
         } else {
             val newModel = Area(
-                    id = mapModels.count()+1,
+                    id = UUID.randomUUID().toString(),
                     //HARCODED USER
                     userId = "1",
                     name = newModelName,
@@ -194,15 +207,23 @@ class AreasFragment : Fragment(), View.OnClickListener{
             )
             doAsync {
                 areaDao.insertAll(newModel)
+
                 //HARDCODED USER ID
                 mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
 
                 uiThread {
-
                     loadSpinnerModelos()
                     alertDialog.dismiss()
                 }
             }
+        }
+    }
+
+    private fun loadToDB(areas: List<Area>) {
+        doAsync {
+            areaDao.deleteAllRows()
+            if (areas.size > 0)
+                areaDao.insertAll(*areas.toTypedArray())
         }
     }
 
