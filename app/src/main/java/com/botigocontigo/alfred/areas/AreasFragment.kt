@@ -247,6 +247,8 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 areaDao.insertAll(newModel)
                 mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
 
+                persistServerInfo()
+
                 uiThread {
                     loadSpinnerModelos()
                     alertDialog.dismiss()
@@ -256,7 +258,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     }
 
     private fun loadToDB(areas: List<Area>) {
-
+        Log.i("loadTODB: areas",areas.toString())
         doAsync {
             if (executeInitializeDB) {
                 if (areas.isNotEmpty()) {
@@ -283,23 +285,17 @@ class AreasFragment : Fragment(), View.OnClickListener{
         }
     }
 
-    /*
-    private fun persisServerInfo(modelos: Array<Area>){
+
+    private fun persistServerInfo(){
         val services = Services(this.view!!.context)
-        val areaGetCallbacks= AreasGetCallbacks(::loadToDB)
         val botigocontigoApi = services.botigocontigoApi()
-        botigocontigoApi.areasSaveAll(modelos).call(areaGetCallbacks)
+        doAsync {
+            val models = areaDao.getModelsByUserId(userId)
+            botigocontigoApi.areasSaveAll(models.toTypedArray())
+        }
+
+
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        doAsync {
-            val models = areaDao.getModelsByUserId(userId) as Array<Area>
-            persisServerInfo(models)
-            //post to API
-        }
-        userId = ""
-    }
-    */
 
 }
