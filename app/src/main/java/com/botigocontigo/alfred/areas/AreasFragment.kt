@@ -20,6 +20,7 @@ import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.AreaDao
 import com.botigocontigo.alfred.storage.db.entities.Area
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
+import kotlinx.android.synthetic.main.fragment_areas.*
 import kotlinx.android.synthetic.main.fragment_areas.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -238,7 +239,18 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
             //HARDCODED USER ID
             mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
-            model = areaDao.findById("1")
+
+            spinner_modelos.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) { }
+                override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
+                    val modelName = spinner_modelos.selectedItem.toString()
+                    doAsync {
+                        model = areaDao.findById(mapModels.getValue(modelName)!!)
+                    }
+                }
+            }
+
+
 
             Log.i("DAOO CREATE: ", areaDao.getAll().toString())
 
