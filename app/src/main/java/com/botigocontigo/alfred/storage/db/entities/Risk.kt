@@ -21,4 +21,8 @@ data class Risk(
         var impacto: String?,
 
         @ColumnInfo(name = "CAP_DETECCION")
-        var cDeDeteccion: String)
+        var cDeDeteccion: String,
+
+        @ColumnInfo(name = "USER_ID")
+        var userId: String
+)

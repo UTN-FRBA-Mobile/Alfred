@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.areas
 
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.*
+import com.botigocontigo.alfred.MyPreferences
 
 
 import com.botigocontigo.alfred.R
@@ -32,19 +34,20 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private var executeInitializeDB: Boolean = true
     private var vfrag: View? = null
     private lateinit var api: BotigocontigoApi
-    private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var areaDao: AreaDao
 
     private var mapModels: Map<String?, String?> = emptyMap()
     private var model: Area? = null
+    private var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
-
+            userId=MyPreferences(context!!).getUserId()
+            Log.i("USERID: ", userId)
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +57,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         loadButtons()
 
-        //loadEventOnClickAreaDetail(v)
+        toast("Seleccione un area para ver el detalle")
 
         val services = Services(inflater.context)
         api = services.botigocontigoApi()
@@ -81,7 +84,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     }
 
     private fun toast(msg:String){
-        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun switchFragment(areaName: String){
@@ -157,7 +160,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
             val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
             val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 
-
             val mAlertDialog = mBuilder.show()
 
             diagView.btnCancel.setOnClickListener {
@@ -168,6 +170,39 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 mAlertDialog.dismiss()
                 toast("Modelo Creado")
                 createModel(mAlertDialog,diagView)
+            }
+        }
+    }
+
+    private fun loadEventOnClickDeleteModel() {
+        vfrag?.findViewById<ImageButton>(R.id.btnDeleteModel)!!.setOnClickListener {
+
+            val mBuilder = AlertDialog.Builder(context!!)
+            val modelToDelete = spinner_modelos.selectedItem.toString()
+
+            mBuilder.setTitle("Alerta")
+            mBuilder.setMessage("¿Desea eliminar el modelo: "+ modelToDelete + "?")
+            mBuilder.setPositiveButton("SI", { dialogInterface: DialogInterface, i: Int ->
+                toast("Modelo eliminado")
+                deleteModel(modelToDelete)
+            })
+            mBuilder.setNegativeButton("NO", { dialogInterface: DialogInterface, i: Int ->
+                toast("Operacion cancelada")
+            })
+
+            mBuilder.show()
+        }
+    }
+
+    private fun deleteModel(model: String) {
+        var msg: String? = null
+
+        doAsync {
+            areaDao.deleteModel(mapModels[model]!!)
+            mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
+
+            uiThread {
+                loadSpinnerModelos()
             }
         }
     }
@@ -187,8 +222,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
         } else {
             val newModel = Area(
                     id = UUID.randomUUID().toString(),
-                    //HARCODED USER
-                    userId = "1",
+                    userId = userId,
                     name = newModelName,
                     activities = "",
                     channels = "",
@@ -202,9 +236,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
             )
             doAsync {
                 areaDao.insertAll(newModel)
-
-                //HARDCODED USER ID
-                mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
+                mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
 
                 uiThread {
                     loadSpinnerModelos()
@@ -217,31 +249,48 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadToDB(areas: List<Area>) {
 
         doAsync {
-
             if (executeInitializeDB) {
-                areaDao.deleteAllRows()
                 if (areas.isNotEmpty()) {
+                    areaDao.deleteAllRows()
                     areaDao.insertAll(*areas.toTypedArray())
                 } else {
-                    areaDao.insertAll(
-                            Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-                            Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                            Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-                    )
+                    if(areaDao.getAreasCount()<1) {
+                        areaDao.insertAll(
+                                Area(UUID.randomUUID().toString(), userId, "Modelo A", "clientesA", "relA", "chanA", "valueA", "actA", "resoA", "parA", "incA", "costA"),
+                                Area(UUID.randomUUID().toString(), userId, "Modelo B", "clientesB", "relB", "chanB", "valueB", "actB", "resoB", "partB", "incB", "costB"),
+                                Area(UUID.randomUUID().toString(), userId, "Modelo C", "clientesC", "relC", "chanC", "valueC", "actC", "resoC", "partC", "incC", "costC")
+                        )
+                    }
                 }
             }
 
-            //HARDCODED USER ID
-            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
+            mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
 
             uiThread {
-
-                Log.i("mapModels",mapModels.toString())
-
                 loadEventOnClickNewModel()
+                loadEventOnClickDeleteModel()
                 loadSpinnerModelos()
             }
         }
     }
+
+    /*
+    private fun persisServerInfo(modelos: Array<Area>){
+        val services = Services(this.view!!.context)
+        val areaGetCallbacks= AreasGetCallbacks(::loadToDB)
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.areasSaveAll(modelos).call(areaGetCallbacks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            val models = areaDao.getModelsByUserId(userId) as Array<Area>
+            persisServerInfo(models)
+            //post to API
+        }
+        userId = ""
+    }
+    */
 
 }

@@ -31,7 +31,7 @@ import org.jetbrains.anko.uiThread
 import android.widget.Toast
 import android.view.Gravity
 import android.widget.TextView
-
+import com.botigocontigo.alfred.MyPreferences
 
 
 class RiskFragment: Fragment(){
@@ -41,16 +41,19 @@ class RiskFragment: Fragment(){
 
     private var riskAdapter :RiskAdapter? = null
 
+    private var userId = ""
+
     private var nroSugerencia: Int = 0
 
     private val sugerencias = arrayListOf(
-            "En esta pantalla podras ver tus riegos y agregar nuevos", "Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
+            "En esta pantalla podras ver tus riegos y agregar nuevos", "La Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
+            "El Impacto es cuanto daño te hace el Riesgo si sucede", "La Capacidad de Deteccion es que tan dificil es detectar que el Riesgo va a suceder",
             "Podes agregar riesgos apretando el boton +", "Podes eliminar un riesgo apretando el boton X que tiene cada uno"
     )
 
     private val riesgoEjemplo =
         Risk(0, "Aqui va una descripcion", "Probabilidad de Ocurrencia"
-                , "Impacto", "Capacidad de Deteccion")
+                , "Impacto", "Capacidad de Deteccion", "")
 
 
     private lateinit var riskDAO: RiskDao
@@ -62,6 +65,7 @@ class RiskFragment: Fragment(){
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             riskDAO = db.riskDao()
+            userId = MyPreferences(context!!).getUserId()
             mParam1 = it.getString(ARG_PARAM1)
             mParam2 = it.getString(ARG_PARAM2)
         }
@@ -75,7 +79,7 @@ class RiskFragment: Fragment(){
         doAsync {
             var riesgos = arrayListOf<Risk>()
             riesgos.add(riesgoEjemplo)
-            riesgos.addAll(riskDAO.getAll() as MutableList<Risk>)
+            riesgos.addAll(riskDAO.getAllByUser(userId) as MutableList<Risk>)
             uiThread {
                 riskList.layoutManager = LinearLayoutManager(context)
                 riskAdapter = RiskAdapter(riesgos, context)
@@ -143,7 +147,7 @@ class RiskFragment: Fragment(){
     private fun loadEventOnClickNewRisk(view: View){
         view.findViewById<ImageView>(R.id.suggerenciasRiesgo)!!.setOnClickListener {
             val inflater = layoutInflater
-            val layout = inflater.inflate(R.layout.chat_bubble_received, null)
+            val layout = inflater.inflate(R.layout.chat_bubble_message, null)
 
             val text = layout.findViewById(R.id.txtOtherMessage) as TextView
             text.text = sugerencias.get(nroSugerencia)
@@ -187,7 +191,9 @@ class RiskFragment: Fragment(){
                             dw.spinnerPdeOcurrencia.selectedItem as String,
                             dw.spinnerImpacto.selectedItem as String,
                             dw.spinnerCdeteccion.selectedItem as String,
-                            view.context)
+                        { message: String ->
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                        })
                 mAlertDialog.dismiss()
             }
 
@@ -197,24 +203,41 @@ class RiskFragment: Fragment(){
         }
     }
 
-    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String, context: Context){
-        doAsync {
-            riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
-            val riesgos = riskDAO.getAll() as MutableList<Risk>
-            uiThread {
-                riskAdapter!!.setDataset(riesgos)
-                riskAdapter!!.notifyDataSetChanged()
-                //persisServerInfo(context, riesgos as Array<Risk>)
+    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String,  fnError: (String) -> Unit){
+        var msg: String? = null
+
+        if (desc == "")
+            msg = "Descripcion necesaria"
+        if (msg != null) {
+            fnError(msg)
+        } else {
+            doAsync {
+                riskDAO.insertAll(Risk(null, desc, pOcurrencia, impacto, cDeteccion, userId))
+                val riesgos = riskDAO.getAllByUser(userId) as MutableList<Risk>
+                uiThread {
+                    riskAdapter!!.setDataset(riesgos)
+                    riskAdapter!!.notifyDataSetChanged()
+                }
             }
         }
 
     }
 
-    private fun persisServerInfo(context: Context, riesgos: Array<Risk>){
-        val services = Services(context)
+    private fun persisServerInfo(riesgos: Array<Risk>){
+        val services = Services(this.view!!.context)
         val riskGetCallbacks= RisksGetCallbacks()
         val botigocontigoApi = services.botigocontigoApi()
-        botigocontigoApi.risksSaveAll(riesgos)
+        botigocontigoApi.risksSaveAll(riesgos).call(riskGetCallbacks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            val riesgos = riskDAO.getAllByUser(userId) as Array<Risk>
+            persisServerInfo(riesgos)
+            //post to API
+        }
+        userId = ""
     }
 
 }

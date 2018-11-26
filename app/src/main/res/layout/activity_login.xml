@@ -24,7 +24,7 @@
             android:textColor="#ffffff"
             android:textSize="40dp" />
         <ImageView
-            android:id="@+id/imgLogo"
+            android:id="@+id/btnDeleteModel"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:paddingBottom="15dp"
