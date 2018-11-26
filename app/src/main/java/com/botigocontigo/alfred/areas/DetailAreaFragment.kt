@@ -47,10 +47,6 @@ class DetailAreaFragment : Fragment() {
             areaName = it.getString(ARG_areaName)
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
-
-            doAsync {
-                Log.i("DAOO: ", areaDao.getAll().toString())
-            }
         }
 
         areasMap=hashMapOf(
@@ -89,6 +85,7 @@ class DetailAreaFragment : Fragment() {
             9->txtAreaDetail?.text = model?.costs
         }
 
+        if(txtAreaDetail?.text=="") toast("Haga click en editar para agregar detalles")
 
         loadEventOnClickEditArea()
 
@@ -135,13 +132,18 @@ class DetailAreaFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(areaName: String, area: Area?) =
-                DetailAreaFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_areaName, areaName)
-                        model = area
-                    }
+        fun newInstance(areaName: String, area: Area?): DetailAreaFragment {
+
+            Log.i("Areas en el 2do", area.toString())
+
+            return DetailAreaFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_areaName, areaName)
+                    model = area
                 }
+            }
+        }
+
     }
 
     private fun editArea(alertDialog: AlertDialog, viewDialog: View) {
