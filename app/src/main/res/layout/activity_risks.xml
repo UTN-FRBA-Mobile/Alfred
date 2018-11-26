@@ -9,15 +9,16 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_weight="0"
+        android:background="@color/colorBackgroundDialog"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Tus Riesgos"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerRisk"
@@ -30,8 +31,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="0"
+        android:background="@color/colorBackgroundDialog"
         android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal">
