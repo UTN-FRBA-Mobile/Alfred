@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.botigocontigo.alfred.learn.Article
 import com.botigocontigo.alfred.learn.repositories.ArticlePresentHandler
 import com.botigocontigo.alfred.learn.repositories.ArticlesHandler
+import com.botigocontigo.alfred.utils.executors.SyncExecutorFactory
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import org.junit.*
 import org.junit.runner.RunWith
@@ -36,6 +37,7 @@ class RoomArticleRepositoryTest {
         dao = db.articleDao()
         articleRepository = RoomArticleRepository(dao)
         dao.nuke()
+        articleRepository.executorFactory = SyncExecutorFactory()
     }
 
     @Before
@@ -53,14 +55,8 @@ class RoomArticleRepositoryTest {
     @Throws(Exception::class)
     fun writeArticleAndReadInListTest() {
         val article = Article("title", "description", "link", "imageUrl")
-        var c = CountDownLatch(1)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.upsert(article)
-        c.await()
-        c = CountDownLatch(1)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.getAll(articlesHandler)
-        c.await()
         val captor = argumentCaptor<Article>()
         verify(articlesHandler, times(1)).handleArticle(captor.capture())
         Assert.assertEquals("title", captor.firstValue.title)
@@ -73,14 +69,8 @@ class RoomArticleRepositoryTest {
     @Throws(Exception::class)
     fun writeAndExistsMatchTest() {
         val article = Article("title", "description", "http://specificurl.com", "imageUrl")
-        var c = CountDownLatch(1)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.upsert(article)
-        c.await()
-        c = CountDownLatch(1)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.isPresent(article, articlePresentHandler)
-        c.await()
         verify(articlePresentHandler, times(1)).success(true)
     }
 
@@ -89,16 +79,10 @@ class RoomArticleRepositoryTest {
     fun writeAndExistsDoesNotMatchTest() {
         val article1 = Article("title", "description", "http://fruta.com", "imageUrl")
         val article2 = Article("title", "description", "http://genericurl.com", "imageUrl")
-        var c = CountDownLatch(2)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.upsert(article1)
         articleRepository.upsert(article2)
-        c.await()
         val article = Article("title", "description", "imageUrl", "http://specificurl.com")
-        c = CountDownLatch(1)
-        articleRepository.onAsyncTaskDone = { c.countDown() }
         articleRepository.isPresent(article, articlePresentHandler)
-        c.await()
         verify(articlePresentHandler, times(1)).success(false)
     }
 
