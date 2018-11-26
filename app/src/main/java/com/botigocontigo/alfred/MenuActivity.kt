@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
 import com.botigocontigo.alfred.foda.FodaFragment
+import com.botigocontigo.alfred.risk.RiskFragment
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.storage.db.entities.Task
@@ -25,7 +26,9 @@ import org.jetbrains.anko.doAsync
 //import com.botigocontigo.alfred.storage.db.AppDatabase
 
 
-class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,FodaFragment.OnFragmentInteractionListener {
+class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,
+                                          FodaFragment.OnFragmentInteractionListener,
+                                          RiskFragment.OnFragmentInteractionListener{
 
     private var mMenuItemsTitles: Array<String>? = null
     private var mDrawerLayout: DrawerLayout? = null

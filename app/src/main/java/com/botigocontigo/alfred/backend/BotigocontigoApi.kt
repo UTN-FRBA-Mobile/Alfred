@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred.backend
 
 import com.botigocontigo.alfred.storage.db.entities.Area
+import com.botigocontigo.alfred.storage.db.entities.Risk
 import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.utils.Api
 import com.botigocontigo.alfred.utils.ApiRequest
@@ -97,7 +98,6 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         return request
     }
 
-
     fun areasGetAll(): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.getAreas")
         applyPermissions(request)
@@ -112,6 +112,23 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
         val gson = Gson()
         val areasJSONObject= gson.toJson(areas)
         request.put("areas", areasJSONObject)
+        return request
+    }
+
+
+    fun risksGetAll(): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.getRisks")
+        applyPermissions(request)
+        return request
+    }
+
+    fun risksSaveAll(risks: Array<Risk>): ApiRequest {
+        val request = ApiRequest(this, "post", "methods/api.saveRisks")
+        applyPermissions(request)
+        //FIXME if this fails we need to transform manually pDeOcurrecia and cDeDeteccion fields to change their name
+        val gson = Gson()
+        val areasJSONObject= gson.toJson(risks)
+        request.put("risks", areasJSONObject)
         return request
     }
 

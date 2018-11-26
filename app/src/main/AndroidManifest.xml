@@ -35,7 +35,6 @@
         <activity android:name=".SignIn">
         </activity>
         <activity android:name=".Sugerencias">
-
         </activity>
 
         <receiver android:name=".ShortcutsWidgetProvider">

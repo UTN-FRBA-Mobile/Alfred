@@ -52,4 +52,12 @@ Risks.removeUserTaskIds = () => {
   Risks.update({userId: Meteor.userId()}, {$unset: {userTasksId: ""}}, {multi: true});
 };
 
+
+Risks.getRisks = (userId = Meteor.userId() ) => {
+  risksFound = Risks.find({userId: userId}).fetch();
+  return risksFound
+          ? risksFound
+          : [];
+};
+
 Risks.attachSchema(risksSchema);

@@ -3,6 +3,8 @@ import { Mvps } from '../../../../lib/schemas/mvp';
 import { BusinessAreas } from '../../../../lib/schemas/businessArea';
 import { Favourites } from '../../../../lib/schemas/favourites';
 import { Swots } from '../../../../lib/schemas/swot';
+import { Risks } from '../../../../lib/schemas/risk';
+import { UserTasks } from '../../../../lib/schemas/userTask';
 import { validationsHelper } from '../../helpers/validationsHelper';
 
 if (Meteor.isServer) {
@@ -87,7 +89,6 @@ if (Meteor.isServer) {
       } catch (exception) {
         console.error("=== ERROR on register ===");
         console.error(exception);
-        console.error(JSON.stringify(exception));
         console.trace();
         validationsHelper.parseMongoError(exception);
         return {
@@ -105,7 +106,6 @@ if (Meteor.isServer) {
       console.log("=== Calling api.query ===");
       const mvpLast = Mvps.findOne({userId: data.userId})
       console.log("MVP Found");
-      console.log(JSON.stringify(mvpLast));
       if (mvpLast == undefined){
         return "aprender emprender emprendimiento argentina";
       }
@@ -114,7 +114,6 @@ if (Meteor.isServer) {
       
       const canvasLast = BusinessAreas.findOne({userId: data.userId})
       console.log("CANVAS Found");
-      console.log(JSON.stringify(canvasLast));
       concatResult = canvasLast && canvasLast.name && canvasLast.name.concat(` ${concatResult}`) || concatResult;
       concatResult = canvasLast && canvasLast.partners && canvasLast.partners.concat(` ${concatResult}`) || concatResult;
       concatResult = canvasLast && canvasLast.partners && canvasLast.name && canvasLast.partners.concat(` ${canvasLast.name}`) || concatResult;
@@ -295,7 +294,16 @@ if (Meteor.isServer) {
     'api.saveSwot'(data) {
       console.log("=== Calling api.saveSwot ===");
       try {
-        const newSwotId = Swots.insertSwot(data.swot, data.userId);
+        let swotsTransformed = [];
+        data.swot.forEach(swotItem => {
+          if(swotsTransformed[swotItem.type] == undefined)
+          {
+            swotsTransformed[swotItem.type] = [];
+          }
+          swotsTransformed[swotItem.type] = swotsTransformed[swotItem.type].concat(swotItem.descriptions);
+        });
+        console.log(swotsTransformed);
+        const newSwotId = Swots.insertSwot(swotsTransformed, data.userId);
         return newSwotId;
       } catch (exception) {
         console.log(exception);
@@ -305,10 +313,34 @@ if (Meteor.isServer) {
     'api.getSwot'(data) {
       console.log("=== Calling api.getSwot ===");
       try {
-        const swotFound = Swots.getSwot(data.userId);
-        return swotFound;
+        let swotsTransformed = [];
+        let swotFound = Swots.getSwot(data.userId);
+
+        swotFound.forEach(swotItem => {
+          console.log(swotItem);
+          console.log("------------");
+          console.log(swotsTransformed[swotItem.type])
+          if(swotsTransformed[swotItem.type] == undefined)
+          {
+            console.log("primera vez");
+            swotsTransformed[swotItem.type] = {
+              id: swotItem._id,
+              type: swotItem.type,
+              userId: data.userId,
+              name: swotItem.type,
+              array: []
+            };
+          }
+          swotsTransformed[swotItem.type].array = swotsTransformed[swotItem.type].array.concat(swotItem.descriptions);
+        });
+
+        console.log("----- RETURN ------");
+        var stuff = swotsTransformed;
+        console.log(stuff);
+        return stuff;
       } catch (exception) {
         console.error(exception);
+        console.log("--- ERROR ---");
         return exception;
       }
     },
@@ -331,8 +363,32 @@ if (Meteor.isServer) {
       console.log("=== Calling api.getAreas ===");
       try {
         const areasFound = BusinessAreas.getAreas(data.userId);
-        console.log(JSON.stringify(areasFound));
         return areasFound;
+      } catch (exception) {
+        console.error(exception);
+        return exception;
+      }
+    },
+    'api.saveRisks'(data) {
+      console.log("=== Calling api.saveRisks ===");
+      try {
+        Risks.insertRisks(data.risks, data.userId);
+        return {
+          success: true
+        };
+      } catch (exception) {
+        console.log(exception);
+        return {
+          success: false,
+          error: exception
+        };
+      }
+    },
+    'api.getRisks'(data) {
+      console.log("=== Calling api.getRisks ===");
+      try {
+        const risksFound = Risks.getRisks(data.userId);
+        return risksFound;
       } catch (exception) {
         console.error(exception);
         return exception;
