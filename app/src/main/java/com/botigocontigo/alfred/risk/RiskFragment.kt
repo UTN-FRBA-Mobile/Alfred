@@ -20,6 +20,8 @@ import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.RiskDao
 import com.botigocontigo.alfred.storage.db.entities.Risk
+import kotlinx.android.synthetic.main.activity_foda.view.*
+import kotlinx.android.synthetic.main.activity_risks.view.*
 import kotlinx.android.synthetic.main.new_risk_form.view.*
 import kotlinx.android.synthetic.main.risk_item.view.*
 import org.jetbrains.anko.doAsync
@@ -53,14 +55,20 @@ class RiskFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.activity_risks, container, false)
-        riskAdapter = RiskAdapter(arrayListOf(), view.context)
+        val context = inflater.context
+        val riskList = view.recyclerRisk!!
         doAsync {
             val riesgos = riskDAO.getAll() as MutableList<Risk>
             if(riesgos.size == 0)
                 riesgos.add(riesgoEjemplo)
             uiThread {
+                riskList.layoutManager = LinearLayoutManager(context)
+                riskAdapter = RiskAdapter(riesgos, context)
+                Log.i("Cantidad de Riesgos: ", riesgos.size.toString())
+                riskList.adapter = riskAdapter
+                riskList.adapter?.notifyDataSetChanged()
                 loadEventOnClickNewRisk(view)
-                loadRecyclerView(view, riesgos)
+                //loadRecyclerView(view, riesgos)
             }
         }
         return view
