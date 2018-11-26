@@ -17,7 +17,7 @@ class MyPreferences(context: Context) {
     val preference = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     fun getUserId(): String {
-        return preference.getString(PREFERENCE_USER_ID, "UserId")
+        return preference.getString(PREFERENCE_USER_ID, null)
     }
 
     fun setUserId( cadena: String){
@@ -27,7 +27,7 @@ class MyPreferences(context: Context) {
     }
 
     fun getUserEmail(): String {
-        return preference.getString(PREFERENCE_USER_ID, "UserEmail")
+        return preference.getString(PREFERENCE_USER_EMAIL, null)
     }
 
     fun setUserEmail( cadena: String){

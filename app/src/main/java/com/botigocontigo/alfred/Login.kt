@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
+import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -52,9 +53,11 @@ class Login : AppCompatActivity() {
 
 
                         // Aca se tiene que guardar los valores de la Share Preferen
-                        //  mypreference.setUserEmail( response.userId)
+                        mypreference.setUserEmail(user_name.text.toString())
+                        val valor = mypreference.getUserEmail()
+                        Log.i(LOG_TAG, "El valor es: $valor")
+                        Toast.makeText(this, valor, Toast.LENGTH_LONG).show()
 
-                        //Log.i(LOG_TAG, "Response user id es: ", response.userId)
                         //Log.i(LOG_TAG, "Response email es: $response.email")
                         startActivity(Intent(this, SplashActivity::class.java))
                     },
