@@ -23,6 +23,8 @@
     <string name="Registrarse">Registrarse</string>
     <string name="registrarse_titulo">Registrarse</string>
 
+    <string name="recycler_tasks_empty">No hay tareas creadas en este plan \n\nEmpiece creando una</string>
+
     <string name="tasks_description">Descripcion de la tarea</string>
     <string name="tasks_repeat">Repetir</string>
     <string name="tasks_reminder">Durante</string>

@@ -36,7 +36,7 @@ import com.botigocontigo.alfred.tasks.Frequency
 class TasksFragment : Fragment() {
 
     private lateinit var api: BotigocontigoApi
-
+    private lateinit var services: Services
     private var vfrag: View? = null
     private var taskAdapter: TaskAdapter? = null
     private var recycler: RecyclerView? = null
@@ -62,7 +62,7 @@ class TasksFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfrag = inflater.inflate(R.layout.fragment_tasks, container, false)
 
-        val services = Services(inflater.context)
+        services = Services(inflater.context)
         api = services.botigocontigoApi()
 
         api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
@@ -87,11 +87,19 @@ class TasksFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
                 val plan = spinnerPlans.selectedItem.toString()
-//                Log.i("SelectedSpinnerPlan", "$plan - id: ${mapPlans.getValue(plan)}")
                 doAsync {
                     val tasks = taskDao.getAllByPlanId(mapPlans.getValue(plan))
                     uiThread {
                         recycler!!.adapter = taskAdapter!!.setDataset(tasks)
+                        val emptyView = vfrag!!.findViewById<TextView>(R.id.tv_empty_recycler)
+                        if (tasks.isEmpty()) {
+                            recycler!!.visibility = View.GONE
+                            emptyView.visibility = View.VISIBLE
+                        }
+                        else {
+                            recycler!!.visibility = View.VISIBLE
+                            emptyView.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -189,6 +197,9 @@ class TasksFragment : Fragment() {
                     createTask(alertDialog, view, { message: String ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     })
+                    val emptyView = vfrag!!.findViewById<TextView>(R.id.tv_empty_recycler)
+                    recycler!!.visibility = View.VISIBLE
+                    emptyView.visibility = View.GONE
                 }
         )
     }
@@ -217,13 +228,24 @@ class TasksFragment : Fragment() {
         builder.setMessage("¿Está seguro que desea eliminar ${
             if (selected.size > 1) "las ${selected.size} tareas" else "1 tarea"
         } del plan?")
+        val planId = selected.first().planId
+        var cantidad: Int?
         builder.setPositiveButton("Si"){ dialog, which ->
             doAsync {
                 selected.forEach { taskDao.deleteAll(it) }
+                cantidad = taskDao.getCountTasksByPlan(planId)
                 uiThread {
                     taskAdapter?.deleteTasks()
                     taskAdapter?.notifyDataSetChanged()
                     switchFlipper(0)
+                    val emptyView = vfrag!!.findViewById<TextView>(R.id.tv_empty_recycler)
+                    if (cantidad == 0) {
+                        recycler!!.visibility = View.GONE
+                        emptyView.visibility = View.VISIBLE
+                    } else {
+                        recycler!!.visibility= View.VISIBLE
+                        emptyView.visibility= View.GONE
+                    }
                     Toast.makeText(context, if (selected.size > 1) "Tareas Eliminadas" else "Tarea Eliminada",Toast.LENGTH_SHORT).show()
                 }
             }
@@ -261,6 +283,8 @@ class TasksFragment : Fragment() {
                     name = taskName,
                     frecType = frecType,
                     frecValue = frecValue!!,
+                    responsibleId = services.currentUser().userId,
+                    supervisorId = services.currentUser().userId,
                     completed = false,
                     planId = planId
             )
@@ -316,11 +340,14 @@ class TasksFragment : Fragment() {
 
         doAsync {
 
+            val userId = services.currentUser().userId
+            val email = services.currentUser().email
+
             if (response.isEmpty()) {
                 planDao.insertAll(
-                        Plan("aaa", "Plan Comercial", "Comercio", "Hugo", "hugos@f.com", Date()),
-                        Plan("bbb", "Plan de Comunicación", "Recursos Humanos", "Carlos", "carl25@ww.com", Date()),
-                        Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date())
+                        Plan("aaaaa", "Plan Comercial", "Comercio", userId, email, Date()),
+                        Plan("bbbbb", "Plan de Comunicación", "Recursos Humanos", userId, email, Date()),
+                        Plan("ccccc", "Plan de Administración", "Administración", userId, email, Date())
                 )
             } else {
                 planDao.deleteAllRows()
@@ -340,7 +367,7 @@ class TasksFragment : Fragment() {
                         taskDao.insertAll(Task(
                                 id = it.id,
                                 name = it.name,
-                                responsibleId = it.responsibleId,
+                                responsibleId = email,
                                 supervisorId = it.supervisorId,
                                 frecType = it.frequency!!.type,
                                 frecValue = it.frequency!!.value,
@@ -349,9 +376,8 @@ class TasksFragment : Fragment() {
                         ))
                     }
                 }
+                Log.i("All Plan DB", planDao.getAll().toString())
             }
-
-            Log.i("Plans count", planDao.getAll().size.toString())
 
             mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
 
@@ -365,7 +391,6 @@ class TasksFragment : Fragment() {
 
         doAsync {
             val plansDB = planDao.getAll()
-            Log.i("Planes DB", plansDB.size.toString())
 
             plansApi = plansDB.map { p ->
                 com.botigocontigo.alfred.tasks.Plan(
@@ -380,7 +405,7 @@ class TasksFragment : Fragment() {
                                     id = it.id,
                                     name = it.name!!,
                                     frequency = Frequency(it.frecType!!, it.frecValue!!),
-                                    responsibleId = it.responsibleId,
+                                    responsibleId = p.userEmail,
                                     supervisorId = it.supervisorId,
                                     status = "Pendiente",
                                     completed = it.completed!!

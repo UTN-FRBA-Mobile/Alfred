@@ -2,6 +2,7 @@ package com.botigocontigo.alfred.tasks
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,6 +56,7 @@ class TaskAdapter(private val switchFlipper: (Int) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolderTasks, position: Int) {
         val t = dataset[position]
+        Log.i("Adapter Recycler", t.toString())
         holder.name.text = t.name
         holder.interval.text = "Durante ${t.frecValue} ${getPeriod(t.frecType)}"
         holder.assigned.text = t.responsibleId

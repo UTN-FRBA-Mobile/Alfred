@@ -68,7 +68,7 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
 
     fun plansSaveAll(plans: Array<Plan>): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.insertPlanList")
-        applyPermissions(request)
+//        applyPermissions(request)
 
         //FIXME I think this need to be serialized or transform the array of tasks to a JSON
         //This transform plans to JSON object, like:
@@ -94,9 +94,11 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
                 secondaryValue,
                 */
         val gson = Gson()
+        val userId = permissions.getUserId()
         val plansJSONObject= gson.toJson(plans)
-        Log.i("API POST Plan", plansJSONObject)
-        request.put("plans", plansJSONObject)
+        val body = "{\"plans\":$plansJSONObject,\"userId\":\"$userId\"}"
+        Log.i("resquest post plans", body)
+        request.body = body
         return request
     }
 
