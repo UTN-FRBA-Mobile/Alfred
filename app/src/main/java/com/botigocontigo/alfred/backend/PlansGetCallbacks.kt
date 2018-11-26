@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.backend
 
+import android.util.Log
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.tasks.PlanDeserializer
@@ -15,6 +16,8 @@ class PlansGetCallbacks(private val loadDB: (List<Plan>) -> Unit) : AsyncTaskCal
         val gson = gsonBuilder.create()
 
         val jsonParsed = gson.fromJson(result , Array<Plan>::class.java).toList()
+
+        Log.i("API GET Plan", result)
 
         loadDB(jsonParsed)
 

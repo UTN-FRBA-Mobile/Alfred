@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred
 
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.foda.FodaFragment
 import com.botigocontigo.alfred.learn.LearnFragment
@@ -9,6 +10,7 @@ class AppFragments {
 
     object FRAGMENTS {
         operator fun get(position: Int): Fragment {
+            Log.i("Posicion Fragmento", position.toString())
             return when(position) {
                 //TODO replace each with its Fragment class
                 0 -> InterviewFragment()

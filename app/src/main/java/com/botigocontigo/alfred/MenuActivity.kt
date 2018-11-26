@@ -136,7 +136,6 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         mFragmentSelected = AppFragments.FRAGMENTS[position]
         val args = Bundle()
         args.putInt("fragment_number", position)
-        //args.putParcelable("db", db as Parcelable)
         mFragmentSelected?.arguments = args
 
         // Insert the fragment by replacing any existing fragment

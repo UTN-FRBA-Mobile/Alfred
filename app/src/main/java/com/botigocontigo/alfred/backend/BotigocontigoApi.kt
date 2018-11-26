@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.backend
 
+import android.util.Log
 import com.botigocontigo.alfred.storage.db.entities.Area
 import com.botigocontigo.alfred.tasks.Plan
 import com.botigocontigo.alfred.utils.Api
@@ -93,6 +94,7 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
                 */
         val gson = Gson()
         val plansJSONObject= gson.toJson(plans)
+        Log.i("API POST Plan", plansJSONObject)
         request.put("plans", plansJSONObject)
         return request
     }

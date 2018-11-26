@@ -13,6 +13,9 @@ interface PlanDao {
     @Query("SELECT * FROM plans WHERE id = :planId")
     fun findById(planId: String): Plan
 
+    @Query("SELECT user_id FROM plans WHERE id = :planId")
+    fun getUserIdByPlan(planId: String): String?
+
     @Query("SELECT count(1) FROM plans")
     fun getPlansCount() : Int
 

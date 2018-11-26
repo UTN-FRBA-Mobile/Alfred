@@ -30,6 +30,7 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import com.botigocontigo.alfred.backend.PlansGetCallbacks
+import com.botigocontigo.alfred.tasks.Frequency
 
 
 class TasksFragment : Fragment() {
@@ -61,37 +62,10 @@ class TasksFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         vfrag = inflater.inflate(R.layout.fragment_tasks, container, false)
 
-        container!!.bringToFront()
-
         val services = Services(inflater.context)
         api = services.botigocontigoApi()
 
-        doAsync {
-
-            api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
-
-            if (planDao.getPlansCount() == 0) {
-                planDao.insertAll(
-                        Plan("aaa", "Plan Comercial", "Comercio", "Hugo", "hugos@f.com", Date(1565481600000)),
-                        Plan("bbb", "Plan de Comunicación", "Recursos Humanos", "Carlos", "carl25@ww.com", Date(1552262400000)),
-                        Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date(1552176000000))
-                )
-            }
-//
-//            taskDao.insertAll(
-//                    Task("qwe123", "Correr 10k", "Semanalmente", "2", "Norma", "Carlos", false, "ccc"),
-//                    Task("asd123", "Contratar Personal", "Mensualmente", "5", "Hugo", "Norma", false, "bbb"),
-//                    Task("zxc123", "Enseñar Computacion 2", "Semanalmente", "2", "Hugo", "Carlos", false, "aaa"),
-//                    Task("tyu789", "Vender Productos", "Semanalmente", "10", "Carlos", "Hugo", false, "bbb"),
-//                    Task("oiu098", "Chequeo medico", "Anualmente", "5", "Norma", "Carlos", false, "ccc")
-//            )
-
-            Log.i("Plans count", planDao.getAll().size.toString())
-
-            mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
-
-            uiThread { setUpUIElements() }
-        }
+        api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
 
         return vfrag
     }
@@ -113,7 +87,7 @@ class TasksFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
                 val plan = spinnerPlans.selectedItem.toString()
-                Log.i("SelectedSpinnerPlan", "$plan - id: ${mapPlans.getValue(plan)}")
+//                Log.i("SelectedSpinnerPlan", "$plan - id: ${mapPlans.getValue(plan)}")
                 doAsync {
                     val tasks = taskDao.getAllByPlanId(mapPlans.getValue(plan))
                     uiThread {
@@ -159,6 +133,12 @@ class TasksFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    override fun onDestroyView() {
+        Log.i("Tareas","Saliendo..")
+        savePlans()
+        super.onDestroyView()
     }
 
     interface OnFragmentInteractionListener {
@@ -285,7 +265,7 @@ class TasksFragment : Fragment() {
                     planId = planId
             )
             doAsync {
-                val userId = planDao.findById(planId).userId
+                val userId = planDao.getUserIdByPlan(planId)
                 newTask.responsibleId = userId
                 newTask.supervisorId = userId
                 taskDao.insertAll(newTask)
@@ -335,50 +315,81 @@ class TasksFragment : Fragment() {
     private fun loadToDb(response: List<com.botigocontigo.alfred.tasks.Plan>) {
 
         doAsync {
-            planDao.deleteAllRows()
-            taskDao.deleteAllRows()
 
-            response.forEach { p ->
-                planDao.insertAll(Plan(
-                        id = p.id,
-                        name = p.name,
-                        businessArea = p.businessArea,
-                        userId = p.userId,
-                        userEmail = p.userEmail,
-                        createdDate = p.createAt
-                ))
+            if (response.isEmpty()) {
+                planDao.insertAll(
+                        Plan("aaa", "Plan Comercial", "Comercio", "Hugo", "hugos@f.com", Date()),
+                        Plan("bbb", "Plan de Comunicación", "Recursos Humanos", "Carlos", "carl25@ww.com", Date()),
+                        Plan("ccc", "Plan de Administración", "Salud", "Norma", "normal@qq.com", Date())
+                )
+            } else {
+                planDao.deleteAllRows()
+                taskDao.deleteAllRows()
 
-                p.tasks.forEach {
-                    taskDao.insertAll(Task(
-                            id = it.id,
-                            name = it.name,
-                            responsibleId = it.responsibleId,
-                            supervisorId = it.supervisorId,
-                            frecType = it.frequency!!.type,
-                            frecValue = it.frequency!!.value,
-                            completed = it.completed,
-                            planId = p.id
+                response.forEach { p ->
+                    planDao.insertAll(Plan(
+                            id = p.id,
+                            name = p.name,
+                            businessArea = p.businessArea,
+                            userId = p.userId,
+                            userEmail = p.userEmail,
+                            createdDate = p.createAt
                     ))
+
+                    p.tasks.forEach {
+                        taskDao.insertAll(Task(
+                                id = it.id,
+                                name = it.name,
+                                responsibleId = it.responsibleId,
+                                supervisorId = it.supervisorId,
+                                frecType = it.frequency!!.type,
+                                frecValue = it.frequency!!.value,
+                                completed = it.completed,
+                                planId = p.id
+                        ))
+                    }
                 }
             }
+
+            Log.i("Plans count", planDao.getAll().size.toString())
+
+            mapPlans = planDao.getAll().map { it.name to it.id }.toMap()
+
+            uiThread { setUpUIElements() }
         }
     }
 
-    private fun savePlans(plans: List<Plan>) {
+    private fun savePlans() {
 
-//        var plansApi = List<com.botigocontigo.alfred.tasks.Plan>
-//
-//        plans.forEach { p ->
-//
-//
-//
-//            val tasks = taskDao.getAllByPlanId(p.id)
-//            tasks.forEach { t ->
-//
-//            }
-//        }
-//
-//
-//        api.plansSaveAll()
+        var plansApi: List<com.botigocontigo.alfred.tasks.Plan> = listOf()
+
+        doAsync {
+            val plansDB = planDao.getAll()
+            Log.i("Planes DB", plansDB.size.toString())
+
+            plansApi = plansDB.map { p ->
+                com.botigocontigo.alfred.tasks.Plan(
+                        id = p.id,
+                        name = p.name,
+                        userId = p.userId!!,
+                        userEmail = p.userEmail!!,
+                        businessArea = p.businessArea!!,
+                        createAt = p.createdDate!!,
+                        tasks = taskDao.getAllByPlanId(p.id).map {
+                            com.botigocontigo.alfred.tasks.Task(
+                                    id = it.id,
+                                    name = it.name!!,
+                                    frequency = Frequency(it.frecType!!, it.frecValue!!),
+                                    responsibleId = it.responsibleId,
+                                    supervisorId = it.supervisorId,
+                                    status = "Pendiente",
+                                    completed = it.completed!!
+                            )
+                        }
+                )
+            }
+            Log.i("API POST Plan", plansApi.size.toString())
+            api.plansSaveAll(plansApi.toTypedArray())
+        }
     }
 }
