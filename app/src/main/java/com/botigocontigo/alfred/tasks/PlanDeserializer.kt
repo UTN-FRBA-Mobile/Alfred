@@ -14,9 +14,9 @@ class PlanDeserializer  : JsonDeserializer<Plan> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Plan {
         val jsonObject = json.asJsonObject
 
-        val formatter = SimpleDateFormat("M/d/yy hh:mm a")
-        formatter.timeZone = TimeZone.getTimeZone("UTC")
-        val dateFormated: Date = formatter.parse(jsonObject.get("createdAt").asString)
+//        val formatter = SimpleDateFormat("M/d/yy hh:mm a")
+//        formatter.timeZone = TimeZone.getTimeZone("UTC")
+//        val dateFormated: Date = formatter.parse(jsonObject.get("createdAt").asString)
 
         val gsonBuilder = GsonBuilder().serializeNulls()
         gsonBuilder.registerTypeAdapter(Task::class.java, TaskDeserializer())
@@ -26,11 +26,11 @@ class PlanDeserializer  : JsonDeserializer<Plan> {
 
         return Plan(
                 jsonObject.get("_id").asString,
-                jsonObject.get("name").asString,
+                jsonObject.get("subtype").asString,
                 jsonObject.get("businessArea").asString,
                 jsonObject.get("userId").asString,
                 jsonObject.get("userEmail").asString,
-                dateFormated,
+                jsonObject.get("createdAt").asString,
                 tasksDeserialized
         )
     }

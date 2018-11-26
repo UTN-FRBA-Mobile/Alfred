@@ -15,9 +15,9 @@ class PlansGetCallbacks(private val loadDB: (List<Plan>) -> Unit) : AsyncTaskCal
         gsonBuilder.registerTypeAdapter(Plan::class.java, PlanDeserializer())
         val gson = gsonBuilder.create()
 
-        val jsonParsed = gson.fromJson(result , Array<Plan>::class.java).toList()
-
         Log.i("API GET Plan", result)
+
+        val jsonParsed = gson.fromJson(result , Array<Plan>::class.java).toList()
 
         loadDB(jsonParsed)
 

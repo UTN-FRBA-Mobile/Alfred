@@ -27,5 +27,5 @@ data class Plan(
         var userEmail: String?,
 
         @ColumnInfo(name = "create_at")
-        var createdDate: Date?
+        var createdDate: String?
 )

@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
+import java.util.*
 
 
 class TaskDeserializer: JsonDeserializer<Task> {
@@ -18,13 +19,16 @@ class TaskDeserializer: JsonDeserializer<Task> {
         val frequencyDeserialized : Frequency = gson.fromJson(jsonObject.get("frequency").asString , Frequency::class.java)
 
         return Task(
-                jsonObject.get("_id").asString,
+//                jsonObject.get("_id").asString,
+                UUID.randomUUID().toString(),
                 jsonObject.get("taskDescription").asString,
                 jsonObject.get("responsibleID").asString,
                 jsonObject.get("supervisorID").asString,
                 frequencyDeserialized,
-                jsonObject.get("status").asString,
-                jsonObject.get("completed").asBoolean
+                //jsonObject.get("status").asString,
+                "PENDIENTE",
+                //jsonObject.get("completed").asBoolean
+                false
         )
     }
 

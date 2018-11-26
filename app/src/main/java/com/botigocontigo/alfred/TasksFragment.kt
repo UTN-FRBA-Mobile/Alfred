@@ -342,12 +342,13 @@ class TasksFragment : Fragment() {
 
             val userId = services.currentUser().userId
             val email = services.currentUser().email
+            Log.i("email",email)
 
             if (response.isEmpty()) {
                 planDao.insertAll(
-                        Plan("aaaaa", "Plan Comercial", "Comercio", userId, email, Date()),
-                        Plan("bbbbb", "Plan de Comunicación", "Recursos Humanos", userId, email, Date()),
-                        Plan("ccccc", "Plan de Administración", "Administración", userId, email, Date())
+                        Plan("aaaaa", "Plan Comercial", "Comercio", userId, email, Date().toString()),
+                        Plan("bbbbb", "Plan de Comunicación", "Recursos Humanos", userId, email, Date().toString()),
+                        Plan("ccccc", "Plan de Administración", "Administración", userId, email, Date().toString())
                 )
             } else {
                 planDao.deleteAllRows()
