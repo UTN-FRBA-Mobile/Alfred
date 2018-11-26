@@ -33,7 +33,6 @@ class Login : AppCompatActivity() {
              * Llamada POST que envia un JSONObject y devuelve un JSONobject
              */
 
-
             Log.i(LOG_TAG, "jsonObjectRequestPost")
 
             // Instantiate the RequestQueue.
@@ -74,10 +73,8 @@ class Login : AppCompatActivity() {
                         //Se guardan valores del Email en Share Preferen
                         mypreference.setUserId(userShareJsonParsed.userId)
                         val valor2 = mypreference.getUserId()
-                        Log.i(LOG_TAG, "El userID es: $valor")
-                        Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
-
-
+                        Log.i(LOG_TAG, "El userID es: $valor2")
+                        // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
 
 
                         startActivity(Intent(this, MenuActivity::class.java))
