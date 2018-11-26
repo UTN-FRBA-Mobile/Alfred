@@ -8,6 +8,9 @@ interface RiskDao {
     @Query("SELECT * FROM RIESGOS")
     fun getAll(): List<Risk>
 
+    @Query("SELECT * FROM RIESGOS WHERE USER_ID = :userId")
+    fun getAllByUser(userId: String): List<Risk>
+
     @Query("DELETE FROM RIESGOS")
     fun deleteAllRows()
 
