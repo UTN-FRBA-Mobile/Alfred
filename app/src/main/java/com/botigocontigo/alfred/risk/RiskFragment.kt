@@ -190,7 +190,9 @@ class RiskFragment: Fragment(){
                             dw.spinnerPdeOcurrencia.selectedItem as String,
                             dw.spinnerImpacto.selectedItem as String,
                             dw.spinnerCdeteccion.selectedItem as String,
-                            view.context)
+                        { message: String ->
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                        })
                 mAlertDialog.dismiss()
             }
 
@@ -200,13 +202,21 @@ class RiskFragment: Fragment(){
         }
     }
 
-    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String, context: Context){
-        doAsync {
-            riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion, userId))
-            val riesgos = riskDAO.getAllByUser(userId) as MutableList<Risk>
-            uiThread {
-                riskAdapter!!.setDataset(riesgos)
-                riskAdapter!!.notifyDataSetChanged()
+    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String,  fnError: (String) -> Unit){
+        var msg: String? = null
+
+        if (desc == "")
+            msg = "Descripcion necesaria"
+        if (msg != null) {
+            fnError(msg)
+        } else {
+            doAsync {
+                riskDAO.insertAll(Risk(null, desc, pOcurrencia, impacto, cDeteccion, userId))
+                val riesgos = riskDAO.getAllByUser(userId) as MutableList<Risk>
+                uiThread {
+                    riskAdapter!!.setDataset(riesgos)
+                    riskAdapter!!.notifyDataSetChanged()
+                }
             }
         }
 
