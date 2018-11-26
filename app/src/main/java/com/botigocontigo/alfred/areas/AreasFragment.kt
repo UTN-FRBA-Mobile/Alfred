@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.*
+import com.botigocontigo.alfred.MyPreferences
 
 
 import com.botigocontigo.alfred.R
@@ -37,13 +38,15 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private var mapModels: Map<String?, String?> = emptyMap()
     private var model: Area? = null
+    private var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
-
+            userId=MyPreferences(context!!).getUserId()
+            Log.i("USERID: ", userId)
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -186,8 +189,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
         } else {
             val newModel = Area(
                     id = UUID.randomUUID().toString(),
-                    //HARCODED USER
-                    userId = "1",
+                    userId = userId,
                     name = newModelName,
                     activities = "",
                     channels = "",
@@ -201,9 +203,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
             )
             doAsync {
                 areaDao.insertAll(newModel)
-
-                //HARDCODED USER ID
-                mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
+                mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
 
                 uiThread {
                     loadSpinnerModelos()
@@ -225,9 +225,9 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 } else {
                     if(areaDao.getAreasCount()<1) {
                         areaDao.insertAll(
-                                Area("1", "1", "Modelo A", "clientesA", "relA", "chanA", "valueA", "actA", "resoA", "parA", "incA", "costA"),
-                                Area("2", "1", "Modelo B", "clientesB", "relB", "chanB", "valueB", "actB", "resoB", "partB", "incB", "costB"),
-                                Area("3", "1", "Modelo C", "clientesC", "relC", "chanC", "valueC", "actC", "resoC", "partC", "incC", "costC")
+                                Area(UUID.randomUUID().toString(), userId, "Modelo A", "clientesA", "relA", "chanA", "valueA", "actA", "resoA", "parA", "incA", "costA"),
+                                Area(UUID.randomUUID().toString(), userId, "Modelo B", "clientesB", "relB", "chanB", "valueB", "actB", "resoB", "partB", "incB", "costB"),
+                                Area(UUID.randomUUID().toString(), userId, "Modelo C", "clientesC", "relC", "chanC", "valueC", "actC", "resoC", "partC", "incC", "costC")
                         )
                     }
                 }
@@ -242,5 +242,24 @@ class AreasFragment : Fragment(), View.OnClickListener{
             }
         }
     }
+
+    /*
+    private fun persisServerInfo(modelos: Array<Area>){
+        val services = Services(this.view!!.context)
+        val areaGetCallbacks= AreasGetCallbacks(::loadToDB)
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.areasSaveAll(modelos).call(areaGetCallbacks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            val models = areaDao.getModelsByUserId(userId) as Array<Area>
+            persisServerInfo(models)
+            //post to API
+        }
+        userId = ""
+    }
+    */
 
 }

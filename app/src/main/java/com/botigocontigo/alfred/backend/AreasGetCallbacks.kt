@@ -5,7 +5,7 @@ import com.botigocontigo.alfred.storage.db.entities.Area
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 import com.google.gson.GsonBuilder
 
-//abstract class AreasGetCallbacks : AsyncTaskCallbacks<String>() {
+//class AreasGetCallbacks : AsyncTaskCallbacks<String>() {
 class AreasGetCallbacks(private val loadDB: (List<Area>) -> Unit) : AsyncTaskCallbacks<String>() {
 
     override fun success(result: String) {
@@ -17,9 +17,9 @@ class AreasGetCallbacks(private val loadDB: (List<Area>) -> Unit) : AsyncTaskCal
         Log.i("Resultado Json Areas", result)
 
         loadDB(jsonParsed)
-//        successWithParsedJson(jsonParsed)
+        //successWithParsedJson(jsonParsed)
     }
 
-//    abstract fun successWithParsedJson(results: List<Area>)
+    //fun successWithParsedJson(results: List<Area>){
 
 }

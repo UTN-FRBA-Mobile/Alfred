@@ -11,7 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.botigocontigo.alfred.MyPreferences
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.AreasGetCallbacks
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.AreaDao
 import com.botigocontigo.alfred.storage.db.entities.Area
@@ -32,6 +35,7 @@ class DetailAreaFragment : Fragment() {
 
     private var txtAreaDetail: TextView? = null
     private var editAreaDetail: EditText? = null
+    private var userId=""
 
     private var areasMap: Map<String?, Int?> = emptyMap()
 
@@ -45,6 +49,8 @@ class DetailAreaFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             areaName = it.getString(ARG_areaName)
+            userId= MyPreferences(context!!).getUserId()
+            Log.i("USER DETAil: ", userId)
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
         }
@@ -180,8 +186,36 @@ class DetailAreaFragment : Fragment() {
             doAsync {
                 Log.i("DAOO: ", areaDao.getAll().toString())
                 areaDao.update(newModel!!)
-            Log.i("DAOO: ", areaDao.getAll().toString())}
+            Log.i("DAO DESPUES DE UPDATE: ", areaDao.getAll().toString())}
 
         }
     }
+
+    /*
+    private fun persisServerInfo(modelos: Array<Area>){
+        val services = Services(this.view!!.context)
+        val areaGetCallbacks= AreasGetCallbacks(::loadToDB)
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.areasSaveAll(modelos).call(areaGetCallbacks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        doAsync {
+            val models = areaDao.getModelsByUserId(userId) as Array<Area>
+            persisServerInfo(models)
+            //post to API
+        }
+        userId = ""
+    }
+
+    private fun loadToDB(areas: List<Area>) {
+        doAsync {
+                if (areas.isNotEmpty()) {
+                    areaDao.deleteAllRows()
+                    areaDao.insertAll(*areas.toTypedArray())
+                }
+        }
+    }
+    */
 }
