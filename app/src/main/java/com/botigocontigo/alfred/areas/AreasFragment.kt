@@ -101,26 +101,26 @@ class AreasFragment : Fragment(), View.OnClickListener{
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
-    private fun switchFragment(areaName: String, areaDetail: String?){
+    private fun switchFragment(areaName: String){
         //Cambio al Fragment de Detalle de area
         fragmentManager!!
                 .beginTransaction()
-                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, areaDetail))
+                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, model))
                 .addToBackStack(null)
                 .commit()
     }
 
     private fun switchArea(opc : Int){
         when(opc){
-            R.id.btnClientes -> switchFragment("Segmento Clientes", model?.clients)
-            R.id.btnRelaciones -> switchFragment("Relaciones", model?.relationships)
-            R.id.btnCanales -> switchFragment("Canales", model?.channels)
-            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor", model?.valueProposition)
-            R.id.btnActividades -> switchFragment("Actividades",model?.activities)
-            R.id.btnRecursos -> switchFragment("Recursos",model?.resources)
-            R.id.btnSociosClave -> switchFragment("Socios Clave",model?.partners)
-            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso",model?.income)
-            R.id.btnCostos -> switchFragment("Costos",model?.costs)
+            R.id.btnClientes -> switchFragment("Segmento Clientes")
+            R.id.btnRelaciones -> switchFragment("Relaciones")
+            R.id.btnCanales -> switchFragment("Canales")
+            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor")
+            R.id.btnActividades -> switchFragment("Actividades")
+            R.id.btnRecursos -> switchFragment("Recursos")
+            R.id.btnSociosClave -> switchFragment("Socios Clave")
+            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso")
+            R.id.btnCostos -> switchFragment("Costos")
         }
     }
 

@@ -24,20 +24,18 @@ import java.util.*
 
 
 private const val ARG_areaName = "areaName"
-private const val ARG_areaDetail = "areaDetail"
 
 class DetailAreaFragment : Fragment() {
     private var viewFragDetail: View? = null
     private var areaName: String? = null
-    private var areaDetail: String? = null
-
-    private var listener: OnFragmentInteractionListener? = null
+    private var model: Area? = null
 
     private var txtAreaDetail: TextView? = null
     private var editAreaDetail: EditText? = null
 
     private var areasMap: Map<String?, Int?> = emptyMap()
 
+    private lateinit var areaDao: AreaDao
 
     private fun toast(msg:String){
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
@@ -47,7 +45,8 @@ class DetailAreaFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             areaName = it.getString(ARG_areaName)
-            areaDetail = it.getString(ARG_areaDetail)
+            val db = AppDatabase.getInstance(context!!)
+            areaDao = db.areaDao()
         }
 
         areasMap=hashMapOf(
@@ -73,7 +72,19 @@ class DetailAreaFragment : Fragment() {
 
         //cargo texto area detail
         txtAreaDetail = viewFragDetail?.findViewById<TextView>(R.id.txtAreaDetail)
-        txtAreaDetail?.text = areaDetail
+
+        when(areasMap.get(areaName)){
+            1->txtAreaDetail?.text = model?.clients
+            2->txtAreaDetail?.text = model?.relationships
+            3->txtAreaDetail?.text = model?.channels
+            4->txtAreaDetail?.text = model?.valueProposition
+            5->txtAreaDetail?.text = model?.activities
+            6->txtAreaDetail?.text = model?.resources
+            7->txtAreaDetail?.text = model?.partners
+            8->txtAreaDetail?.text = model?.income
+            9->txtAreaDetail?.text = model?.costs
+        }
+
 
         loadEventOnClickEditArea()
 
@@ -120,11 +131,11 @@ class DetailAreaFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(areaName: String, areaDetail: String?) =
+        fun newInstance(areaName: String, area: Area?) =
                 DetailAreaFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_areaName, areaName)
-                        putString(ARG_areaDetail, areaDetail)
+                        model = area
                     }
                 }
     }
@@ -143,17 +154,23 @@ class DetailAreaFragment : Fragment() {
             toast("Error: " + msg)
         } else {
 
+            val newModel = model
+
+            Log.i("MODEL: ", model.toString())
+
             when(areasMap.get(areaName)){
-                1->toast("Guardar Segmento")
-                2->toast("Guardar Relaciones")
-                3->toast("Guardar Canales")
-                4->toast("Guardar Propuestas")
-                5->toast("Guardar Actividades")
-                6->toast("Guardar Recursos")
-                7->toast("Guardar Socios")
-                8->toast("Guardar Ingresos")
-                9->toast("Guardar Costos")
+                1->newModel?.clients=newDetail
+                2->newModel?.relationships=newDetail
+                3->newModel?.channels=newDetail
+                4->newModel?.valueProposition=newDetail
+                5->newModel?.activities=newDetail
+                6->newModel?.resources=newDetail
+                7->newModel?.partners=newDetail
+                8->newModel?.income=newDetail
+                9->newModel?.costs=newDetail
             }
+
+            Log.i("NEWMODEL: ", newModel.toString())
         }
     }
 }

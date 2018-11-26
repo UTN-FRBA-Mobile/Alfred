@@ -20,6 +20,9 @@ interface AreaDao {
     @Query("DELETE FROM modelos")
     fun deleteAllRows()
 
+    @Query("UPDATE modelos SET clients =:newClients WHERE id =:areaId")
+    fun updateClients(areaId: String, newClients:String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg area: Area)
 
