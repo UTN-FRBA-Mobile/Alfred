@@ -31,6 +31,7 @@ import java.util.*
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import com.botigocontigo.alfred.backend.PlansGetCallbacks
 import com.botigocontigo.alfred.tasks.Frequency
+import kotlin.collections.ArrayList
 
 
 class TasksFragment : Fragment() {
@@ -65,7 +66,10 @@ class TasksFragment : Fragment() {
         services = Services(inflater.context)
         api = services.botigocontigoApi()
 
-        api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
+        //api.plansGetAll().call(PlansGetCallbacks(::loadToDb))
+
+        val lista = ArrayList<com.botigocontigo.alfred.tasks.Plan>()
+        loadToDb(lista)
 
         return vfrag
     }

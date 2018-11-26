@@ -21,7 +21,8 @@
             android:fontFamily="sans-serif"
             android:text="Nuevo Riesgo"
             android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="24dp"
+            android:textColor="#FF6E00"
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
@@ -34,6 +35,8 @@
                 android:id="@+id/descNuevoRiesgo"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:hint="Ingrese la descripcion del reisgo" />
         </android.support.design.widget.TextInputLayout>
 
@@ -51,6 +54,7 @@
                 android:text="P. de Ocurrencia:"
                 android:textAllCaps="false"
                 android:textSize="18sp"
+                android:layout_marginLeft="10dp"
                 android:textStyle="italic" />
 
             <Spinner
@@ -58,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/spinner_blue" />
 
         </LinearLayout>
@@ -78,6 +83,7 @@
                 android:text="Impacto:"
                 android:textAllCaps="false"
                 android:textSize="18sp"
+                android:layout_marginLeft="10dp"
                 android:textStyle="italic" />
 
             <Spinner
@@ -85,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/spinner_blue" />
         </LinearLayout>
 
@@ -101,6 +108,7 @@
                 android:text="C. de Deteccion:"
                 android:textAllCaps="false"
                 android:textSize="18sp"
+                android:layout_marginLeft="10dp"
                 android:textStyle="italic" />
 
             <Spinner
@@ -108,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/spinner_blue" />
         </LinearLayout>
 
@@ -121,6 +130,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#07912e"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
                 android:text="Aceptar" />
 
             <Button
@@ -128,6 +140,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#C11717"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
                 android:text="Cancelar" />
         </LinearLayout>
 
