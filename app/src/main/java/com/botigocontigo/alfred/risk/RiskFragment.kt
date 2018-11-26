@@ -147,7 +147,7 @@ class RiskFragment: Fragment(){
     private fun loadEventOnClickNewRisk(view: View){
         view.findViewById<ImageView>(R.id.suggerenciasRiesgo)!!.setOnClickListener {
             val inflater = layoutInflater
-            val layout = inflater.inflate(R.layout.chat_bubble_received, null)
+            val layout = inflater.inflate(R.layout.chat_bubble_message, null)
 
             val text = layout.findViewById(R.id.txtOtherMessage) as TextView
             text.text = sugerencias.get(nroSugerencia)
