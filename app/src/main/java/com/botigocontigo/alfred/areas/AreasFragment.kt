@@ -80,7 +80,11 @@ class AreasFragment : Fragment(), View.OnClickListener{
     }
 
     override fun onClick(v: View?) {
-        switchArea(v!!.id)
+        if(spinner_modelos.selectedItem==null){
+            toast("Seleccione un modelo")
+        }else{
+            switchArea(v!!.id)
+        }
     }
 
     private fun toast(msg:String){
@@ -177,20 +181,25 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadEventOnClickDeleteModel() {
         vfrag?.findViewById<ImageButton>(R.id.btnDeleteModel)!!.setOnClickListener {
 
-            val mBuilder = AlertDialog.Builder(context!!)
-            val modelToDelete = spinner_modelos.selectedItem.toString()
+            if (spinner_modelos.selectedItem!=null){
+                val mBuilder = AlertDialog.Builder(context!!)
+                val modelToDelete = spinner_modelos.selectedItem.toString()
 
-            mBuilder.setTitle("Alerta")
-            mBuilder.setMessage("¿Desea eliminar el modelo: "+ modelToDelete + "?")
-            mBuilder.setPositiveButton("SI", { dialogInterface: DialogInterface, i: Int ->
-                toast("Modelo eliminado")
-                deleteModel(modelToDelete)
-            })
-            mBuilder.setNegativeButton("NO", { dialogInterface: DialogInterface, i: Int ->
-                toast("Operacion cancelada")
-            })
+                mBuilder.setTitle("Alerta")
+                mBuilder.setMessage("¿Desea eliminar el modelo: "+ modelToDelete + "?")
+                mBuilder.setPositiveButton("SI", { dialogInterface: DialogInterface, i: Int ->
+                    toast("Modelo eliminado")
+                    deleteModel(modelToDelete)
+                })
+                mBuilder.setNegativeButton("NO", { dialogInterface: DialogInterface, i: Int ->
+                    toast("Operacion cancelada")
+                })
 
-            mBuilder.show()
+                mBuilder.show()
+            }else{
+                toast("Seleccione un modelo")
+            }
+
         }
     }
 
