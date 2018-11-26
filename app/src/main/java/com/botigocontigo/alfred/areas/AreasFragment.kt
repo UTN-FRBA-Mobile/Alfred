@@ -158,7 +158,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private fun loadEventOnClickNewModel() {
         vfrag?.findViewById<ImageButton>(R.id.btnNewModel)!!.setOnClickListener {
-            // dw = dialogView
+
             val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
             val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 

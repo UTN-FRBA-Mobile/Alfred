@@ -20,6 +20,7 @@ import org.jetbrains.anko.AlertBuilder
 import org.jetbrains.anko.AlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 private const val ARG_areaName = "areaName"
@@ -35,6 +36,9 @@ class DetailAreaFragment : Fragment() {
     private var txtAreaDetail: TextView? = null
     private var editAreaDetail: EditText? = null
 
+    private var areasMap: Map<String?, Int?> = emptyMap()
+
+
     private fun toast(msg:String){
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
@@ -45,6 +49,18 @@ class DetailAreaFragment : Fragment() {
             areaName = it.getString(ARG_areaName)
             areaDetail = it.getString(ARG_areaDetail)
         }
+
+        areasMap=hashMapOf(
+                "Segmento Clientes" to 1,
+                "Relaciones" to 2,
+                "Canales" to 3,
+                "Propuesta de Valor" to 4,
+                "Actividades" to 5,
+                "Recursos" to 6,
+                "Socios Clave" to 7,
+                "Fuentes de Ingreso" to 8,
+                "Costos" to 9
+                )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -81,8 +97,9 @@ class DetailAreaFragment : Fragment() {
 
             diagView.btnOk.setOnClickListener {
                 mAlertDialog.dismiss()
-                toast("Area editada")
-                //Toast.makeText(context,"Area editada",Toast.LENGTH_SHORT).show()
+                //Edito el area
+                editArea(mAlertDialog,diagView)
+
                 txtAreaDetail?.text= editAreaDetail?.text
             }
         }
@@ -110,5 +127,33 @@ class DetailAreaFragment : Fragment() {
                         putString(ARG_areaDetail, areaDetail)
                     }
                 }
+    }
+
+    private fun editArea(alertDialog: AlertDialog, viewDialog: View) {
+        var msg: String? = null
+
+        var newDetail: String? = viewDialog.findViewById<TextInputEditText>(R.id.editAreaDetail).text.toString()
+
+        Log.i("CREATE: ", newDetail)
+
+        if (newDetail == "")
+            msg = "Escriba un nombre para el modelo"
+
+        if (msg != null) {
+            toast("Error: " + msg)
+        } else {
+
+            when(areasMap.get(areaName)){
+                1->toast("Guardar Segmento")
+                2->toast("Guardar Relaciones")
+                3->toast("Guardar Canales")
+                4->toast("Guardar Propuestas")
+                5->toast("Guardar Actividades")
+                6->toast("Guardar Recursos")
+                7->toast("Guardar Socios")
+                8->toast("Guardar Ingresos")
+                9->toast("Guardar Costos")
+            }
+        }
     }
 }
