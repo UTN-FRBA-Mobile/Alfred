@@ -20,20 +20,22 @@ import org.jetbrains.anko.AlertBuilder
 import org.jetbrains.anko.AlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 private const val ARG_areaName = "areaName"
-private const val ARG_areaDetail = "areaDetail"
 
 class DetailAreaFragment : Fragment() {
     private var viewFragDetail: View? = null
     private var areaName: String? = null
-    private var areaDetail: String? = null
-
-    private var listener: OnFragmentInteractionListener? = null
+    private var model: Area? = null
 
     private var txtAreaDetail: TextView? = null
     private var editAreaDetail: EditText? = null
+
+    private var areasMap: Map<String?, Int?> = emptyMap()
+
+    private lateinit var areaDao: AreaDao
 
     private fun toast(msg:String){
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
@@ -43,8 +45,25 @@ class DetailAreaFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             areaName = it.getString(ARG_areaName)
-            areaDetail = it.getString(ARG_areaDetail)
+            val db = AppDatabase.getInstance(context!!)
+            areaDao = db.areaDao()
+
+            doAsync {
+                Log.i("DAOO: ", areaDao.getAll().toString())
+            }
         }
+
+        areasMap=hashMapOf(
+                "Segmento Clientes" to 1,
+                "Relaciones" to 2,
+                "Canales" to 3,
+                "Propuesta de Valor" to 4,
+                "Actividades" to 5,
+                "Recursos" to 6,
+                "Socios Clave" to 7,
+                "Fuentes de Ingreso" to 8,
+                "Costos" to 9
+                )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +76,19 @@ class DetailAreaFragment : Fragment() {
 
         //cargo texto area detail
         txtAreaDetail = viewFragDetail?.findViewById<TextView>(R.id.txtAreaDetail)
-        txtAreaDetail?.text = areaDetail
+
+        when(areasMap.get(areaName)){
+            1->txtAreaDetail?.text = model?.clients
+            2->txtAreaDetail?.text = model?.relationships
+            3->txtAreaDetail?.text = model?.channels
+            4->txtAreaDetail?.text = model?.valueProposition
+            5->txtAreaDetail?.text = model?.activities
+            6->txtAreaDetail?.text = model?.resources
+            7->txtAreaDetail?.text = model?.partners
+            8->txtAreaDetail?.text = model?.income
+            9->txtAreaDetail?.text = model?.costs
+        }
+
 
         loadEventOnClickEditArea()
 
@@ -81,8 +112,9 @@ class DetailAreaFragment : Fragment() {
 
             diagView.btnOk.setOnClickListener {
                 mAlertDialog.dismiss()
-                toast("Area editada")
-                //Toast.makeText(context,"Area editada",Toast.LENGTH_SHORT).show()
+                //Edito el area
+                editArea(mAlertDialog,diagView)
+
                 txtAreaDetail?.text= editAreaDetail?.text
             }
         }
@@ -103,12 +135,51 @@ class DetailAreaFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(areaName: String, areaDetail: String?) =
+        fun newInstance(areaName: String, area: Area?) =
                 DetailAreaFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_areaName, areaName)
-                        putString(ARG_areaDetail, areaDetail)
+                        model = area
                     }
                 }
+    }
+
+    private fun editArea(alertDialog: AlertDialog, viewDialog: View) {
+        var msg: String? = null
+
+        var newDetail: String? = viewDialog.findViewById<TextInputEditText>(R.id.editAreaDetail).text.toString()
+
+        Log.i("CREATE: ", newDetail)
+
+        if (newDetail == "")
+            msg = "Escriba un nombre para el modelo"
+
+        if (msg != null) {
+            toast("Error: " + msg)
+        } else {
+
+            val newModel = model
+
+            Log.i("MODEL: ", model.toString())
+
+            when(areasMap.get(areaName)){
+                1->newModel?.clients=newDetail
+                2->newModel?.relationships=newDetail
+                3->newModel?.channels=newDetail
+                4->newModel?.valueProposition=newDetail
+                5->newModel?.activities=newDetail
+                6->newModel?.resources=newDetail
+                7->newModel?.partners=newDetail
+                8->newModel?.income=newDetail
+                9->newModel?.costs=newDetail
+            }
+
+            Log.i("NEWMODEL: ", newModel.toString())
+            doAsync {
+                Log.i("DAOO: ", areaDao.getAll().toString())
+                areaDao.update(newModel!!)
+            Log.i("DAOO: ", areaDao.getAll().toString())}
+
+        }
     }
 }

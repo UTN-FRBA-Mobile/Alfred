@@ -12,10 +12,19 @@ interface AreaDao {
     fun getModelsByUserId(uId: String): List<Area>
 
     @Query("SELECT * FROM modelos WHERE id = :areaId")
-    fun findById(areaId: Int): Area
+    fun findById(areaId: String): Area
+
+    @Query("SELECT count(1) FROM modelos")
+    fun getAreasCount(): Int
 
     @Query("DELETE FROM modelos")
     fun deleteAllRows()
+
+    @Query("UPDATE modelos SET clients =:newClients WHERE id =:areaId")
+    fun updateClients(areaId: String, newClients:String)
+
+    @Update
+    fun update(entity: Area)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg area: Area)

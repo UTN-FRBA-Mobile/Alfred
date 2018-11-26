@@ -3,14 +3,14 @@
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorTaskView">#EDEFFF</color>
+    <color name="colorTaskView">#edefff</color>
     <color name="speech_bubble_user">#A6FF00</color>
     <color name="speech_bubble_agent">#FF6E00</color>
-    <color name="colorBackgroundTask">#EDEFFF</color>
+    <color name="colorBackgroundTask">#edefff</color>
     <color name="selectedTask">#3DA4FF</color>
     <color name="backgroundDropDownPlans">#3f51b5</color>
     <color name="fontDropDownPlans">#ffffff</color>
-    <color name="colorBackgroundDialog">#bcbcbc</color>
+    <color name="colorBackgroundDialog">#999999</color>
     <color name="bgEditTask">#1DA529</color>
-    <color name="bgTrashTask">#c11717</color>
+    <color name="bgTrashTask">#C11717</color>
 </resources>

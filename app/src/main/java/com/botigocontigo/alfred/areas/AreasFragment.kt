@@ -13,23 +13,30 @@ import android.widget.*
 
 
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.AreasGetCallbacks
+import com.botigocontigo.alfred.backend.BotigocontigoApi
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.AreaDao
 import com.botigocontigo.alfred.storage.db.entities.Area
 import kotlinx.android.synthetic.main.dialog_form_model.view.*
+import kotlinx.android.synthetic.main.fragment_areas.*
 import kotlinx.android.synthetic.main.fragment_areas.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class AreasFragment : Fragment(), View.OnClickListener{
 
+    private var executeInitializeDB: Boolean = true
     private var vfrag: View? = null
+    private lateinit var api: BotigocontigoApi
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var areaDao: AreaDao
 
-    private var mapModels: Map<String?, Int?> = emptyMap()
+    private var mapModels: Map<String?, String?> = emptyMap()
     private var model: Area? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +44,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
+
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,23 +56,12 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
         //loadEventOnClickAreaDetail(v)
 
-        doAsync {
-            //INSERT FOR TEST
-            areaDao.insertAll(
-                    Area(1, "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-                    Area(2, "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-                    Area(3, "2", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-            )
+        val services = Services(inflater.context)
+        api = services.botigocontigoApi()
 
+        if (executeInitializeDB)
+            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
 
-            //HARDCODED USER ID
-            mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
-            model = areaDao.findById(1)
-
-            uiThread {
-                loadEventOnClickNewModel()
-                loadSpinnerModelos()  }
-        }
         return vfrag
     }
 
@@ -88,26 +85,29 @@ class AreasFragment : Fragment(), View.OnClickListener{
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
-    private fun switchFragment(areaName: String, areaDetail: String?){
+    private fun switchFragment(areaName: String){
         //Cambio al Fragment de Detalle de area
+
+        executeInitializeDB = false
+
         fragmentManager!!
                 .beginTransaction()
-                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, areaDetail))
+                .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, model))
                 .addToBackStack(null)
                 .commit()
     }
 
     private fun switchArea(opc : Int){
         when(opc){
-            R.id.btnClientes -> switchFragment("Segmento Clientes", model?.clients)
-            R.id.btnRelaciones -> switchFragment("Relaciones", model?.relationships)
-            R.id.btnCanales -> switchFragment("Canales", model?.channels)
-            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor", model?.valueProposition)
-            R.id.btnActividades -> switchFragment("Actividades",model?.activities)
-            R.id.btnRecursos -> switchFragment("Recursos",model?.resources)
-            R.id.btnSociosClave -> switchFragment("Socios Clave",model?.partners)
-            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso",model?.income)
-            R.id.btnCostos -> switchFragment("Costos",model?.costs)
+            R.id.btnClientes -> switchFragment("Segmento Clientes")
+            R.id.btnRelaciones -> switchFragment("Relaciones")
+            R.id.btnCanales -> switchFragment("Canales")
+            R.id.btn_PropuestaValor -> switchFragment("Propuesta de Valor")
+            R.id.btnActividades -> switchFragment("Actividades")
+            R.id.btnRecursos -> switchFragment("Recursos")
+            R.id.btnSociosClave -> switchFragment("Socios Clave")
+            R.id.btnFuentesIngreso -> switchFragment("Fuentes de Ingreso")
+            R.id.btnCostos -> switchFragment("Costos")
         }
     }
 
@@ -145,7 +145,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private fun loadEventOnClickNewModel() {
         vfrag?.findViewById<ImageButton>(R.id.btnNewModel)!!.setOnClickListener {
-            // dw = dialogView
+
             val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
             val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 
@@ -178,7 +178,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
             toast("Error: "+msg)
         } else {
             val newModel = Area(
-                    id = mapModels.count()+1,
+                    id = UUID.randomUUID().toString(),
                     //HARCODED USER
                     userId = "1",
                     name = newModelName,
@@ -194,14 +194,51 @@ class AreasFragment : Fragment(), View.OnClickListener{
             )
             doAsync {
                 areaDao.insertAll(newModel)
+
                 //HARDCODED USER ID
                 mapModels = areaDao.getModelsByUserId("1").map { it.name to it.id }.toMap()
 
                 uiThread {
-
                     loadSpinnerModelos()
                     alertDialog.dismiss()
                 }
+            }
+        }
+    }
+
+    private fun loadToDB(areas: List<Area>) {
+        doAsync {
+            areaDao.deleteAllRows()
+            if (areas.isNotEmpty()) {
+                areaDao.insertAll(*areas.toTypedArray())
+            } else {
+                areaDao.insertAll(
+                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
+                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
+                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
+                )
+            }
+
+            //HARDCODED USER ID
+            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
+
+            spinner_modelos.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) { }
+                override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
+                    val modelName = spinner_modelos.selectedItem.toString()
+                    doAsync {
+                        model = areaDao.findById(mapModels.getValue(modelName)!!)
+                    }
+                }
+            }
+
+
+
+            Log.i("DAOO CREATE: ", areaDao.getAll().toString())
+
+            uiThread {
+                loadEventOnClickNewModel()
+                loadSpinnerModelos()
             }
         }
     }

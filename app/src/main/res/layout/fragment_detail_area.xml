@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/colorTaskView"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtAreaDetail"
@@ -27,11 +29,13 @@
 
     <Button
         android:id="@+id/btnEdit"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
-        android:text="Editar" />
+        android:text="Editar"
+        android:textAlignment="center" />
 
 </LinearLayout>
 

@@ -16,7 +16,7 @@ class AreasDeserializer  : JsonDeserializer<Area> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Area {
         val jsonObject = json.asJsonObject
         return Area(
-                jsonObject.get("_id").asInt,
+                jsonObject.get("_id").asString,
                 jsonObject.get("userId").asString,
                 jsonObject.get("name").asString,
                 jsonObject.get("segments").asString,

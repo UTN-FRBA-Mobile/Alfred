@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey
 data class Area(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    var id: Int? = null,
+    var id: String,
 
     @ColumnInfo(name = "userId")
     var userId: String?,
