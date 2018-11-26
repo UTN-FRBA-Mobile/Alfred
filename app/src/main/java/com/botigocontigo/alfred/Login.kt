@@ -53,16 +53,8 @@ class Login : AppCompatActivity() {
             // Request a JSONObject response from the provided URL.
             val jsonObjectRequest = JsonObjectRequest(url, jsonObject,
                     Response.Listener { response ->
-                        Log.i(LOG_TAG, "Response es: $response")
+                        // Log.i(LOG_TAG, "Response es: $response")
 
-
-                        // Aca se tiene que guardar los valores de la Share Preferen
-                        mypreference.setUserEmail(user_name.text.toString())
-                        val valor = mypreference.getUserEmail()
-                        Log.i(LOG_TAG, "El valor es: $valor")
-                        Toast.makeText(this, valor, Toast.LENGTH_LONG).show()
-
-                        //Log.i(LOG_TAG, "Response email es: $response.email")
                         val gsonBuilder = GsonBuilder().serializeNulls()
                         gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
                         val gson = gsonBuilder.create()
@@ -70,8 +62,25 @@ class Login : AppCompatActivity() {
                         val userShareJsonParsed : UserShare = gson.fromJson(response.toString(), UserShare::class.java)
                         // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
                         Log.i(LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
-                        Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
-                        startActivity(Intent(this, SplashActivity::class.java))
+                        // Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
+
+                        //Se guardan valores del Email en Share Preferen
+                        mypreference.setUserEmail(userShareJsonParsed.email)
+                        val valor = mypreference.getUserEmail()
+                        Log.i(LOG_TAG, "El email es: $valor")
+                        Toast.makeText(this, valor, Toast.LENGTH_LONG).show()
+
+
+                        //Se guardan valores del Email en Share Preferen
+                        mypreference.setUserId(userShareJsonParsed.userId)
+                        val valor2 = mypreference.getUserId()
+                        Log.i(LOG_TAG, "El userID es: $valor")
+                        Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
+
+
+
+
+                        startActivity(Intent(this, MenuActivity::class.java))
                     },
                     Response.ErrorListener { error ->
                         error.printStackTrace()
