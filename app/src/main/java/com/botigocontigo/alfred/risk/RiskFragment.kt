@@ -28,6 +28,11 @@ import kotlinx.android.synthetic.main.new_risk_form.view.*
 import kotlinx.android.synthetic.main.risk_item.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import android.widget.Toast
+import android.view.Gravity
+import android.widget.TextView
+
+
 
 class RiskFragment: Fragment(){
 
@@ -35,6 +40,13 @@ class RiskFragment: Fragment(){
     private var mParam2: String? = null
 
     private var riskAdapter :RiskAdapter? = null
+
+    private var nroSugerencia: Int = 0
+
+    private val sugerencias = arrayListOf(
+            "En esta pantalla podras ver tus riegos y agregar nuevos", "Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
+            "Podes agregar riesgos apretando el boton +"
+    )
 
     private val riesgoEjemplo =
         Risk(0, "Aqui va una descripcion", "Probabilidad de Ocurrencia"
@@ -129,6 +141,26 @@ class RiskFragment: Fragment(){
     }
 
     private fun loadEventOnClickNewRisk(view: View){
+        view.findViewById<ImageView>(R.id.suggerenciasRiesgo)!!.setOnClickListener {
+            val inflater = layoutInflater
+            val layout = inflater.inflate(R.layout.chat_bubble_received, null)
+
+            val text = layout.findViewById(R.id.txtOtherMessage) as TextView
+            text.text = sugerencias.get(nroSugerencia)
+            nroSugerencia++
+            if(nroSugerencia==sugerencias.size){
+                nroSugerencia = 0
+            }
+
+            val toast = Toast(context)
+            toast.setGravity(Gravity.BOTTOM, -170, 150)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
+
+
+        }
+
         view.findViewById<ImageView>(R.id.agregarRiesgo)!!.setOnClickListener {
             val dw: View = LayoutInflater.from(context).inflate(R.layout.new_risk_form, null)
             val mBuilder = AlertDialog.Builder(context!!).setView(dw)
@@ -162,10 +194,6 @@ class RiskFragment: Fragment(){
             dw.discardRisk.setOnClickListener {
                 mAlertDialog.dismiss()
             }
-
-        view.findViewById<ImageView>(R.id.suggerenciasRiesgo)!!.setOnClickListener {
-
-        }
         }
     }
 
@@ -173,10 +201,10 @@ class RiskFragment: Fragment(){
         doAsync {
             riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
             val riesgos = riskDAO.getAll() as MutableList<Risk>
-            persisServerInfo(context, riesgos as Array<Risk>)
             uiThread {
                 riskAdapter!!.setDataset(riesgos)
                 riskAdapter!!.notifyDataSetChanged()
+                persisServerInfo(context, riesgos as Array<Risk>)
             }
         }
 
