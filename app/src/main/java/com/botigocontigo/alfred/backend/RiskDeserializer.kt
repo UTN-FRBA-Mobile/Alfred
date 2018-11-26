@@ -15,7 +15,8 @@ class RiskDeserializer: JsonDeserializer<Risk> {
                 jsonObject.get("risk").asString,
                 jsonObject.get("probability").asString,
                 jsonObject.get("impact").asString,
-                jsonObject.get("detectionCapacity").asString
+                jsonObject.get("detectionCapacity").asString,
+                jsonObject.get("userId").asString
         )
     }
 

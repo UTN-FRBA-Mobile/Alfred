@@ -31,7 +31,7 @@ import org.jetbrains.anko.uiThread
 import android.widget.Toast
 import android.view.Gravity
 import android.widget.TextView
-
+import com.botigocontigo.alfred.MyPreferences
 
 
 class RiskFragment: Fragment(){
@@ -41,6 +41,7 @@ class RiskFragment: Fragment(){
 
     private var riskAdapter :RiskAdapter? = null
 
+    private var userId = ""
 
     private var nroSugerencia: Int = 0
 
@@ -63,6 +64,7 @@ class RiskFragment: Fragment(){
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             riskDAO = db.riskDao()
+            userId = MyPreferences(context!!).getUserId()
             mParam1 = it.getString(ARG_PARAM1)
             mParam2 = it.getString(ARG_PARAM2)
         }
@@ -73,7 +75,6 @@ class RiskFragment: Fragment(){
         val view: View = inflater.inflate(R.layout.activity_risks, container, false)
         val context = inflater.context
         val riskList = view.recyclerRisk!!
-        val userId = ""
         doAsync {
             var riesgos = arrayListOf<Risk>()
             riesgos.add(riesgoEjemplo)
@@ -201,7 +202,6 @@ class RiskFragment: Fragment(){
 
     private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String, context: Context){
         doAsync {
-            val userId = ""
             riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion, userId))
             val riesgos = riskDAO.getAllByUser(userId) as MutableList<Risk>
             uiThread {
@@ -221,12 +221,12 @@ class RiskFragment: Fragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        val userId = ""
         doAsync {
             val riesgos = riskDAO.getAllByUser(userId) as Array<Risk>
             persisServerInfo(riesgos)
             //post to API
         }
+        userId = ""
     }
 
 }
