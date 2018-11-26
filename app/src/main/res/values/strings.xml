@@ -11,6 +11,7 @@
         <item>Aprendizaje</item>
         <item>Areas de mi Negocio</item>
         <item>Mi F.O.D.A.</item>
+        <item>Riesgos</item>
     </string-array>
 
     <string name="title_activity_learn">LearnActivity</string>
@@ -40,6 +41,18 @@
         <item name="week">@string/week</item>
         <item name="month">@string/month</item>
         <item name="year">@string/year</item>
+    </string-array>
+
+    <string-array name="valores_riesgos">
+        <item name="Alta">Alta</item>
+        <item name="Media">Media</item>
+        <item name="Baja">Baja</item>
+    </string-array>
+
+    <string-array name="impacto_riesgo">
+        <item name="Alto">Alto</item>
+        <item name="Medio">Medio</item>
+        <item name="Bajo">Bajo</item>
     </string-array>
 
     <string-array name="all_plans">

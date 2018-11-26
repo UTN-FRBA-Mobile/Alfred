@@ -103,14 +103,14 @@ const userTasksSchema = new SimpleSchema({
   }
 });
 
-UserTasks.insertPlanList = (plans) => {
+UserTasks.insertPlanList = (plans, userId = Meteor.userId()  ) => {
   plans.forEach(plan => {
     plan.planTypeList.map(planType => {
       const businessArea = planType.data.planArea ? planType.data.planArea : 'all';
       const userTasks = {};
-      UserTasks.remove({type: 'plan', subtype: plan.name, businessArea, userId: Meteor.userId()}) //FIXME need to put email also?
-      userTasks.userId = Meteor.userId();
-      userTasks.userEmail = Meteor.users.findOne( Meteor.userId() ).emails[0].address;
+      UserTasks.remove({type: 'plan', subtype: plan.name, businessArea, userId: userId}) //FIXME need to put email also?
+      userTasks.userId = userId;
+      userTasks.userEmail = Meteor.users.findOne( userId ).emails[0].address;
       userTasks.type = 'plan';
       userTasks.subtype = plan.name;
       userTasks.businessArea = businessArea;

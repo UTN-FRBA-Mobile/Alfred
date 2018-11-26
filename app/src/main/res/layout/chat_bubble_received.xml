@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/txtOtherMessage"
-        android:text="Hi, John's message dasdasd dasdasd"
-        android:background="@drawable/drawable_bubble_received"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/drawable_bubble_received"
+        android:elevation="5dp"
         android:maxWidth="240dp"
         android:padding="15dp"
-        android:elevation="5dp"
-        android:textColor="#ffffff"
-        android:layout_marginTop="4dp"
+        android:text="Hi, John's message dasdasd dasdasd"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

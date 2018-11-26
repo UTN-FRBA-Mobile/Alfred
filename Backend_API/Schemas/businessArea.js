@@ -114,10 +114,10 @@ BusinessAreas.insertBusinessAreas = (businessAreas, userId = Meteor.userId()  ) 
 };
 
 BusinessAreas.getAreas = (userId = Meteor.userId() ) => {
-  areasFound = BusinessAreas.find({userId: userId});
+  areasFound = BusinessAreas.find({userId: userId}).fetch();
   return areasFound
           ? areasFound
-          : "";
+          : [];
 };
 
 BusinessAreas.attachSchema(businessAreasSchema);
