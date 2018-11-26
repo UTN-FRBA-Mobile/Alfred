@@ -55,6 +55,11 @@
         <item name="Bajo">Bajo</item>
     </string-array>
 
+    <string-array name="all_plans">
+        <item>Plan Comercial</item>
+        <item>Plan de Comunicación</item>
+        <item>Plan de Administración</item>
+    </string-array>
 
     <!-- AREAS -->
 

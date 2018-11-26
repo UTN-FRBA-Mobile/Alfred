@@ -30,6 +30,7 @@ class AppFragments {
                 "/chat" -> 0
                 "/tasks" -> 2
                 "/learn" -> 3
+                "/swot" -> 5
                 else -> 0 // go to interview, by default
             }
         }

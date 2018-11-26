@@ -11,6 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.FodaGetCallbacks
+import com.botigocontigo.alfred.backend.FodaPostCallbacks
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.DimensionDao
 import com.botigocontigo.alfred.storage.db.entities.DimensionDataBase
@@ -56,15 +59,16 @@ class FodaFragment : Fragment() {
 
     private fun getDimensions(i: Int): MutableList<Dimension> {
         //esto deberia pegarle a la api
+        val apiInfo  = getServerInfo( vfoda!!.context)
        dimensionsDataBase = dimensionDao.getAll() as MutableList<DimensionDataBase>
         var newDimensions:MutableList<Dimension> =arrayListOf()
 
         if (dimensionsDataBase.isEmpty()) {
             dimensionDao.insertAll(
-                    DimensionDataBase(1, Gson().toJson(arrayListOf("fortaleza1","fortaleza2","","","","","")).toString(), "Interna", "1", "Fortalezas", Date()),
-                    DimensionDataBase(2, Gson().toJson(arrayListOf("oportunidad1","oportunidad2","","","","","")).toString(), "Externa", "1", "Oportunidades", Date()),
-                    DimensionDataBase(3, Gson().toJson(arrayListOf("debilidad1","debilidad2","","","","","")).toString(), "Interna", "1", "Debilidades", Date()),
-                    DimensionDataBase(4, Gson().toJson(arrayListOf("amenaza1","amenaza2","","","","","","")).toString(), "Externa", "1", "Amenazas", Date())
+                    DimensionDataBase(1, Gson().toJson(arrayListOf("Notoriedad de la marca a nivel nacional","Equipo Profesional con amplia Experiencia","Alta fidelización de nuestros clientes","Especializacion de producto","")).toString(), "1", TypesEnum.FORTALEZAS.type, Date()),
+                    DimensionDataBase(2, Gson().toJson(arrayListOf("Tendencia favorable en el mercado","Aparición de nuevos segmentos","Probabilidad de establecer alianzas estrategicas","")).toString(), "1", TypesEnum.OPORTUNIDADES.type, Date()),
+                    DimensionDataBase(3, Gson().toJson(arrayListOf("Falta de financiación","Costes unitarios elevados","Cartera de productos limitada","")).toString(), "1", TypesEnum.DEBILIDADES.type, Date()),
+                    DimensionDataBase(4, Gson().toJson(arrayListOf("Entrada de nuevos competidores","Nueva legislación que afecta al sector","Cambio de hábitos de los consumidores","Globalización de mercados","")).toString(), "1", TypesEnum.AMENAZAS.type, Date())
             )
             Log.i("Menu", "Inicio")
             Log.i("Dimensions Count", dimensionDao.getAll().size.toString())
@@ -77,6 +81,15 @@ class FodaFragment : Fragment() {
     return newDimensions
     }
 
+    private fun getServerInfo(context: Context) {
+
+        val services = Services(context)
+
+        val fodaGetCallbacks= FodaGetCallbacks()
+
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.fodaGetAll().call(fodaGetCallbacks)
+    }
     private fun parseDimensionsfromDimensionDataBase(newDimensions: MutableList<DimensionDataBase>): MutableList<Dimension> {
         var postaDimensions:MutableList<Dimension> = arrayListOf()
             newDimensions.forEach{dimensionsDataBase ->
@@ -85,9 +98,7 @@ class FodaFragment : Fragment() {
                                     dimensionsDataBase.id,
                                     dimensionsDataBase.dimension_name,
                                     dimensionsDataBase.userId,
-                                    dimensionsDataBase.type,
                                     parseListOfStrings(dimensionsDataBase.name)
-
                             )
                 )
 
@@ -154,17 +165,27 @@ class FodaFragment : Fragment() {
         super.onDestroyView()
         doAsync {
             persistDimensionDatabaseFromDimension()
+            persistOnServer()
             //post to API
         }
+    }
+
+    private fun persistOnServer() {
+
+        val services = Services(this.vfoda!!.context)
+
+        val fodaPostCallbacks= FodaPostCallbacks()
+
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.fodaSaveAll(this.dimensions ).call(fodaPostCallbacks)
     }
 
     private fun persistDimensionDatabaseFromDimension() {
         dimensions.forEach { dimension -> dimensionDao.update(DimensionDataBase(
                 dimension.id,
-                parseJsonFromDimension(dimension.array),
-                dimension.type,
+                parseJsonFromDimension(dimension.descriptions),
                 dimension.userId,
-                dimension.name,
+                dimension.type,
                 Date()
         )) }
     }

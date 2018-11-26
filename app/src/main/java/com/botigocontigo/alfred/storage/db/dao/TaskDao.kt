@@ -13,7 +13,14 @@ interface TaskDao {
     fun findById(id: Int): Task
 
     @Query("SELECT * FROM tasks WHERE plan_id = :planId")
-    fun getAllByPlanId(planId: Int): List<Task>
+    fun getAllByPlanId(planId: String): List<Task>
+
+    @Query("SELECT count(1) FROM tasks WHERE plan_id = :planId")
+    fun getCountTasksByPlan(planId: String): Int
+
+    @Query("UPDATE tasks SET name = :name, frecuency_type = :frecType, "+
+            "frecuency_value = :frecValue WHERE id = :id")
+    fun updateTask(id: String, name: String, frecType: String, frecValue: String)
 
     @Query("DELETE FROM tasks")
     fun deleteAllRows()

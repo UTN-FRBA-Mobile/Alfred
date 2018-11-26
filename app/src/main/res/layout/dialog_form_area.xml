@@ -5,23 +5,15 @@
     android:orientation="vertical"
     style="@style/dialogTaskStyle">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nuevo Modelo"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="77dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/txtNewModel"
+            android:id="@+id/editAreaDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del modelo" />
+            android:hint="Descripcion" />
     </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
@@ -44,9 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0dp"
             android:background="@color/colorPrimary"
-            android:text="Agregar"
+            android:text="GUARDAR"
             android:textColor="@color/colorBackgroundTask" />
 
     </RelativeLayout>
