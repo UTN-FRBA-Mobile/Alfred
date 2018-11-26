@@ -3,7 +3,7 @@ package com.botigocontigo.alfred.tasks
 import java.util.Date
 
 data class Plan (
-        val id: Int,
+        val id: String,
         val name: String,
         val businessArea: String,
         val userId: String,
