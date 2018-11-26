@@ -1,5 +1,7 @@
 package com.botigocontigo.alfred.tasks
 
+import com.google.gson.annotations.SerializedName
+
 data class Task(
         var id: String,
         var name: String,
