@@ -125,7 +125,6 @@ class BotigocontigoApi(adapter: NetworkingAdapter, private val permissions: Perm
     fun risksSaveAll(risks: Array<Risk>): ApiRequest {
         val request = ApiRequest(this, "post", "methods/api.saveRisks")
         applyPermissions(request)
-
         //FIXME if this fails we need to transform manually pDeOcurrecia and cDeDeteccion fields to change their name
         val gson = Gson()
         val areasJSONObject= gson.toJson(risks)

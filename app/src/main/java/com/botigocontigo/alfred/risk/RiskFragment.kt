@@ -17,6 +17,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import com.botigocontigo.alfred.R
+import com.botigocontigo.alfred.Services
+import com.botigocontigo.alfred.backend.RisksGetCallbacks
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.dao.RiskDao
 import com.botigocontigo.alfred.storage.db.entities.Risk
@@ -35,7 +37,8 @@ class RiskFragment: Fragment(){
     private var riskAdapter :RiskAdapter? = null
 
     private val riesgoEjemplo =
-        Risk(0, "Aqui va una descripcion", "Alta", "Bajo", "Alta")
+        Risk(0, "Aqui va una descripcion", "Probabilidad de Ocurrencia"
+                , "Impacto", "Capacidad de Deteccion")
 
 
     private lateinit var riskDAO: RiskDao
@@ -58,9 +61,9 @@ class RiskFragment: Fragment(){
         val context = inflater.context
         val riskList = view.recyclerRisk!!
         doAsync {
-            val riesgos = riskDAO.getAll() as MutableList<Risk>
-            if(riesgos.size == 0)
-                riesgos.add(riesgoEjemplo)
+            var riesgos = arrayListOf<Risk>()
+            riesgos.add(riesgoEjemplo)
+            riesgos.addAll(riskDAO.getAll() as MutableList<Risk>)
             uiThread {
                 riskList.layoutManager = LinearLayoutManager(context)
                 riskAdapter = RiskAdapter(riesgos, context)
@@ -151,7 +154,8 @@ class RiskFragment: Fragment(){
                 crearNuevoRiesgo(dw.descNuevoRiesgo.text.toString(),
                             dw.spinnerPdeOcurrencia.selectedItem as String,
                             dw.spinnerImpacto.selectedItem as String,
-                            dw.spinnerCdeteccion.selectedItem as String)
+                            dw.spinnerCdeteccion.selectedItem as String,
+                            view.context)
                 mAlertDialog.dismiss()
             }
 
@@ -165,16 +169,24 @@ class RiskFragment: Fragment(){
         }
     }
 
-    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String){
+    private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String, context: Context){
         doAsync {
             riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
             val riesgos = riskDAO.getAll() as MutableList<Risk>
+            persisServerInfo(context, riesgos as Array<Risk>)
             uiThread {
                 riskAdapter!!.setDataset(riesgos)
                 riskAdapter!!.notifyDataSetChanged()
             }
         }
 
+    }
+
+    private fun persisServerInfo(context: Context, riesgos: Array<Risk>){
+        val services = Services(context)
+        val fodaGetCallbacks= RisksGetCallbacks()
+        val botigocontigoApi = services.botigocontigoApi()
+        botigocontigoApi.risksSaveAll(riesgos)
     }
 
 }

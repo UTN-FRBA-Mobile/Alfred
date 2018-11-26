@@ -5,7 +5,7 @@ import com.botigocontigo.alfred.storage.db.entities.Risk
 import com.botigocontigo.alfred.utils.AsyncTaskCallbacks
 import com.google.gson.GsonBuilder
 
-abstract class RisksGetCallbacks : AsyncTaskCallbacks<String>() {
+class RisksGetCallbacks : AsyncTaskCallbacks<String>() {
 
     override fun success(result: String) {
         val gsonBuilder = GsonBuilder().serializeNulls()
@@ -16,6 +16,8 @@ abstract class RisksGetCallbacks : AsyncTaskCallbacks<String>() {
         successWithParsedJson(jsonParsed)
     }
 
-    abstract fun successWithParsedJson(results: List<Risk>)
+    fun successWithParsedJson(results: List<Risk>){
+
+    }
 
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.botigocontigo.alfred.R
 import com.botigocontigo.alfred.storage.db.entities.Risk
-import kotlinx.android.synthetic.main.risk_item.view.*
 
 class RiskAdapter(private var myDataset: MutableList<Risk>, private val context: Context) : RecyclerView.Adapter<RiskAdapter.RiskViewHolder>() {
 
