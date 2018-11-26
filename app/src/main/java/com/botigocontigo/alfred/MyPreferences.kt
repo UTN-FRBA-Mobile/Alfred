@@ -36,4 +36,14 @@ class MyPreferences(context: Context) {
         editor.apply()
     }
 
+    fun getName(): String {
+        return preference.getString(PREFERENCE_NAME, null)
+    }
+
+    fun setName( cadena: String){
+        val editor = preference.edit()
+        editor.putString(PREFERENCE_NAME, cadena)
+        editor.apply()
+    }
+
 }
