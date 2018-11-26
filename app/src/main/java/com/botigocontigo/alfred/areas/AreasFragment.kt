@@ -28,6 +28,7 @@ import java.util.*
 
 class AreasFragment : Fragment(), View.OnClickListener{
 
+    private var executeInitializeDB: Boolean = true
     private var vfrag: View? = null
     private lateinit var api: BotigocontigoApi
     private var listener: OnFragmentInteractionListener? = null
@@ -57,31 +58,9 @@ class AreasFragment : Fragment(), View.OnClickListener{
         val services = Services(inflater.context)
         api = services.botigocontigoApi()
 
-        api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
+        if (executeInitializeDB)
+            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
 
-//        doAsync {
-//
-//            api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
-//
-//            if (areaDao.getAreasCount() == 0 ) {
-//                areaDao.insertAll(
-//                        Area("1", "1", "Modelo A", "YPF, Repsol, AXION","relA","chanC","valueA","actA","resoA","parA","incA","costA"),
-//                        Area("2", "1", "Modelo B", "clientesB","relB","chanB","valueB","actB","resoB","partB","incB","costB"),
-//                        Area("3", "1", "Modelo C", "clientesC","relC","chanC","valueC","actC","resoC","partC","incC","costC")
-//                )
-//            }
-//
-//            //HARDCODED USER ID
-//            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
-//            model = areaDao.findById("1")
-//
-//            Log.i("DAOO CREATE: ", areaDao.getAll().toString())
-//
-//            uiThread {
-//                loadEventOnClickNewModel()
-//                loadSpinnerModelos()
-//            }
-//        }
         return vfrag
     }
 
@@ -107,6 +86,9 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private fun switchFragment(areaName: String){
         //Cambio al Fragment de Detalle de area
+
+        executeInitializeDB = false
+
         fragmentManager!!
                 .beginTransaction()
                 .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, model))
@@ -226,7 +208,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadToDB(areas: List<Area>) {
         doAsync {
             areaDao.deleteAllRows()
-            if (areas.size > 0) {
+            if (areas.isNotEmpty()) {
                 areaDao.insertAll(*areas.toTypedArray())
             } else {
                 areaDao.insertAll(
