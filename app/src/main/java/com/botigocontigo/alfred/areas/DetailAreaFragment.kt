@@ -49,7 +49,7 @@ class DetailAreaFragment : Fragment() {
             areaDao = db.areaDao()
 
             doAsync {
-                Log.i("DAOO CREATE: ", areaDao.getAll().toString())
+                Log.i("DAOO: ", areaDao.getAll().toString())
             }
         }
 
