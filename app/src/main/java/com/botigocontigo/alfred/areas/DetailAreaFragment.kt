@@ -135,13 +135,18 @@ class DetailAreaFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(areaName: String, area: Area?) =
-                DetailAreaFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_areaName, areaName)
-                        model = area
-                    }
+        fun newInstance(areaName: String, area: Area?): DetailAreaFragment {
+
+            Log.i("Areas en el 2do", area.toString())
+
+            return DetailAreaFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_areaName, areaName)
+                    model = area
                 }
+            }
+        }
+
     }
 
     private fun editArea(alertDialog: AlertDialog, viewDialog: View) {
