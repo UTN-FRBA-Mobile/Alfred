@@ -41,6 +41,7 @@ class RiskFragment: Fragment(){
 
     private var riskAdapter :RiskAdapter? = null
 
+
     private var nroSugerencia: Int = 0
 
     private val sugerencias = arrayListOf(
@@ -50,7 +51,7 @@ class RiskFragment: Fragment(){
 
     private val riesgoEjemplo =
         Risk(0, "Aqui va una descripcion", "Probabilidad de Ocurrencia"
-                , "Impacto", "Capacidad de Deteccion")
+                , "Impacto", "Capacidad de Deteccion", "")
 
 
     private lateinit var riskDAO: RiskDao
@@ -72,10 +73,11 @@ class RiskFragment: Fragment(){
         val view: View = inflater.inflate(R.layout.activity_risks, container, false)
         val context = inflater.context
         val riskList = view.recyclerRisk!!
+        val userId = ""
         doAsync {
             var riesgos = arrayListOf<Risk>()
             riesgos.add(riesgoEjemplo)
-            riesgos.addAll(riskDAO.getAll() as MutableList<Risk>)
+            riesgos.addAll(riskDAO.getAllByUser(userId) as MutableList<Risk>)
             uiThread {
                 riskList.layoutManager = LinearLayoutManager(context)
                 riskAdapter = RiskAdapter(riesgos, context)
@@ -199,22 +201,32 @@ class RiskFragment: Fragment(){
 
     private fun crearNuevoRiesgo(desc: String, pOcurrencia: String, impacto: String, cDeteccion: String, context: Context){
         doAsync {
-            riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion))
-            val riesgos = riskDAO.getAll() as MutableList<Risk>
+            val userId = ""
+            riskDAO.insertAll( Risk(null, desc, pOcurrencia, impacto, cDeteccion, userId))
+            val riesgos = riskDAO.getAllByUser(userId) as MutableList<Risk>
             uiThread {
                 riskAdapter!!.setDataset(riesgos)
                 riskAdapter!!.notifyDataSetChanged()
-                //persisServerInfo(context, riesgos as Array<Risk>)
             }
         }
 
     }
 
-    private fun persisServerInfo(context: Context, riesgos: Array<Risk>){
-        val services = Services(context)
+    private fun persisServerInfo(riesgos: Array<Risk>){
+        val services = Services(this.view!!.context)
         val riskGetCallbacks= RisksGetCallbacks()
         val botigocontigoApi = services.botigocontigoApi()
-        botigocontigoApi.risksSaveAll(riesgos)
+        botigocontigoApi.risksSaveAll(riesgos).call(riskGetCallbacks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val userId = ""
+        doAsync {
+            val riesgos = riskDAO.getAllByUser(userId) as Array<Risk>
+            persisServerInfo(riesgos)
+            //post to API
+        }
     }
 
 }
