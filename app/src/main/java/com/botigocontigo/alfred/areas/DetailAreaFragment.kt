@@ -117,8 +117,8 @@ class DetailAreaFragment : Fragment() {
                 mAlertDialog.dismiss()
                 //Edito el area
                 editArea(mAlertDialog,diagView)
-
                 txtAreaDetail?.text= editAreaDetail?.text
+                toast("Guardado")
             }
         }
     }
@@ -153,42 +153,33 @@ class DetailAreaFragment : Fragment() {
     }
 
     private fun editArea(alertDialog: AlertDialog, viewDialog: View) {
-        var msg: String? = null
 
         var newDetail: String? = viewDialog.findViewById<TextInputEditText>(R.id.editAreaDetail).text.toString()
 
         Log.i("CREATE: ", newDetail)
 
-        if (newDetail == "")
-            msg = "Escriba un nombre para el modelo"
+        val newModel = model
 
-        if (msg != null) {
-            toast("Error: " + msg)
-        } else {
+        Log.i("MODEL: ", model.toString())
 
-            val newModel = model
-
-            Log.i("MODEL: ", model.toString())
-
-            when(areasMap.get(areaName)){
-                1->newModel?.clients=newDetail
-                2->newModel?.relationships=newDetail
-                3->newModel?.channels=newDetail
-                4->newModel?.valueProposition=newDetail
-                5->newModel?.activities=newDetail
-                6->newModel?.resources=newDetail
-                7->newModel?.partners=newDetail
-                8->newModel?.income=newDetail
-                9->newModel?.costs=newDetail
-            }
-
-            Log.i("NEWMODEL: ", newModel.toString())
-            doAsync {
-                Log.i("DAOO: ", areaDao.getAll().toString())
-                areaDao.update(newModel!!)
-            Log.i("DAO DESPUES DE UPDATE: ", areaDao.getAll().toString())}
-
+        when(areasMap.get(areaName)){
+            1->newModel?.clients=newDetail
+            2->newModel?.relationships=newDetail
+            3->newModel?.channels=newDetail
+            4->newModel?.valueProposition=newDetail
+            5->newModel?.activities=newDetail
+            6->newModel?.resources=newDetail
+            7->newModel?.partners=newDetail
+            8->newModel?.income=newDetail
+            9->newModel?.costs=newDetail
         }
+
+        Log.i("NEWMODEL: ", newModel.toString())
+        doAsync {
+            Log.i("DAOO: ", areaDao.getAll().toString())
+            areaDao.update(newModel!!)
+        Log.i("DAO DESPUES DE UPDATE: ", areaDao.getAll().toString())}
+
     }
 
     /*

@@ -32,10 +32,12 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/design_default_color_primary_dark"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
         android:text="Editar"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/fontDropDownPlans" />
 
 </LinearLayout>
 
