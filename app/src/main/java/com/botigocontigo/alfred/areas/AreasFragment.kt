@@ -1,5 +1,6 @@
 package com.botigocontigo.alfred.areas
 
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
@@ -159,7 +160,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
             val diagView: View = LayoutInflater.from(context).inflate(R.layout.dialog_form_model, null)
             val mBuilder = AlertDialog.Builder(context!!).setView(diagView)
 
-
             val mAlertDialog = mBuilder.show()
 
             diagView.btnCancel.setOnClickListener {
@@ -170,6 +170,39 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 mAlertDialog.dismiss()
                 toast("Modelo Creado")
                 createModel(mAlertDialog,diagView)
+            }
+        }
+    }
+
+    private fun loadEventOnClickDeleteModel() {
+        vfrag?.findViewById<ImageButton>(R.id.btnDeleteModel)!!.setOnClickListener {
+
+            val mBuilder = AlertDialog.Builder(context!!)
+            val modelToDelete = spinner_modelos.selectedItem.toString()
+
+            mBuilder.setTitle("Alerta")
+            mBuilder.setMessage("¿Desea eliminar el modelo: "+ modelToDelete + "?")
+            mBuilder.setPositiveButton("SI", { dialogInterface: DialogInterface, i: Int ->
+                toast("Modelo eliminado")
+                deleteModel(modelToDelete)
+            })
+            mBuilder.setNegativeButton("NO", { dialogInterface: DialogInterface, i: Int ->
+                toast("Operacion cancelada")
+            })
+
+            mBuilder.show()
+        }
+    }
+
+    private fun deleteModel(model: String) {
+        var msg: String? = null
+
+        doAsync {
+            areaDao.deleteModel(mapModels[model]!!)
+            mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
+
+            uiThread {
+                loadSpinnerModelos()
             }
         }
     }
@@ -216,9 +249,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadToDB(areas: List<Area>) {
 
         doAsync {
-
             if (executeInitializeDB) {
-
                 if (areas.isNotEmpty()) {
                     areaDao.deleteAllRows()
                     areaDao.insertAll(*areas.toTypedArray())
@@ -233,11 +264,11 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 }
             }
 
-            //HARDCODED USER ID
-            mapModels = areaDao.getAll().map { it.name to it.id }.toMap()
+            mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
 
             uiThread {
                 loadEventOnClickNewModel()
+                loadEventOnClickDeleteModel()
                 loadSpinnerModelos()
             }
         }

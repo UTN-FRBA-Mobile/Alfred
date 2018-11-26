@@ -23,6 +23,9 @@ interface AreaDao {
     @Query("UPDATE modelos SET clients =:newClients WHERE id =:areaId")
     fun updateClients(areaId: String, newClients:String)
 
+    @Query("DELETE FROM modelos WHERE id =:areaId")
+    fun deleteModel(areaId: String)
+
     @Update
     fun update(entity: Area)
 
