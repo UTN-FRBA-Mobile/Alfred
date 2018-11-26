@@ -45,7 +45,7 @@ class RiskFragment: Fragment(){
 
     private val sugerencias = arrayListOf(
             "En esta pantalla podras ver tus riegos y agregar nuevos", "Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
-            "Podes agregar riesgos apretando el boton +"
+            "Podes agregar riesgos apretando el boton +", "Podes eliminar un riesgo apretando el boton X que tiene cada uno"
     )
 
     private val riesgoEjemplo =
@@ -204,7 +204,7 @@ class RiskFragment: Fragment(){
             uiThread {
                 riskAdapter!!.setDataset(riesgos)
                 riskAdapter!!.notifyDataSetChanged()
-                persisServerInfo(context, riesgos as Array<Risk>)
+                //persisServerInfo(context, riesgos as Array<Risk>)
             }
         }
 
@@ -212,7 +212,7 @@ class RiskFragment: Fragment(){
 
     private fun persisServerInfo(context: Context, riesgos: Array<Risk>){
         val services = Services(context)
-        val fodaGetCallbacks= RisksGetCallbacks()
+        val riskGetCallbacks= RisksGetCallbacks()
         val botigocontigoApi = services.botigocontigoApi()
         botigocontigoApi.risksSaveAll(riesgos)
     }
