@@ -46,7 +46,8 @@ class RiskFragment: Fragment(){
     private var nroSugerencia: Int = 0
 
     private val sugerencias = arrayListOf(
-            "En esta pantalla podras ver tus riegos y agregar nuevos", "Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
+            "En esta pantalla podras ver tus riegos y agregar nuevos", "La Probabilidad de ocurrencia indica que tan probable es que ocurra el riego",
+            "El Impacto es cuanto daño te hace el Riesgo si sucede", "La Capacidad de Deteccion es que tan dificil es detectar que el Riesgo va a suceder",
             "Podes agregar riesgos apretando el boton +", "Podes eliminar un riesgo apretando el boton X que tiene cada uno"
     )
 
@@ -146,7 +147,7 @@ class RiskFragment: Fragment(){
     private fun loadEventOnClickNewRisk(view: View){
         view.findViewById<ImageView>(R.id.suggerenciasRiesgo)!!.setOnClickListener {
             val inflater = layoutInflater
-            val layout = inflater.inflate(R.layout.chat_bubble_received, null)
+            val layout = inflater.inflate(R.layout.chat_bubble_message, null)
 
             val text = layout.findViewById(R.id.txtOtherMessage) as TextView
             text.text = sugerencias.get(nroSugerencia)
