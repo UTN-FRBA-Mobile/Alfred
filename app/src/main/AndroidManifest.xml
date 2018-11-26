@@ -13,10 +13,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ChatActivity">
         </activity>
@@ -30,6 +27,10 @@
             android:name=".AreasActivity"
             android:label="@string/title_activity_areas" />
         <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".SignIn">
         </activity>
