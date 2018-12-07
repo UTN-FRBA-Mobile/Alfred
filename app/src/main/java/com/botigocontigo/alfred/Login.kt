@@ -29,64 +29,71 @@ class Login : AppCompatActivity() {
         val mypreference = MyPreferences(this)
 
         btn_login_ingresar.setOnClickListener {
-            /**
-             * Llamada POST que envia un JSONObject y devuelve un JSONobject
-             */
+            try {
+                /**
+                 * Llamada POST que envia un JSONObject y devuelve un JSONobject
+                 */
 
-            Log.i(LOG_TAG, "jsonObjectRequestPost")
+                Log.i(LOG_TAG, "jsonObjectRequestPost")
 
-            // Instantiate the RequestQueue.
-            val queue = Volley.newRequestQueue(this)
+                // Instantiate the RequestQueue.
+                val queue = Volley.newRequestQueue(this)
 
-            val url = "http://178.128.229.73:3300/methods/api.login/"
+                val url = "http://178.128.229.73:3300/methods/api.login/"
 
-            Log.i(LOG_TAG, user_name.text.toString())
-            Log.i(LOG_TAG, user_password.text.toString())
-            // Log.i(LOG_TAG, url)
+                Log.i(LOG_TAG, user_name.text.toString())
+                Log.i(LOG_TAG, user_password.text.toString())
+                // Log.i(LOG_TAG, url)
 
-            val jsonObject = JSONObject()
-            jsonObject.put("email", user_name.text.toString())
-            jsonObject.put("password", user_password.text.toString())
+                val jsonObject = JSONObject()
+                jsonObject.put("email", user_name.text.toString())
+                jsonObject.put("password", user_password.text.toString())
 
-            Log.i(LOG_TAG, "JsonObject es: $jsonObject")
-            // Request a JSONObject response from the provided URL.
-            val jsonObjectRequest = JsonObjectRequest(url, jsonObject,
-                    Response.Listener { response ->
-                        // Log.i(LOG_TAG, "Response es: $response")
+                Log.i(LOG_TAG, "JsonObject es: $jsonObject")
+                // Request a JSONObject response from the provided URL.
+                val jsonObjectRequest = JsonObjectRequest(url, jsonObject,
+                        Response.Listener { response ->
+                            // Log.i(LOG_TAG, "Response es: $response")
 
-                        val gsonBuilder = GsonBuilder().serializeNulls()
-                        gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
-                        val gson = gsonBuilder.create()
+                            val gsonBuilder = GsonBuilder().serializeNulls()
+                            gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
+                            val gson = gsonBuilder.create()
 
-                        val userShareJsonParsed : UserShare = gson.fromJson(response.toString(), UserShare::class.java)
-                        // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
-                        Log.i(LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
-                        // Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
+                            val userShareJsonParsed: UserShare = gson.fromJson(response.toString(), UserShare::class.java)
+                            // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
+                            Log.i(LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
+                            // Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
 
-                        //Se guardan valores del Email en Share Preferen
-                        mypreference.setUserEmail(userShareJsonParsed.email)
-                        val valor = mypreference.getUserEmail()
-                        Log.i(LOG_TAG, "El email es: $valor")
-                        Toast.makeText(this, valor, Toast.LENGTH_LONG).show()
-
-
-                        //Se guardan valores del Email en Share Preferen
-                        mypreference.setUserId(userShareJsonParsed.userId)
-                        val valor2 = mypreference.getUserId()
-                        Log.i(LOG_TAG, "El userID es: $valor2")
-                        // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
+                            //Se guardan valores del Email en Share Preferen
+                            mypreference.setUserEmail(userShareJsonParsed.email)
+                            val valor = mypreference.getUserEmail()
+                            Log.i(LOG_TAG, "El email es: $valor")
+                            Toast.makeText(this, valor, Toast.LENGTH_LONG).show()
 
 
-                        startActivity(Intent(this, MenuActivity::class.java))
-                    },
-                    Response.ErrorListener { error ->
-                        error.printStackTrace()
-                        Log.e(LOG_TAG, "Error al Login.")
-                    }
-            )
+                            //Se guardan valores del Email en Share Preferen
+                            mypreference.setUserId(userShareJsonParsed.userId)
+                            val valor2 = mypreference.getUserId()
+                            Log.i(LOG_TAG, "El userID es: $valor2")
+                            // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
 
-            // Add the request to the RequestQueue.
-            queue.add(jsonObjectRequest)
+
+                            startActivity(Intent(this, MenuActivity::class.java))
+                        },
+                        Response.ErrorListener { error ->
+                            error.printStackTrace()
+                            Log.e(LOG_TAG, "Error al Login.")
+                            //TODO Use a toast?
+                            // TODO make sure to leave everything to use in the login, check everything
+                        }
+                )
+
+                // Add the request to the RequestQueue.
+                queue.add(jsonObjectRequest)
+            } catch (e: Exception){
+                //TODO error message with a toast?
+                //TODO make sure to leave everything to use in the login, check everything
+            }
 
         }
 
