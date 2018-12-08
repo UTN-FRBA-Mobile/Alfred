@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
-            android:id="@+id/user_contraseña"
+            android:id="@+id/user_password_signIn"
             android:hint="Contraseña"
             android:textColor="#6bfff7"
             android:textColorHint="#52afaa"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
-            android:id="@+id/user_contraseña_repetida"
+            android:id="@+id/user_password_signIn_confirm"
             android:hint="Repetir Contraseña"
             android:textColor="#6bfff7"
             android:textColorHint="#52afaa"
