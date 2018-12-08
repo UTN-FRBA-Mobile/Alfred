@@ -76,8 +76,8 @@ class Login : AppCompatActivity() {
                         Log.i(LOG_TAG, "El userID es: $valor2")
                         // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
 
-
                         startActivity(Intent(this, MenuActivity::class.java))
+                        this.finish()
                     },
                     Response.ErrorListener { error ->
                         error.printStackTrace()
