@@ -58,6 +58,8 @@ class Login : AppCompatActivity() {
                         gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
                         val gson = gsonBuilder.create()
 
+                        Log.i("Resp. Login", response.toString())
+
                         val userShareJsonParsed : UserShare = gson.fromJson(response.toString(), UserShare::class.java)
                         // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
                         Log.i(LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
