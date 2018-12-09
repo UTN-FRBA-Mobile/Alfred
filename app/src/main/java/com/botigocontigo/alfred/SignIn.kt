@@ -43,7 +43,7 @@ class SignIn : AppCompatActivity() {
 
             val jsonObject = JSONObject()
             jsonObject.put("name", user_nombre.text.toString())
-            jsonObject.put("password",  user_apellido.text.toString())
+            jsonObject.put("password",  user_contraseña.text.toString())
             jsonObject.put("email",  user_email.text.toString())
 
             Log.i(Login.LOG_TAG, "JsonObject es: $jsonObject")
