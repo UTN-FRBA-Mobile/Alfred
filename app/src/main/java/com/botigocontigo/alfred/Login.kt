@@ -49,6 +49,11 @@ class Login : AppCompatActivity() {
 
             val url = "http://178.128.229.73:3300/methods/api.login/"
 
+            if(user_name.text.toString() == "" || user_password.text.toString() == ""){
+                Toast.makeText(this, "Por favor ingrese Email y Contraseña", Toast.LENGTH_LONG).show()
+                return
+            }
+
             Log.i(LOG_TAG, user_name.text.toString())
             Log.i(LOG_TAG, user_password.text.toString())
             // Log.i(LOG_TAG, url)
@@ -92,14 +97,14 @@ class Login : AppCompatActivity() {
                         } catch (e: Exception) {
                             e.printStackTrace()
                             Log.e(LOG_TAG, "Error al Login.")
-                            var errorString = "Compruebe su conexión a internet, el email y la password sean correctas"
+                            var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
                             Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
                         }
                     },
                     Response.ErrorListener { error ->
                         error.printStackTrace()
                         Log.e(LOG_TAG, "Error al Login.")
-                        var errorString = "Compruebe su conexión a internet, el email y la password sean correctas"
+                        var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
                     }
             )
 
@@ -108,7 +113,7 @@ class Login : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(LOG_TAG, "Error al Login.")
-            var errorString = "Compruebe su conexión a internet, el email y la password sean correctas"
+            var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
         }
     }
 }

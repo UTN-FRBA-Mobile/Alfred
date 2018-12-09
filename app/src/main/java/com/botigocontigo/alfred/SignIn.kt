@@ -10,9 +10,11 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.botigocontigo.alfred.backend.UserShareDeserealizer
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.json.JSONObject
+import android.text.TextUtils
+
+
 
 class SignIn : AppCompatActivity() {
 
@@ -25,6 +27,11 @@ class SignIn : AppCompatActivity() {
         }
 
         btn_sing_in_registrarse.setOnClickListener {
+            if( !isValidEmail(user_password_signIn.text) ) {
+                Toast.makeText(this, "El email no es valido, por favor reviselo", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             if(user_password_signIn.text.toString() != user_password_signIn_confirm.text.toString()){
                 Toast.makeText(this, "No coinciden las contraseñas", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -56,8 +63,7 @@ class SignIn : AppCompatActivity() {
             val jsonObjectRequest = JsonObjectRequest(url, jsonObject,
                     Response.Listener { response ->
                         Log.i(Login.LOG_TAG, "Response es: $response")
-                        startActivity(Intent(this, Login::class.java))
-                        logInSimplified(user_email.text.toString(), user_password_signIn.text.toString() );
+                        automaticLogIn(user_email.text.toString(), user_password_signIn.text.toString() );
                     },
                     Response.ErrorListener { error ->
                         error.printStackTrace()
@@ -70,7 +76,7 @@ class SignIn : AppCompatActivity() {
         }
     }
 
-    private fun logInSimplified(email: String, password: String) {
+    private fun automaticLogIn(email: String, password: String) {
         val mypreference = MyPreferences(this)
         val queue = Volley.newRequestQueue(this)
         val url = "http://178.128.229.73:3300/methods/api.login/"
@@ -117,7 +123,7 @@ class SignIn : AppCompatActivity() {
                         Log.e(Login.LOG_TAG, "Error al Login.")
                         var errorString = "Hubo un error de conexión, por favor Ingrese de forma manual"
                         Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
-                        //TODO fixme hacer que valla a activity login
+                        startActivity(Intent(this, Login::class.java))
                     }
                 },
                 Response.ErrorListener { error ->
@@ -125,11 +131,22 @@ class SignIn : AppCompatActivity() {
                     Log.e(Login.LOG_TAG, "Error al Login.")
                     var errorString = "Hubo un error de conexión, por favor Ingrese de forma manual"
                     Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
-                    //TODO fixme hacer que valla a activity login
+                    startActivity(Intent(this, Login::class.java))
                 }
         )
 
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest)
+    }
+
+    //FIX this validation
+    private fun isValidEmail(emailString: CharSequence): Boolean {
+// I seriously don't understand why this doesn't work
+//        return if (TextUtils.isEmpty(target)) {
+//            false
+//        } else {
+//            android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+//        }
+        return "@" in emailString && "." in emailString
     }
 }
