@@ -15,8 +15,9 @@ import org.json.JSONObject
 import android.text.TextUtils
 
 
-
 class SignIn : AppCompatActivity() {
+
+    private val URL_BASE = "http://178.128.229.73:3300/methods/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,29 +28,31 @@ class SignIn : AppCompatActivity() {
         }
 
         btn_sing_in_registrarse.setOnClickListener {
-            if( !isValidEmail(user_password_signIn.text) ) {
-                Toast.makeText(this, "El email no es valido, por favor reviselo", Toast.LENGTH_LONG).show()
+            if(isSomeFieldEmpty()){
+                Toast.makeText(this, R.string.ERROR_EMPTY_FIELDS, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
-            if(user_password_signIn.text.toString() != user_password_signIn_confirm.text.toString()){
-                Toast.makeText(this, "No coinciden las contraseñas", Toast.LENGTH_LONG).show()
+            if( emailIsInvalid(user_email.text) ) {
+
+                Toast.makeText(this, R.string.ERROR_INVALID_EMAIL, Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            if(passwordsNotEqual()){
+                Toast.makeText(this, R.string.ERROR_PASSWORD_NOT_EQUALS, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
 
             /**
              * Llamada POST que envia un JSONObject y devuelve un JSONobject
-            Log.i(Login.LOG_TAG, user_nombre.text.toString())
-            Log.i(Login.LOG_TAG, user_password_signIn.text.toString())
-            Log.i(Login.LOG_TAG, user_email.text.toString())
-            Log.i(Login.LOG_TAG, "jsonObjectRequestPost")
              */
 
             // Instantiate the RequestQueue.
             val queue = Volley.newRequestQueue(this)
 
-            val url = "http://178.128.229.73:3300/methods/api.RegisterUser"
+            val url =  URL_BASE + "api.RegisterUser"
 
             Log.i(Login.LOG_TAG, url)
 
@@ -76,10 +79,16 @@ class SignIn : AppCompatActivity() {
         }
     }
 
+    private fun passwordsNotEqual() =
+            user_password_signIn.text.toString() != user_password_signIn_confirm.text.toString()
+
+    private fun isSomeFieldEmpty() =
+            user_nombre.text.toString() == "" || user_apellido.text.toString() == "" || user_email.text.toString() == "" || user_password_signIn.text.toString() == "" || user_password_signIn_confirm.text.toString() == ""
+
     private fun automaticLogIn(email: String, password: String) {
-        val mypreference = MyPreferences(this)
-        val queue = Volley.newRequestQueue(this)
-        val url = "http://178.128.229.73:3300/methods/api.login/"
+        val appPreferences = MyPreferences(this)
+        val volleyQueue = Volley.newRequestQueue(this)
+        val url = URL_BASE + "api.login/"
 
         Log.i(Login.LOG_TAG, email)
         Log.i(Login.LOG_TAG, password)
@@ -101,19 +110,16 @@ class SignIn : AppCompatActivity() {
                         if (!userShareJsonParsed.sucess!!) throw Exception("Not Logued In");
 
                         Log.i(Login.LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
-                        // Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
 
-                        //Se guardan valores del Email en Share Preferen
-                        mypreference.setUserEmail(userShareJsonParsed.email!!)
-                        val userEmail = mypreference.getUserEmail()
+                        //Se guardan valores del Email en Share Preferences
+                        appPreferences.setUserEmail(userShareJsonParsed.email!!)
+                        val userEmail = appPreferences.getUserEmail()
                         Log.i(Login.LOG_TAG, "El email es: $userEmail")
 
-                        Toast.makeText(this, "Bienvenido!", Toast.LENGTH_LONG).show()
 
-
-                        //Se guardan valores del Email en Share Preferen
-                        mypreference.setUserId(userShareJsonParsed.userId!!)
-                        val userID = mypreference.getUserId()
+                        //Se guardan valores del Email en Share Preferences
+                        appPreferences.setUserId(userShareJsonParsed.userId!!)
+                        val userID = appPreferences.getUserId()
                         Log.i(Login.LOG_TAG, "El userID es: $userID")
 
 
@@ -121,32 +127,28 @@ class SignIn : AppCompatActivity() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                         Log.e(Login.LOG_TAG, "Error al Login.")
-                        var errorString = "Hubo un error de conexión, por favor Ingrese de forma manual"
-                        Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.ERROR_STANDARD, Toast.LENGTH_LONG).show()
                         startActivity(Intent(this, Login::class.java))
                     }
                 },
                 Response.ErrorListener { error ->
                     error.printStackTrace()
                     Log.e(Login.LOG_TAG, "Error al Login.")
-                    var errorString = "Hubo un error de conexión, por favor Ingrese de forma manual"
-                    Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.ERROR_STANDARD, Toast.LENGTH_LONG).show()
                     startActivity(Intent(this, Login::class.java))
                 }
         )
 
         // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest)
+        volleyQueue.add(jsonObjectRequest)
     }
 
-    //FIX this validation
-    private fun isValidEmail(emailString: CharSequence): Boolean {
-// I seriously don't understand why this doesn't work
-//        return if (TextUtils.isEmpty(target)) {
-//            false
-//        } else {
-//            android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
-//        }
-        return "@" in emailString && "." in emailString
+
+    private fun emailIsInvalid(emailString: CharSequence): Boolean {
+        return if (TextUtils.isEmpty(emailString)) {
+            true
+        } else {
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches()
+        }
     }
 }

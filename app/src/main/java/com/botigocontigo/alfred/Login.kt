@@ -50,13 +50,12 @@ class Login : AppCompatActivity() {
             val url = "http://178.128.229.73:3300/methods/api.login/"
 
             if(user_name.text.toString() == "" || user_password.text.toString() == ""){
-                Toast.makeText(this, "Por favor ingrese Email y Contraseña", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.ERROR_LOGIN_EMPTY, Toast.LENGTH_LONG).show()
                 return
             }
 
             Log.i(LOG_TAG, user_name.text.toString())
             Log.i(LOG_TAG, user_password.text.toString())
-            // Log.i(LOG_TAG, url)
 
             val jsonObject = JSONObject()
             jsonObject.put("email", user_name.text.toString())
@@ -67,8 +66,6 @@ class Login : AppCompatActivity() {
             val jsonObjectRequest = JsonObjectRequest(url, jsonObject,
                     Response.Listener { response ->
                         try {
-                            // Log.i(LOG_TAG, "Response es: $response")
-
                             val gsonBuilder = GsonBuilder().serializeNulls()
                             gsonBuilder.registerTypeAdapter(UserShare::class.java, UserShareDeserealizer())
                             val gson = gsonBuilder.create()
@@ -77,34 +74,29 @@ class Login : AppCompatActivity() {
                             if (!userShareJsonParsed.sucess!!) throw Exception("Not Logued In");
                             // use userShareJsonParsed.email and userShareJsonParsed.userId with shared preferences
                             Log.i(LOG_TAG, "userShareJsonParsed.email es:" + userShareJsonParsed.email)
-                            // Log.i(LOG_TAG, "userShareJsonParsed.userId es:" +  userShareJsonParsed.userId)
 
                             //Se guardan valores del Email en Share Preferen
                             mypreference.setUserEmail(userShareJsonParsed.email!!)
                             val userEmail = mypreference.getUserEmail()
                             Log.i(LOG_TAG, "El email es: $userEmail")
-                            Toast.makeText(this, "Bienvenido!", Toast.LENGTH_LONG).show()
 
 
                             //Se guardan valores del Email en Share Preferen
                             mypreference.setUserId(userShareJsonParsed.userId!!)
                             val userID = mypreference.getUserId()
                             Log.i(LOG_TAG, "El userID es: $userID")
-                            // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
-
 
                             startActivity(Intent(this, MenuActivity::class.java))
                         } catch (e: Exception) {
                             e.printStackTrace()
                             Log.e(LOG_TAG, "Error al Login.")
-                            var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
-                            Toast.makeText(this, errorString, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.ERROR_LOGIN, Toast.LENGTH_LONG).show()
                         }
                     },
                     Response.ErrorListener { error ->
                         error.printStackTrace()
                         Log.e(LOG_TAG, "Error al Login.")
-                        var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
+                        Toast.makeText(this, R.string.ERROR_LOGIN, Toast.LENGTH_LONG).show()
                     }
             )
 
@@ -113,7 +105,7 @@ class Login : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(LOG_TAG, "Error al Login.")
-            var errorString = "Compruebe su conexión a internet, que el email y la password sean correctas"
+            Toast.makeText(this, R.string.ERROR_LOGIN, Toast.LENGTH_LONG).show()
         }
     }
 }
