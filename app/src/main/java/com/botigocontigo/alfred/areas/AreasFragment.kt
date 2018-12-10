@@ -40,6 +40,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private var mapModels: Map<String?, String?> = emptyMap()
     private var model: Area? = null
     private var userId = ""
+    var detailLoad: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         vfrag = inflater.inflate(R.layout.fragment_areas, container, false)
-
         loadButtons()
 
         toast("Seleccione un area para ver el detalle")
@@ -63,7 +63,6 @@ class AreasFragment : Fragment(), View.OnClickListener{
         api = services.botigocontigoApi()
 
         api.areasGetAll().call(AreasGetCallbacks(::loadToDB))
-
         return vfrag
     }
 
@@ -99,8 +98,10 @@ class AreasFragment : Fragment(), View.OnClickListener{
         fragmentManager!!
                 .beginTransaction()
                 .replace(R.id.content_frame, DetailAreaFragment.newInstance(areaName, model))
-                .addToBackStack(null)
                 .commit()
+        val spinner = vfrag!!.findViewById<Spinner>(R.id.spinner_modelos)
+        MyPreferences(context!!).setActualModel(spinner!!.selectedItemPosition)
+        detailLoad = true
     }
 
     private fun switchArea(opc : Int){
@@ -142,13 +143,22 @@ class AreasFragment : Fragment(), View.OnClickListener{
     private fun loadSpinnerModelos() {
 
         val spinner = vfrag?.findViewById<Spinner>(R.id.spinner_modelos)
+        Log.i("selected model 1",  MyPreferences(context!!).getActualModel().toString())
+
         spinner!!.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, mapModels.keys.toList()).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         }
+        if(!mapModels.isEmpty() && MyPreferences(context!!).getActualModel() != 0){
+            spinner!!.setSelection(MyPreferences(context!!).getActualModel())
+        }
+
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, view2: View?, position: Int, id: Long) {
                 val modelName = spinner_modelos.selectedItem.toString()
+                MyPreferences(context!!).setActualModel(position)
+                Log.i("selected model 2",  MyPreferences(context!!).getActualModel().toString())
                 doAsync {
                     model = areaDao.findById(mapModels.getValue(modelName)!!)
                 }
@@ -205,7 +215,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
 
     private fun deleteModel(model: String) {
         var msg: String? = null
-
+        MyPreferences(context!!).setActualModel(0)
         doAsync {
             areaDao.deleteModel(mapModels[model]!!)
             mapModels = areaDao.getModelsByUserId(userId).map { it.name to it.id }.toMap()
@@ -250,6 +260,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
                 persistServerInfo()
 
                 uiThread {
+                    MyPreferences(context!!).setActualModel(mapModels.size - 1)
                     loadSpinnerModelos()
                     alertDialog.dismiss()
                 }
@@ -295,6 +306,10 @@ class AreasFragment : Fragment(), View.OnClickListener{
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 

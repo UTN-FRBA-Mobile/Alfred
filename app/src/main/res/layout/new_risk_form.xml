@@ -126,24 +126,25 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/confirmRisk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="#07912e"
-                android:textSize="20dp"
-                android:textColor="#ffffff"
-                android:text="Aceptar" />
-
-            <Button
                 android:id="@+id/discardRisk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#C11717"
-                android:textSize="20dp"
+                android:text="Cancelar"
                 android:textColor="#ffffff"
-                android:text="Cancelar" />
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/confirmRisk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#07912e"
+                android:text="Aceptar"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
         </LinearLayout>
 
     </LinearLayout>

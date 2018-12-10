@@ -87,6 +87,7 @@ class Login : AppCompatActivity() {
                             Log.i(LOG_TAG, "El userID es: $userID")
 
                             startActivity(Intent(this, MenuActivity::class.java))
+                            this.finish()
                         } catch (e: Exception) {
                             e.printStackTrace()
                             Log.e(LOG_TAG, "Error al Login.")
