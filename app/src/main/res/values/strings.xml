@@ -122,4 +122,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- ERRORS -->
+    <string name="ERROR_EMPTY_FIELDS">Por favor ingrese todos los campos</string>
+    <string name="ERROR_INVALID_EMAIL">El email no es valido, por favor reviselo</string>
+    <string name="ERROR_PASSWORD_NOT_EQUALS">No coinciden las contraseñas</string>
+    <string name="ERROR_STANDARD">Hubo un error de conexión, por favor Ingrese de forma manual</string>
+    <string name="ERROR_LOGIN">Compruebe su conexión a internet, que el email y la password sean correctas</string>
+    <string name="ERROR_LOGIN_EMPTY">Por favor ingrese Email y Contraseña</string>
 </resources>

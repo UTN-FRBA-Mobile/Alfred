@@ -134,6 +134,10 @@ const userSchema = new SimpleSchema({
     type: Number,
     defaultValue: 0,
     optional: true
+  },
+  mobile_password: {
+    type: String,
+    optional: true
   }
 });
 
