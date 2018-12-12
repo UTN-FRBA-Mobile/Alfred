@@ -3,9 +3,8 @@ package com.botigocontigo.alfred
 import android.content.Context
 import android.content.SharedPreferences
 import android.R.id.edit
-
-
-
+import android.util.Log
+import java.lang.Exception
 
 
 class MyPreferences(context: Context) {

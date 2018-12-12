@@ -48,8 +48,8 @@ class AreasFragment : Fragment(), View.OnClickListener{
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
             userId=MyPreferences(context!!).getUserId()
-            Log.i("USERID: ", userId)
         }
+        Log.i("USERID: ", userId)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
