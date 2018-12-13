@@ -7,76 +7,90 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
-    <LinearLayout
-        android:id="@+id/ll_main_layout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="#503180"
-        android:padding="25dp"
-        android:orientation="vertical">
+        android:background="#503180">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="40dp"
-            android:text="Alfred Login"
-            android:textColor="#ffffff"
-            android:textSize="40dp" />
-        <ImageView
-            android:id="@+id/btnDeleteModel"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:paddingBottom="15dp"
-            app:srcCompat="@mipmap/botigocontigo" />
-        <EditText
-            android:id="@+id/user_name"
-            android:hint="Email"
-            android:textColor="#6bfff7"
-            android:textColorHint="#52afaa"
-            android:textAlignment="center"
-            android:textSize="22dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/user_password"
-            android:hint="Password"
-            android:textColor="#6bfff7"
-            android:textColorHint="#52afaa"
-            android:textAlignment="center"
-            android:textSize="22dp"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
         <LinearLayout
+            android:id="@+id/ll_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="25dp"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/btn_login_ingresar"
-                android:text="@string/Ingresar"
-                android:textAllCaps="false"
-                android:backgroundTint="@color/colorPrimary"
-                android:background="@color/colorAccent"
-                android:textSize="20dp"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="40dp"
+                android:text="Alfred Login"
                 android:textColor="#ffffff"
+                android:textSize="40dp" />
+
+            <ImageView
+                android:id="@+id/btnDeleteModel"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingBottom="15dp"
+                app:srcCompat="@mipmap/botigocontigo" />
+
+            <EditText
+                android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
-            <Button
-                android:id="@+id/btn_login_registrarse"
-                android:text="@string/Registrarse"
-                android:textAllCaps="false"
-                android:backgroundTint="#07912e"
-                android:background="@color/colorAccent"
-                android:textSize="20dp"
-                android:textColor="#ffffff"
+                android:hint="Email"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:textAlignment="center"
+                android:textColor="#6bfff7"
+                android:textColorHint="#52afaa"
+                android:textSize="22dp" />
+
+            <EditText
+                android:id="@+id/user_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="#6bfff7"
+                android:textColorHint="#52afaa"
+                android:textSize="22dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <Button
+                    android:id="@+id/btn_login_ingresar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorAccent"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="@string/Ingresar"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_login_registrarse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorAccent"
+                    android:backgroundTint="#07912e"
+                    android:text="@string/Registrarse"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

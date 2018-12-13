@@ -10,9 +10,14 @@ class UserShareDeserealizer : JsonDeserializer<UserShare> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): UserShare {
         val jsonObject = json.asJsonObject
 
+        if(!jsonObject.get("success").asBoolean)
+            return UserShare(null, null, false, jsonObject.get("error").asString)
+
         return UserShare(
                 jsonObject.get("userId").asString,
-                jsonObject.get("email").asString
+                jsonObject.get("email").asString,
+                jsonObject.get("success").asBoolean,
+                "Success"
         )
     }
 

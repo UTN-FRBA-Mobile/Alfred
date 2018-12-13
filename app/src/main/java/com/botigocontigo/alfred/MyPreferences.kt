@@ -13,6 +13,7 @@ class MyPreferences(context: Context) {
     val PREFERENCE_NAME = "SharecPreferenceExample"
     val PREFERENCE_USER_ID = "UserId"
     val PREFERENCE_USER_EMAIL = "UserEmail"
+    val PREFERENCE_ACTUAL_MODEL = "ActualModel"
 
     val preference = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
@@ -43,6 +44,16 @@ class MyPreferences(context: Context) {
     fun setName( cadena: String){
         val editor = preference.edit()
         editor.putString(PREFERENCE_NAME, cadena)
+        editor.apply()
+    }
+
+    fun getActualModel(): Int{
+        return preference.getInt(PREFERENCE_ACTUAL_MODEL, 0)
+    }
+
+    fun setActualModel(pos :Int){
+        val editor = preference.edit()
+        editor.putInt(PREFERENCE_ACTUAL_MODEL, pos)
         editor.apply()
     }
 

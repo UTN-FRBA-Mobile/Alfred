@@ -7,7 +7,6 @@ import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -18,7 +17,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
 import android.widget.AdapterView
+import com.botigocontigo.alfred.areas.AreasFragment
 import com.botigocontigo.alfred.foda.FodaFragment
+import com.botigocontigo.alfred.learn.LearnFragment
+import com.botigocontigo.alfred.learn.LearnOptionsFragment
+import com.botigocontigo.alfred.learn.fragments.ArticlesFragment
 import com.botigocontigo.alfred.risk.RiskFragment
 import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.entities.Plan
@@ -26,7 +29,6 @@ import com.botigocontigo.alfred.storage.db.entities.Task
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-//import com.botigocontigo.alfred.storage.db.AppDatabase
 
 
 class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionListener,
@@ -40,6 +42,8 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     private var mDrawerTitle: CharSequence? = null
     private var mTitle: CharSequence? = null
     private var mFragmentSelected: Fragment? = null
+    private val defaultFragment = 0
+
 
 //    private var db: AppDatabase? = null
 
@@ -168,7 +172,7 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         // Insert the fragment by replacing any existing fragment
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, mFragmentSelected!!)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit()
 
         // Highlight the selected item, update the title, and close the drawer
@@ -179,12 +183,15 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     }
 
     override fun onBackPressed() {
-
+        val learnFragment = 3
+        val areasFragment = 4
         val f = when (mFragmentSelected) {
             is TasksFragment -> mFragmentSelected as TasksFragment
+            is InterviewFragment -> mFragmentSelected as InterviewFragment
+            is LearnFragment -> mFragmentSelected as LearnFragment
+            is AreasFragment -> mFragmentSelected as AreasFragment
             else -> null
         }
-
         if (f is TasksFragment && f.selectedTaskCount() > 0) {
             f.unCheckTasks()
         } else {
