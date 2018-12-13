@@ -1,6 +1,7 @@
 package com.botigocontigo.alfred
 
 import android.arch.persistence.room.Room
+import android.content.Intent
 import android.widget.ArrayAdapter
 import android.support.v4.widget.DrawerLayout
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -22,6 +24,7 @@ import com.botigocontigo.alfred.storage.db.AppDatabase
 import com.botigocontigo.alfred.storage.db.entities.Plan
 import com.botigocontigo.alfred.storage.db.entities.Task
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 //import com.botigocontigo.alfred.storage.db.AppDatabase
 
@@ -80,16 +83,21 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout!!.setDrawerListener(mDrawerToggle)
-        //Use only if the upper statement fails because the deprecated method
-        //mDrawerLayout!!.addDrawerListener(mDrawerToggle as ActionBarDrawerToggle)
-        //actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeButtonEnabled(true);
 
         val relativeUrl = intent.data?.path
         if(relativeUrl != null) {
             val position = AppFragments.POSITION[relativeUrl]
             selectItem(position)
         }
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.toolbar, menu);
+        return true
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -124,14 +132,30 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_salir) {
+            doAsync {
+                clearDB()
+                uiThread { onBackPressed() }
+            }
+            return true
+        } else {
+            return if (mDrawerToggle!!.onOptionsItemSelected(item)) {
+                true
+            } else {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    /*
+    {
         return if (mDrawerToggle!!.onOptionsItemSelected(item)) {
             true
         } else {
             super.onOptionsItemSelected(item)
         }
-        // Handle your other action bar items...
     }
-
+    */
     /** Swaps fragments in the main content view  */
     private fun selectItem(position: Int) {
         // Create a new fragment and specify the fragment to show based on position
@@ -164,7 +188,16 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         if (f is TasksFragment && f.selectedTaskCount() > 0) {
             f.unCheckTasks()
         } else {
-            super.onBackPressed()
+            doAsync {
+                clearDB()
+                uiThread { super.onBackPressed() }
+            }
         }
+    }
+
+    private fun clearDB() {
+        val db = AppDatabase.getInstance(this@MenuActivity)
+        db.planDao().deleteAllRows()
+        db.taskDao().deleteAllRows()
     }
 }

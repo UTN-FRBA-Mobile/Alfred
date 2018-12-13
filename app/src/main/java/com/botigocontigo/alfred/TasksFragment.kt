@@ -348,6 +348,7 @@ class TasksFragment : Fragment() {
             val email = services.currentUser().email
 
             if (response.isEmpty()) {
+                Log.i("response list plans", response.toString())
                 planDao.insertAll(
                         Plan("aaaaa", "Plan Comercial", "Comercio", userId, email, Date()),
                         Plan("bbbbb", "Plan de Comunicación", "Recursos Humanos", userId, email, Date()),

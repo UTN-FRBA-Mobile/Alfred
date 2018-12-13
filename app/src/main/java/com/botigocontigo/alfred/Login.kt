@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.annotation.Dimension
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -78,7 +79,8 @@ class Login : AppCompatActivity() {
                         Log.i(LOG_TAG, "El userID es: $valor2")
                         // Toast.makeText(this, valor2, Toast.LENGTH_LONG).show()
 
-
+                        user_name.setText("")
+                        user_password.setText("")
                         startActivity(Intent(this, MenuActivity::class.java))
                     },
                     Response.ErrorListener { error ->
