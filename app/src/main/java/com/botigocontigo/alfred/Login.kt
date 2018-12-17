@@ -28,6 +28,7 @@ class Login : AppCompatActivity() {
             //Si hay un logueo previo lanzo directamente el MenuActivity
             mypreference.getUserId()
             startActivity(Intent(this, MenuActivity::class.java))
+            finish();
 
         }catch (e: Exception){
             //En caso de no poder recuperar un user, muestro pantalla de logueo
