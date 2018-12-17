@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -86,6 +87,8 @@ class Login : AppCompatActivity() {
                             val userID = mypreference.getUserId()
                             Log.i(LOG_TAG, "El userID es: $userID")
 
+                            user_name.setText("")
+                            user_password.setText("")
                             startActivity(Intent(this, MenuActivity::class.java))
                             this.finish()
                         } catch (e: Exception) {
