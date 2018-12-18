@@ -47,29 +47,6 @@ class Login : AppCompatActivity() {
                 startActivity(Intent(this, SignIn::class.java))
             }
         }
-
-        /*
-        try {
-            //Si hay un logueo previo lanzo directamente el MenuActivity
-            mypreference.getUserId()
-            startActivity(Intent(this, MenuActivity::class.java))
-            finish();
-
-        }catch (e: Exception){
-            //En caso de no poder recuperar un user, muestro pantalla de logueo
-            Log.i("LOGIN", "NO USER LOGUED")
-
-            setContentView(R.layout.activity_login)
-            btn_login_ingresar.setOnClickListener {
-                execLogin(mypreference)
-
-            }
-
-            btn_login_registrarse.setOnClickListener {
-                startActivity(Intent(this, SignIn::class.java))
-            }
-        }
-*/
     }
 
     fun execLogin(mypreference: MyPreferences) {
