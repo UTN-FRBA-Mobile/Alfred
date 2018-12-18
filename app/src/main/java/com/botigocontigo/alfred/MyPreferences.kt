@@ -3,9 +3,8 @@ package com.botigocontigo.alfred
 import android.content.Context
 import android.content.SharedPreferences
 import android.R.id.edit
-
-
-
+import android.util.Log
+import java.lang.Exception
 
 
 class MyPreferences(context: Context) {
@@ -17,7 +16,7 @@ class MyPreferences(context: Context) {
 
     val preference = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-    fun getUserId(): String {
+    fun getUserId(): String? {
         return preference.getString(PREFERENCE_USER_ID, null)
     }
 

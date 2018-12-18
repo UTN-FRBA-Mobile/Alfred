@@ -22,19 +22,32 @@ class Login : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         val mypreference = MyPreferences(this)
 
-        btn_login_ingresar.setOnClickListener {
-            execLogin(mypreference)
+        Log.i("LOGIN", "INICIA LOGIN")
+        //Compruebo si hay sesion iniciada
+        if (!mypreference.getUserId().isNullOrEmpty()){
+            Log.i("LOGIN", "LOGUED:")
+            Log.i("LOGIN", mypreference.getUserId())
+            Log.i("LOGIN",mypreference.getUserEmail())
+            //Si hay un logueo previo lanzo directamente el MenuActivity
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
+        }else{
+            //Si el usuario no inicio sesion, muestro pantalla de logueo
+            Log.i("LOGIN", "NO USER LOGUED")
 
+            setContentView(R.layout.activity_login)
+            btn_login_ingresar.setOnClickListener {
+                execLogin(mypreference)
+
+            }
+
+            btn_login_registrarse.setOnClickListener {
+                startActivity(Intent(this, SignIn::class.java))
+            }
         }
-
-        btn_login_registrarse.setOnClickListener {
-            startActivity(Intent(this, SignIn::class.java))
-        }
-
     }
 
     fun execLogin(mypreference: MyPreferences) {
