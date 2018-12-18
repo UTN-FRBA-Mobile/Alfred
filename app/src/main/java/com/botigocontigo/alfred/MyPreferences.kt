@@ -16,7 +16,7 @@ class MyPreferences(context: Context) {
 
     val preference = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-    fun getUserId(): String {
+    fun getUserId(): String? {
         return preference.getString(PREFERENCE_USER_ID, null)
     }
 

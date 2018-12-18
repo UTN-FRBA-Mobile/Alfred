@@ -47,7 +47,7 @@ class AreasFragment : Fragment(), View.OnClickListener{
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()
-            userId=MyPreferences(context!!).getUserId()
+            userId=MyPreferences(context!!).getUserId()!!
         }
         Log.i("USERID: ", userId)
     }

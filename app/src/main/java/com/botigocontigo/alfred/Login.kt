@@ -24,6 +24,31 @@ class Login : AppCompatActivity() {
 
         val mypreference = MyPreferences(this)
 
+        Log.i("LOGIN", "INICIA LOGIN")
+        //Compruebo si hay sesion iniciada
+        if (!mypreference.getUserId().isNullOrEmpty()){
+            Log.i("LOGIN", "LOGUED:")
+            Log.i("LOGIN", mypreference.getUserId())
+            Log.i("LOGIN",mypreference.getUserEmail())
+            //Si hay un logueo previo lanzo directamente el MenuActivity
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
+        }else{
+            //Si el usuario no inicio sesion, muestro pantalla de logueo
+            Log.i("LOGIN", "NO USER LOGUED")
+
+            setContentView(R.layout.activity_login)
+            btn_login_ingresar.setOnClickListener {
+                execLogin(mypreference)
+
+            }
+
+            btn_login_registrarse.setOnClickListener {
+                startActivity(Intent(this, SignIn::class.java))
+            }
+        }
+
+        /*
         try {
             //Si hay un logueo previo lanzo directamente el MenuActivity
             mypreference.getUserId()
@@ -44,30 +69,7 @@ class Login : AppCompatActivity() {
                 startActivity(Intent(this, SignIn::class.java))
             }
         }
-  /*
-        //CRASHEA
-        if (!mypreference.getUserId().isNullOrEmpty()){
-            Log.i("LOGIN", "LOGUED")
-
-            Log.i("LOGIN", mypreference.getUserId())
-            Log.i("LOGIN",mypreference.getUserEmail())
-            startActivity(Intent(this, MenuActivity::class.java))
-
-        }else{
-            Log.i("LOGIN", "NO USER LOGUED")
-
-            setContentView(R.layout.activity_login)
-            btn_login_ingresar.setOnClickListener {
-                execLogin(mypreference)
-
-            }
-
-            btn_login_registrarse.setOnClickListener {
-                startActivity(Intent(this, SignIn::class.java))
-            }
-        }
 */
-
     }
 
     fun execLogin(mypreference: MyPreferences) {
