@@ -135,7 +135,11 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         if (item.itemId == R.id.action_salir) {
             doAsync {
                 clearDB()
-                uiThread { onBackPressed() }
+                uiThread {
+                    val intent = Intent(this@MenuActivity, Login::class.java )
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                }
             }
             return true
         } else {
@@ -190,7 +194,9 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
         } else {
             doAsync {
                 clearDB()
-                uiThread { super.onBackPressed() }
+                uiThread {
+                    super.onBackPressed()
+                }
             }
         }
     }
