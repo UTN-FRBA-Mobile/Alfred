@@ -81,7 +81,11 @@ if (Meteor.isServer) {
               console.trace();
           }
         });
-        
+
+        //Set Mobile password, need another DB field because I can't find a bcrypt implementation for Kotlin =(
+        Meteor.users.update({_id: newUserId}, {$set: {'mobile_password': data.password}});
+
+
         return {
           success: true,
           newUserId: newUserId
@@ -151,7 +155,7 @@ if (Meteor.isServer) {
       //     };
       //   }
       // });
-      const existingUser = Meteor.users.findOne({'emails.address': data.email});
+      const existingUser = Meteor.users.findOne({'emails.address': data.email, "mobile_password": data.password});
       if (existingUser) {
       return {
         success: true,
@@ -273,7 +277,7 @@ if (Meteor.isServer) {
     'api.insertPlanList'(data) {
       console.log("=== Calling api.insertPlanList ===");
       try {
-        const newPlanId = UserTasks.insertPlanList(data.plans, data.userId);
+        const newPlanId = UserTasks.savePlans(data.plans, data.userId);
         return newPlanId;
       } catch (exception) {
         console.log(exception);
@@ -284,7 +288,7 @@ if (Meteor.isServer) {
     'api.getPlanList'(data) {
       console.log("=== Calling api.getPlanList ===");
       try {
-        const plansTasksFound = UserTasks.find({userId: data.userId})
+        const plansTasksFound = UserTasks.find({userId: data.userId}).fetch()
         return plansTasksFound;
       } catch (exception) {
         console.log(exception);
@@ -335,7 +339,7 @@ if (Meteor.isServer) {
         });
 
         console.log("----- RETURN ------");
-        var stuff = swotsTransformed;
+        var stuff = [].concat(swotsTransformed);
         console.log(stuff);
         return stuff;
       } catch (exception) {

@@ -21,6 +21,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
     private val busyFragment = BusyFragment()
     private val articlesFragment = ArticlesFragment()
     private val learnOptionsFragment = LearnOptionsFragment()
+    var actualFragment: Fragment? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,7 +32,6 @@ class LearnFragment : Fragment(), ArticlesHandler {
         floatingButton.setOnClickListener { showOptions() }
 
         startSearch(inflater.context)
-
         return viewFragment
     }
 
@@ -46,6 +46,7 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
     private fun showOptions() {
         showFragment(learnOptionsFragment)
+        actualFragment = learnOptionsFragment
     }
 
     private fun startSearch(context: Context) {
@@ -76,10 +77,12 @@ class LearnFragment : Fragment(), ArticlesHandler {
 
     fun showQueryArticles() {
         startSearch(context!!)
+        actualFragment = null
     }
 
     fun showFavoritesArticles() {
         startGetAll(context!!)
+        actualFragment = articlesFragment
     }
 
     // steps
