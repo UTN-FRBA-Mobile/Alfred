@@ -49,7 +49,7 @@ class DetailAreaFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             areaName = it.getString(ARG_areaName)
-            userId= MyPreferences(context!!).getUserId()
+            userId= MyPreferences(context!!).getUserId()!!
             Log.i("USER DETAil: ", userId)
             val db = AppDatabase.getInstance(context!!)
             areaDao = db.areaDao()

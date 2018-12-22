@@ -65,7 +65,7 @@ class RiskFragment: Fragment(){
         arguments?.let {
             val db = AppDatabase.getInstance(context!!)
             riskDAO = db.riskDao()
-            userId = MyPreferences(context!!).getUserId()
+            userId = MyPreferences(context!!).getUserId()!!
             mParam1 = it.getString(ARG_PARAM1)
             mParam2 = it.getString(ARG_PARAM2)
         }
