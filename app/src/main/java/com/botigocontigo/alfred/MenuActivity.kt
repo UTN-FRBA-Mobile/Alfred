@@ -142,7 +142,7 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
                 uiThread {
                     val intent = Intent(this@MenuActivity, Login::class.java )
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(intent)
+                    startActivity(intent);
                 }
             }
             return true
