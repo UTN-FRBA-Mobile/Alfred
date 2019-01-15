@@ -121,12 +121,23 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (mDrawerToggle!!.onOptionsItemSelected(item)) {
-            true
+        if (item.itemId == R.id.action_salir) {
+            doAsync {
+                clearDB()
+                uiThread {
+                    val intent = Intent(this@MenuActivity, Login::class.java )
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent);
+                }
+            }
+            return true
         } else {
-            super.onOptionsItemSelected(item)
+            return if (mDrawerToggle!!.onOptionsItemSelected(item)) {
+                true
+            } else {
+                super.onOptionsItemSelected(item)
+            }
         }
-        // Handle your other action bar items...
     }
 
     /** Swaps fragments in the main content view  */
@@ -162,18 +173,13 @@ class MenuActivity : AppCompatActivity(), TasksFragment.OnFragmentInteractionLis
             else -> null
         }
         if (f is TasksFragment && f.selectedTaskCount() > 0) {
-               f.unCheckTasks()
-        }else if(f is LearnFragment && f.actualFragment != null){
-            selectItem(learnFragment)
-        }else if(f is InterviewFragment){
-          super.onBackPressed()
-        }else if(f is AreasFragment && f.detailLoad){
-            selectItem(areasFragment)
-            f.detailLoad = false
-        }else{
-            selectItem(defaultFragment)
+            f.unCheckTasks()
+        } else {
+            doAsync {
+                clearDB()
+                uiThread { super.onBackPressed() }
+            }
         }
-
     }
 
 }
